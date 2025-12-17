@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Launch System",
+    "Projects": [
+      {
+        "Path": "SEAR_API\\SEAR_API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "SEAR_WEB\\SEAR_WEB.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

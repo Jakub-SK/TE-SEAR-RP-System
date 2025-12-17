@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SEAR_API/SEAR_API.csproj" />
+  <Project Path="SEAR_DataContract/SEAR_DataContract.csproj" />
+  <Project Path="SEAR_WEB/SEAR_WEB.csproj" />
+</Solution>
