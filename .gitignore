@@ -3,7 +3,5 @@
 ################################################################################
 
 SEAR_WEB/SEAR_RP_CERT.pfx
-**/.vs/
 SEAR_WEB/appsettings.json
-**/bin/
-**/obj/
+SEAR_DataContract/Models/Certificate.cs
