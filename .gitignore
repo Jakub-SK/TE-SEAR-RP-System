@@ -4,4 +4,4 @@
 
 SEAR_WEB/SEAR_RP_CERT.pfx
 SEAR_WEB/appsettings.json
-SEAR_DataContract/Models/Certificate.cs
+/SEAR_DataContract/Models/Certificate.cs
