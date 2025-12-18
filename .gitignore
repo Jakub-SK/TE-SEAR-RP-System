@@ -5,9 +5,9 @@
 /SEAR_WEB/SEAR_RP_CERT.pfx
 /.vs/TE SEAR RP System.slnx/FileContentIndex
 /SEAR_WEB/appsettings.json
-/SEAR_DataContract/bin
-/SEAR_DataContract/obj
-/SEAR_WEB/bin
-/SEAR_WEB/obj
-/SEAR_API/bin
-/SEAR_API/obj
+/SEAR_DataContract/bin/
+/SEAR_DataContract/obj/
+/SEAR_WEB/bin/
+/SEAR_WEB/obj/
+/SEAR_API/bin/
+/SEAR_API/obj/
