@@ -1,4 +1,4 @@
-@SEAR_API_HostAddress = http://localhost:5283
+@SEAR_API_HostAddress = http://localhost:7001
 
 GET {{SEAR_API_HostAddress}}/weatherforecast/
 Accept: application/json

@@ -1,8 +1,27 @@
-﻿@{
+﻿@model SEAR_DataContract.JsonList
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <div>@ViewData["ProjectName"]</div>
+    <div>@ViewData["Id"]</div>
+
+    @if (Model == null)
+    {
+        <p>Api return nothing else ;(</p>
+    }
+    else
+    {
+        @*Loop List*@
+        @foreach (var item in Model.JSONList)
+        {
+            <p>ID: @item.MeowId</p>
+            <br>
+            <p>Name: @item.Name</p>
+        }
+    }
 </div>

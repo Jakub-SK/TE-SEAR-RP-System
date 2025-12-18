@@ -1,6 +1,3 @@
-using SEAR_API.Services;
-using SEAR_API.Services.Interface;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,12 +5,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
-builder.Services.Scan(scan => scan
-    .FromAssemblyOf<ProjectService>()
-    .AddClasses(classes => classes.AssignableTo(typeof(IAppService<>)))
-    .AsSelf()
-    .WithScopedLifetime());
 
 var app = builder.Build();
 

@@ -1,0 +1,48 @@
+[
+  {
+    "ContainingType": "SEAR_API.Controllers.ApiHomeController",
+    "Method": "GetProject",
+    "RelativePath": "api/ApiHome/GetTEName",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "SEAR_DataContract.HomeDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SEAR_API.Controllers.ApiHomeController",
+    "Method": "GetWithJSONList",
+    "RelativePath": "api/ApiHome/GetWithJSONList",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SEAR_DataContract.RequestGetWithJSONList",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SEAR_DataContract.NeedJSON, SEAR_DataContract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

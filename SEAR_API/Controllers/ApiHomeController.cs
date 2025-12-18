@@ -1,12 +1,32 @@
-﻿using SEAR_API.Controllers.Base;
-using SEAR_API.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using SEAR_DataContract;
 
 namespace SEAR_API.Controllers
 {
-    public class ApiProjectController
-        : ApiControllerBase<ProjectService, string>
+    [ApiController]
+    [Route("api/ApiHome")]
+    public class ApiHomeController : ControllerBase
     {
-        public ApiProjectController(ProjectService service)
-            : base(service) { }
+        [HttpPost("GetTEName")]
+        public HomeDto GetProject()
+        {
+            HomeDto homeDto = new HomeDto();
+            homeDto.Name = "Truth Enforcers";
+            homeDto.Id = 19;
+            return homeDto;
+        }
+
+        [HttpPost("GetWithJSONList")]
+        public List<NeedJSON> GetWithJSONList([FromBody] RequestGetWithJSONList request)
+        {
+            List<NeedJSON> jsonListResponse = new List<NeedJSON>();
+            NeedJSON jsonResponse = new NeedJSON();
+
+            jsonResponse.Name = request.Name;
+            jsonResponse.MeowId = request.Id;
+            jsonListResponse.Add(jsonResponse);
+
+            return jsonListResponse;
+        }
     }
 }

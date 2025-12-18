@@ -1,5 +1,6 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.HttpOverrides;
+using SEAR_WEB.AppServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,12 @@ builder.WebHost.ConfigureKestrel(options =>
     });
 });
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient<ApiCaller>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7001/");
+});
+//Add Apis Registration here
+builder.Services.AddScoped<HomeApi>();
 
 var app = builder.Build();
 

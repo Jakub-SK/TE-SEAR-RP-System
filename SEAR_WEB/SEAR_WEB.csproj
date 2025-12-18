@@ -10,8 +10,4 @@
     <ProjectReference Include="..\SEAR_DataContract\SEAR_DataContract.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ApiCaller\" />
-  </ItemGroup>
-
 </Project>

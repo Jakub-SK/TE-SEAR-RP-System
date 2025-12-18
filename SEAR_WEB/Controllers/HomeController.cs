@@ -1,14 +1,35 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SEAR_WEB.Models;
+using SEAR_WEB.RedirectViewModels;
+using SEAR_WEB.AppServer;
+using SEAR_DataContract;
 
 namespace SEAR_WEB.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly HomeApi homeapi;
+        public HomeController(HomeApi homeapi)
         {
-            return View();
+            this.homeapi = homeapi;
+        }
+
+        //Call API Method and return model to Index.cshtml
+        public async Task<IActionResult> Index()
+        {
+            HomeDto TEName = await homeapi.GetTEName();
+            ViewData["ProjectName"] = TEName.Name;
+            ViewData["Id"] = TEName.Id;
+
+            //create parameter model
+            RequestGetWithJSONList requestParameter = new RequestGetWithJSONList();
+            requestParameter.Name = "SomethingName";
+            requestParameter.Id = 123;
+
+            //create new model
+            JsonList model = new JsonList();
+            model.JSONList = await homeapi.GetNeedJsonList(requestParameter);
+            return View(model);
         }
 
         public IActionResult Privacy()

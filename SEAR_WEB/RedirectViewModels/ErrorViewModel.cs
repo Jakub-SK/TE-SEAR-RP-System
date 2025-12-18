@@ -1,4 +1,4 @@
-namespace SEAR_WEB.Models
+namespace SEAR_WEB.RedirectViewModels
 {
     public class ErrorViewModel
     {
