@@ -33,11 +33,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\Truth Enforcers SEAR RP System\\TE SEAR RP System\\SEAR_WEB\\SEAR_WEB.csproj",
+      "projectUniqueName": "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\TE-SEAR-RP-System\\SEAR_WEB\\SEAR_WEB.csproj",
       "projectName": "SEAR_WEB",
-      "projectPath": "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\Truth Enforcers SEAR RP System\\TE SEAR RP System\\SEAR_WEB\\SEAR_WEB.csproj",
+      "projectPath": "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\TE-SEAR-RP-System\\SEAR_WEB\\SEAR_WEB.csproj",
       "packagesPath": "C:\\Users\\noobxryan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\Truth Enforcers SEAR RP System\\TE SEAR RP System\\SEAR_WEB\\obj\\",
+      "outputPath": "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\TE-SEAR-RP-System\\SEAR_WEB\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -58,8 +58,8 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\Truth Enforcers SEAR RP System\\TE SEAR RP System\\SEAR_DataContract\\SEAR_DataContract.csproj": {
-              "projectPath": "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\Truth Enforcers SEAR RP System\\TE SEAR RP System\\SEAR_DataContract\\SEAR_DataContract.csproj"
+            "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\TE-SEAR-RP-System\\SEAR_DataContract\\SEAR_DataContract.csproj": {
+              "projectPath": "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\TE-SEAR-RP-System\\SEAR_DataContract\\SEAR_DataContract.csproj"
             }
           }
         }

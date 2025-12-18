@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4gXrJABkGEQ=",
+  "dgSpecHash": "cZYRy8kNy0A=",
   "success": true,
-  "projectFilePath": "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\Truth Enforcers SEAR RP System\\TE SEAR RP System\\SEAR_API\\SEAR_API.csproj",
+  "projectFilePath": "C:\\Users\\noobxryan\\Documents\\Visual Studio Projects\\TE-SEAR-RP-System\\SEAR_API\\SEAR_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\noobxryan\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.1\\microsoft.aspnetcore.openapi.10.0.1.nupkg.sha512",
     "C:\\Users\\noobxryan\\.nuget\\packages\\microsoft.extensions.dependencymodel\\10.0.0\\microsoft.extensions.dependencymodel.10.0.0.nupkg.sha512",
