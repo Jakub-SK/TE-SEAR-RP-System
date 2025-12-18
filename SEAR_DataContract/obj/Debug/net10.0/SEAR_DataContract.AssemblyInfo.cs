@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SEAR_DataContract")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e6087a91a28774f0187fe200f0bec49fa51ac12c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1815478b51eeecd29be0e21019aec885369989a7")]
 [assembly: System.Reflection.AssemblyProductAttribute("SEAR_DataContract")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SEAR_DataContract")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
