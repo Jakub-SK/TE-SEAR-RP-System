@@ -6,7 +6,7 @@ This repository contains documentation and website code for the project.
 
 ## Link to the Website ?
 
-The website can be accessed by following the link [here](https://noobxryan.org/)
+The website can be accessed by following the link [here](https://www.youtube.com/watch?v=oHg5SJYRHA0)
 
 ## Community
 
