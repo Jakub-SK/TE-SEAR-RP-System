@@ -2,12 +2,12 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/SEAR_WEB/SEAR_RP_CERT.pfx
-/.vs/
-/SEAR_WEB/appsettings.json
-/SEAR_DataContract/bin/
-/SEAR_DataContract/obj/
-/SEAR_WEB/bin/
-/SEAR_WEB/obj/
-/SEAR_API/bin/
-/SEAR_API/obj/
+SEAR_WEB/SEAR_RP_CERT.pfx
+.vs/
+SEAR_WEB/appsettings.json
+SEAR_DataContract/bin/
+SEAR_DataContract/obj/
+SEAR_WEB/bin/
+SEAR_WEB/obj/
+SEAR_API/bin/
+SEAR_API/obj/
