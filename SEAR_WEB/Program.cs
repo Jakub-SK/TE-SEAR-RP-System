@@ -1,12 +1,14 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.HttpOverrides;
 using SEAR_WEB.AppServer;
+using SEAR_DataContract;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Path where the PFX sits (same folder as exe)
 var certPath = Path.Combine(AppContext.BaseDirectory, "SEAR_RP_CERT.pfx");
-var certPassword = "SEAR_RP"; // set if you used a password
+Certificate GetCertPassword = new Certificate();
+var certPassword = GetCertPassword.certPassword;
 
 var cert = X509CertificateLoader.LoadPkcs12FromFile(certPath, certPassword);
 
