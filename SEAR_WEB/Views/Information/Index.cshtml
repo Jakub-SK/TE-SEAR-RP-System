@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "Information";
+}
+
+<h1>Information</h1>
+<div>
+    Test
+</div>
+<button><a href="@Url.Action("Index", "Home")">Some button</a></button>
+
+@using (Html.BeginForm("GetForm", "Information", new { ReturnUrl = ViewBag.ReturnURL }, FormMethod.Post, true, new { @class = "form-horizontal", role = "form", @id = "MeowForm" }))
+{
+    <div>
+        Some Drop Down List
+    </div>
+    @Html.DropDownList("SusDropDownList", ViewData["SusDropDownList"] as IEnumerable<SelectListItem>, new { @class = "dropdown-toggle selectpicker", @style = "width: 100%;", @onchange = "document.getElementById(\"SubmitButton\").click()" })
+    <button id="SubmitButton" type="submit">This is just a meow meow button</button>
+}
+
+

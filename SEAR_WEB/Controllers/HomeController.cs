@@ -8,16 +8,16 @@ namespace SEAR_WEB.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly HomeApi homeapi;
-        public HomeController(HomeApi homeapi)
+        private readonly HomeApi homeApi;
+        public HomeController(HomeApi homeApi)
         {
-            this.homeapi = homeapi;
+            this.homeApi = homeApi;
         }
 
         //Call API Method and return model to Index.cshtml
         public async Task<IActionResult> Index()
         {
-            HomeDto TEName = await homeapi.GetTEName();
+            HomeDto TEName = await homeApi.GetTEName();
             ViewData["ProjectName"] = TEName.Name;
             ViewData["Id"] = TEName.Id;
 
@@ -28,10 +28,9 @@ namespace SEAR_WEB.Controllers
 
             //create new model
             JsonList model = new JsonList();
-            model.JSONList = await homeapi.GetNeedJsonList(requestParameter);
+            model.JSONList = await homeApi.GetNeedJsonList(requestParameter);
             return View(model);
         }
-
         public IActionResult Privacy()
         {
             return View();
