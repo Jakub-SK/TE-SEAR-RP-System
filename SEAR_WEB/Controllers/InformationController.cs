@@ -14,7 +14,7 @@ namespace SEAR_WEB.Controllers
         public IActionResult Index()
         {
             string ChosenValue = "";
-            if (sessionCache.GetSession("Choosed") != null)
+            if (!String.IsNullOrEmpty(sessionCache.GetSession("Choosed")))
             {
                 ChosenValue = sessionCache.GetSession("Choosed");
             }
