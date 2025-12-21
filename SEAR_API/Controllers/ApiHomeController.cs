@@ -12,7 +12,7 @@ namespace SEAR_API.Controllers
         {
             HomeDto homeDto = new HomeDto();
             homeDto.Name = "Truth Enforcers";
-            homeDto.Id = 19;
+            homeDto.Id = 29;
             return homeDto;
         }
 

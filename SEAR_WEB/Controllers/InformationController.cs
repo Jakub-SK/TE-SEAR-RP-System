@@ -7,10 +7,12 @@ namespace SEAR_WEB.Controllers
     public class InformationController : Controller
     {
         private readonly SessionCache sessionCache;
+
         public InformationController(SessionCache sessionCache)
         {
             this.sessionCache = sessionCache;
         }
+
         public IActionResult Index()
         {
             string ChosenValue = "";
