@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SEAR_WEB.RedirectViewModels;
-using SEAR_WEB.AppServer;
 using SEAR_DataContract;
+using SEAR_WEB.RedirectViewModels;
+using SEAR_WEB.Models;
 
 namespace SEAR_WEB.Controllers
 {
@@ -17,8 +17,7 @@ namespace SEAR_WEB.Controllers
         //Call API Method and return model to Index.cshtml
         public async Task<IActionResult> Index()
         {
-            HomeApi homeApi = new HomeApi();
-            HomeDto TEName = homeApi.GetTEName();
+            HomeDto TEName = HomeModel.GetTEName();
             ViewData["ProjectName"] = TEName.Name;
             ViewData["Id"] = TEName.Id;
 
@@ -29,7 +28,7 @@ namespace SEAR_WEB.Controllers
 
             //create new model
             JsonList model = new JsonList();
-            model.JSONList = homeApi.GetNeedJsonList(requestParameter);
+            model.JSONList = HomeModel.GetNeedJsonList(requestParameter);
             return View(model);
         }
 

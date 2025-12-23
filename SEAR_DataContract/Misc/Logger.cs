@@ -2,32 +2,31 @@
 
 namespace SEAR_DataContract.Misc
 {
-    public class Logger
+    public static class Logger
     {
-        private readonly string environment;
+        //public Logger()
+        //{
+        //    environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+        //}
 
-        public Logger()
-        {
-            environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-        }
-
-        public void LogInformation(string message)
+        public static void LogInformation(string message)
         {
             Write("INFO", message);
         }
 
-        public void LogWarning(string message)
+        public static void LogWarning(string message)
         {
             Write("WARN", message);
         }
 
-        public void LogError(string message)
+        public static void LogError(string message)
         {
             Write("ERROR", message);
         }
 
-        private void Write(string level, string message)
+        private static void Write(string level, string message)
         {
+            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
             var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             var logLine = $"[{level}] [{environment}] [{timestamp}] {message}";
 

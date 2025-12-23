@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SEAR_WEB")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e6087a91a28774f0187fe200f0bec49fa51ac12c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d31df5a3fdfd677665531ea1b893faac1702bf3")]
 [assembly: System.Reflection.AssemblyProductAttribute("SEAR_WEB")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SEAR_WEB")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
