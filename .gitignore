@@ -4,7 +4,6 @@
 
 SEAR_WEB/SEAR_RP_CERT.pfx
 SEAR_WEB/appsettings.json
-/SEAR_DataContract/Models/Certificate.cs
 **/bin/
 **/obj/
 **/.vs/
@@ -12,3 +11,4 @@ SEAR_WEB/appsettings.json
 /.vs/TE SEAR RP System.slnx/v18/.suo
 /.vs/TE SEAR RP System.slnx/v18/DocumentLayout.backup.json
 /.vs/TE SEAR RP System.slnx/v18/DocumentLayout.json
+/.vs/TE SEAR RP System.slnx/DesignTimeBuild/.dtbcache.v2

@@ -5,20 +5,6 @@ using SEAR_WEB.Misc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Path where the PFX sits (same folder as exe)
-var certPath = Path.Combine(AppContext.BaseDirectory, "SEAR_RP_CERT.pfx");
-Certificate GetCertPassword = new Certificate();
-var certPassword = GetCertPassword.certPassword;
-var cert = X509CertificateLoader.LoadPkcs12FromFile(certPath, certPassword);
-
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(443, listenOptions =>
-    {
-        listenOptions.UseHttps(cert);
-    });
-});
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession(options =>
 {
