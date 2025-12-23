@@ -15,7 +15,7 @@ namespace SEAR_WEB.Controllers
         //}
 
         //Call API Method and return model to Index.cshtml
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             HomeDto TEName = HomeModel.GetTEName();
             ViewData["ProjectName"] = TEName.Name;
