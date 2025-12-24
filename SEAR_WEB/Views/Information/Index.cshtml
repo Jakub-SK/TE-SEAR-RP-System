@@ -1,4 +1,5 @@
-﻿
+﻿@model SEAR_DataContract.TextBoxForModel
+
 @{
     ViewData["Title"] = "Information";
 }
@@ -15,6 +16,8 @@
         Some Drop Down List
     </div>
     @Html.DropDownList("SusDropDownList", ViewData["SusDropDownList"] as IEnumerable<SelectListItem>, new { @class = "dropdown-toggle selectpicker", @style = "width: 100%;", @onchange = "document.getElementById(\"SubmitButton\").click()" })
+    @Html.TextArea("bruh", new { maxlength = "2000" })
+    @Html.TextAreaFor(model => model.TextBoxFor, 3, 20, new { maxlength = "2000" })
     <button id="SubmitButton" type="submit">This is just a meow meow button</button>
 }
 
