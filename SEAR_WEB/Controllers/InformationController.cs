@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SEAR_WEB.Misc;
+using SEAR_WEB.Session;
 using SEAR_DataContract;
 
 namespace SEAR_WEB.Controllers

@@ -8,12 +8,6 @@ namespace SEAR_WEB.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly HomeApi homeApi;
-        //public HomeController(HomeApi homeApi)
-        //{
-        //    this.homeApi = homeApi;
-        //}
-
         //Call API Method and return model to Index.cshtml
         public IActionResult Index()
         {
@@ -29,14 +23,15 @@ namespace SEAR_WEB.Controllers
             //create new model
             JsonList model = new JsonList();
             model.JSONList = HomeModel.GetNeedJsonList(requestParameter);
+
+            ViewData["DatabaseUsersList"] = HomeModel.GetDatabaseUsersList();
+
             return View(model);
         }
-
         public IActionResult Privacy()
         {
             return View();
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

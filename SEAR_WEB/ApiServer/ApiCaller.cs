@@ -4,18 +4,11 @@ namespace SEAR_WEB.ApiServer
 {
     public static class ApiCaller
     {
-        //private readonly ILogger<ApiCaller> Logger;
-        //public ApiCaller(ILogger<ApiCaller> logger)
-        //{
-        //    this.Logger = logger;
-        //}
-
         //Call API
         public static T CallApi<T>(string url, object parameter)
         {
             return CallApiAsync<T>(url, parameter).GetAwaiter().GetResult();
         }
-
         //Don't Call this method directly, use the method above CallApi()<T>
         private static async Task<T> CallApiAsync<T>(string url, object parameter)
         {
@@ -42,7 +35,6 @@ namespace SEAR_WEB.ApiServer
             }
             throw CreateAppServerException(url, response, parameter);
         }
-
         private static Exception CreateAppServerException(string url, HttpResponseMessage response, object parameter)
         {
             parameter = parameter == null ? "Empty Parameter" : parameter;

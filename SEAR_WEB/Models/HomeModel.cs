@@ -19,5 +19,9 @@ namespace SEAR_WEB.Models
         {
             return ApiCaller.CallApi<List<NeedJSON>>("api/ApiHome/GetWithJSONList", RequestGetWithJSONList);
         }
+        public static List<DatabaseUsers> GetDatabaseUsersList()
+        {
+            return ApiCaller.CallApi<List<DatabaseUsers>>("api/ApiHome/GetDatabaseUsersList", null);
+        }
     }
 }

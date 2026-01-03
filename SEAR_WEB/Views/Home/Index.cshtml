@@ -1,4 +1,4 @@
-﻿@model SEAR_DataContract.JsonList
+﻿@model JsonList
 
 @{
     ViewData["Title"] = "Home Page";
@@ -20,9 +20,17 @@
         @foreach (var item in Model.JSONList)
         {
             <p>ID: @item.MeowId</p>
-            <br>
+            <br />
             <p>Name: @item.Name</p>
         }
+    }
+
+    @foreach (DatabaseUsers item in ViewData["DatabaseUsersList"] as List<DatabaseUsers>)
+    {
+        <p>@item.ID</p>
+        <p>@item.Name</p>
+        <p>@item.Type</p>
+        <p>@item.Rank</p>
     }
 </div>
 <button><a href="@Url.Action("Index", "Information")">Some button</a></button>

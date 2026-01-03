@@ -15,13 +15,13 @@ namespace SEAR_DataContract.Misc
         {
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                using var conn = new NpgsqlConnection("Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database");
+                var conn = new NpgsqlConnection("Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database");
                 Logger.LogInformation("Database connected with Development Enviroment");
                 return conn;
             }
             else
             {
-                using var conn = new NpgsqlConnection("Host=localhost:5432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database");
+                var conn = new NpgsqlConnection("Host=localhost:5432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database");
                 Logger.LogInformation("Database connected with Production Enviroment");
                 return conn;
             }

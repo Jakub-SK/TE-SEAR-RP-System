@@ -1,7 +1,7 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.HttpOverrides;
 using SEAR_DataContract;
-using SEAR_WEB.Misc;
+using SEAR_WEB.Session;
 
 var builder = WebApplication.CreateBuilder(args);
 
