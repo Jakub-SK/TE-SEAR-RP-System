@@ -7,7 +7,7 @@ namespace SEAR_WEB.Models
     {
         public static HomeDto GetTEName()
         {
-            return ApiCaller.CallApi<HomeDto>("api/ApiHome/GetTEName", null);
+            return ApiCaller.CallApi<HomeDto>("api/ApiHome/GetTEName");
         }
 
         //Call Api with correct parameters
@@ -21,7 +21,7 @@ namespace SEAR_WEB.Models
         }
         public static List<DatabaseUsers> GetDatabaseUsersList()
         {
-            return ApiCaller.CallApi<List<DatabaseUsers>>("api/ApiHome/GetDatabaseUsersList", null);
+            return ApiCaller.CallApi<List<DatabaseUsers>>("api/ApiHome/GetDatabaseUsersList");
         }
     }
 }

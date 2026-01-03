@@ -5,11 +5,40 @@ namespace SEAR_WEB.ApiServer
     public static class ApiCaller
     {
         //Call API
+        public static T CallApi<T>(string url)
+        {
+            return CallApiAsync<T>(url).GetAwaiter().GetResult();
+        }
         public static T CallApi<T>(string url, object parameter)
         {
             return CallApiAsync<T>(url, parameter).GetAwaiter().GetResult();
         }
         //Don't Call this method directly, use the method above CallApi()<T>
+        private static async Task<T> CallApiAsync<T>(string url)
+        {
+            HttpClient httpClient = new HttpClient();
+            url = "http://localhost:7001/" + url;
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            var response = await httpClient.PostAsync(url, null);
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                watch.Stop();
+                if (watch.ElapsedMilliseconds > 500)
+                {
+                    Logger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, "(Empty Object)", watch.ElapsedMilliseconds.ToString()));
+                }
+                if (response.IsSuccessStatusCode)
+                {
+                    return (await response.Content.ReadFromJsonAsync<T>())!;
+                }
+            }
+            catch
+            {
+                throw CreateAppServerException(url, response, null);
+            }
+            throw CreateAppServerException(url, response, null);
+        }
         private static async Task<T> CallApiAsync<T>(string url, object parameter)
         {
             HttpClient httpClient = new HttpClient();
@@ -22,7 +51,7 @@ namespace SEAR_WEB.ApiServer
                 watch.Stop();
                 if (watch.ElapsedMilliseconds > 500)
                 {
-                    Logger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, (parameter == null ? "(Empty Object)" : parameter), watch.ElapsedMilliseconds.ToString()));
+                    Logger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, parameter, watch.ElapsedMilliseconds.ToString()));
                 }
                 if (response.IsSuccessStatusCode)
                 {
