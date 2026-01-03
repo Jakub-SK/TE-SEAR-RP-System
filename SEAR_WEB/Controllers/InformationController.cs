@@ -43,6 +43,10 @@ namespace SEAR_WEB.Controllers
             string value = formValues["SusDropDownList"];
             sessionCache.SetSession("Choosed", value);
 
+            if (String.IsNullOrEmpty(model.TextBoxFor))
+            {
+                model.TextBoxFor = "";
+            }
             string value2 = model.TextBoxFor;
             sessionCache.SetSession("TextBoxFor", value2);
             return RedirectToAction("Index", "Information");

@@ -20,7 +20,7 @@ namespace SEAR_WEB.ApiServer
         private static async Task<T> CallApiAsync<T>(string url, object parameter)
         {
             HttpClient httpClient = new HttpClient();
-            url = "https://localhost:7001/" + url;
+            url = "http://localhost:7001/" + url;
             var watch = System.Diagnostics.Stopwatch.StartNew();
             var response = await httpClient.PostAsJsonAsync(url, parameter);
             try
