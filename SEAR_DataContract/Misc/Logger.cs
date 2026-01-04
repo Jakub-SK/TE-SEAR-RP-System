@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace SEAR_DataContract.Misc
+﻿namespace SEAR_DataContract.Misc
 {
     public static class Logger
     {
