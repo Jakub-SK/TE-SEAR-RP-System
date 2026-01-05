@@ -3,148 +3,102 @@ using System.Data;
 
 namespace SEAR_DataContract.Misc
 {
+    internal class DatabaseResult
+    {
+        public DataSet DataSet { get; set; }
+        public int AffectedRows { get; set; }
+    }
+    internal static class ConnectionString
+    {
+        public static string Get
+        {
+            get
+            {
+                return "Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
+            }
+        }
+    }
     public static class DBHelper
     {
         //Example to insert parameter
-        //public void SetParameter()
-        //{
-        //    List<NpgsqlParameter> parameters = new List<NpgsqlParameter>();
-        //    parameters.Add(new NpgsqlParameter("p", "some"));
-        //}
-        private static string GetConnectionString()
-        {
-            return "Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
-        }
+        //
+        //List<NpgsqlParameter> parameters = new List<NpgsqlParameter>();
+        //parameters.Add(new NpgsqlParameter("p", "some"));
         public static NpgsqlConnection GetConnection()
         {
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                var conn = new NpgsqlConnection(GetConnectionString());
-                Logger.LogInformation("Database connected with Development Enviroment");
+                var conn = new NpgsqlConnection(ConnectionString.Get);
+                if (Misc.CheckIsDevelopmentEnviroment())
+                {
+                    Logger.LogInformation("Database connected with Development Enviroment");
+                }
                 return conn;
             }
             else
             {
-                var conn = new NpgsqlConnection(GetConnectionString());
-                Logger.LogInformation("Database connected with Production Enviroment");
+                var conn = new NpgsqlConnection(ConnectionString.Get);
+                if (Misc.CheckIsDevelopmentEnviroment())
+                {
+                    Logger.LogInformation("Database connected with Production Enviroment");
+                }
                 return conn;
             }
         }
-        public static int ExecuteDatabaseNonQuery(string sql)
+        public static DataSet ExecuteDatabaseQuery(string sql, List<NpgsqlParameter> parameterList = null)
         {
-            using var conn = GetConnection();
-            int affectedRows;
-            try
-            {
-                conn.Open();
-            }
-            catch
-            {
-                throw UnableToConnectDatabaseException(conn, sql);
-            }
-            try
-            {
-                using (var cmd = new NpgsqlCommand(sql, conn))
-                {
-                    affectedRows = cmd.ExecuteNonQuery();
-                }
-                conn.Close();
-                return affectedRows;
-            }
-            catch
-            {
-                throw InternalDatabaseException(sql);
-            }
+            return Execute(sql, parameterList).DataSet;
         }
-        public static int ExecuteDatabaseNonQuery(string sql, List<NpgsqlParameter> parameterList)
+        public static int ExecuteDatabaseNonQuery(string sql, List<NpgsqlParameter> parameterList = null)
+        {
+            return Execute(sql, parameterList).AffectedRows;
+        }
+        private static DatabaseResult Execute(string sql, List<NpgsqlParameter> parameterList = null)
         {
             using var conn = GetConnection();
-            int affectedRows;
             try
             {
                 conn.Open();
             }
             catch
             {
-                throw UnableToConnectDatabaseException(conn, sql);
+                if (Misc.CheckIsDevelopmentEnviroment())
+                {
+                    throw UnableToConnectDatabaseException(conn, sql);
+                }
             }
+            DatabaseResult databaseResult = new DatabaseResult();
             try
             {
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
-                    foreach (NpgsqlParameter parameter in parameterList)
+                    if (parameterList != null)
                     {
-                        cmd.Parameters.Add(parameter);
+                        foreach (NpgsqlParameter parameter in parameterList)
+                        {
+                            cmd.Parameters.Add(parameter);
+                        }
                     }
-                    affectedRows = cmd.ExecuteNonQuery();
-                }
-                conn.Close();
-                return affectedRows;
-            }
-            catch
-            {
-                throw InternalDatabaseException(sql);
-            }
-        }
-        public static DataSet ExecuteDatabaseQuery(string sql)
-        {
-            using var dataSet = new DataSet();
-            using var conn = GetConnection();
-            try
-            {
-                conn.Open();
-            }
-            catch
-            {
-                throw UnableToConnectDatabaseException(conn, sql);
-            }
-            try
-            {
-                using (var cmd = new NpgsqlCommand(sql, conn))
-                {
-                    cmd.ExecuteNonQuery();
+                    databaseResult.AffectedRows = cmd.ExecuteNonQuery();
                     using var adapter = new NpgsqlDataAdapter(cmd);
-                    adapter.Fill(dataSet);
+                    adapter.Fill(databaseResult.DataSet);
                 }
-                conn.Close();
-                return dataSet;
             }
-            catch
+            catch (NpgsqlException ex)
             {
-                throw InternalDatabaseException(sql);
-            }
-        }
-        public static DataSet ExecuteDatabaseQuery(string sql, List<NpgsqlParameter> parameterList)
-        {
-            using var dataSet = new DataSet();
-            using var conn = GetConnection();
-            try
-            {
-                conn.Open();
-            }
-            catch
-            {
-                throw UnableToConnectDatabaseException(conn, sql);
-            }
-            try
-            {
-                using (var cmd = new NpgsqlCommand(sql, conn))
+                if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    foreach (NpgsqlParameter parameter in parameterList)
-                    {
-                        cmd.Parameters.Add(parameter);
-                    }
-                    cmd.ExecuteNonQuery();
-                    using var adapter = new NpgsqlDataAdapter(cmd);
-                    adapter.Fill(dataSet);
+                    throw InternalDatabaseException(sql);
                 }
-                conn.Close();
-                return dataSet;
             }
-            catch
+            finally
             {
-                throw InternalDatabaseException(sql);
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
             }
+            return databaseResult;
         }
         private static NpgsqlException UnableToConnectDatabaseException(NpgsqlConnection conn, string sql)
         {
