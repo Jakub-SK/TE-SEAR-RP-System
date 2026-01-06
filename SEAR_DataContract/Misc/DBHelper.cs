@@ -55,19 +55,24 @@ namespace SEAR_DataContract.Misc
         }
         private static DatabaseResult Execute(string sql, List<NpgsqlParameter> parameterList = null)
         {
+            DatabaseResult databaseResult = new DatabaseResult();
+            using DataSet dataSet = new DataSet();
             using var conn = GetConnection();
             try
             {
                 conn.Open();
             }
-            catch
+            catch (Exception ex)
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    throw UnableToConnectDatabaseException(conn, sql);
+                    throw UnableToConnectDatabaseException(conn, sql, ex);
+                }
+                else
+                {
+                    Misc.LogException(ex);
                 }
             }
-            DatabaseResult databaseResult = new DatabaseResult();
             try
             {
                 using (var cmd = new NpgsqlCommand(sql, conn))
@@ -79,43 +84,53 @@ namespace SEAR_DataContract.Misc
                             cmd.Parameters.Add(parameter);
                         }
                     }
-                    databaseResult.AffectedRows = cmd.ExecuteNonQuery();
                     using var adapter = new NpgsqlDataAdapter(cmd);
-                    adapter.Fill(databaseResult.DataSet);
+                    databaseResult.AffectedRows = cmd.ExecuteNonQuery();
+                    if (sql.Contains("SELECT"))
+                    {
+                        adapter.Fill(dataSet);
+                        databaseResult.DataSet = dataSet;
+                    }
                 }
             }
-            catch (NpgsqlException ex)
+            catch (Exception ex)
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    throw InternalDatabaseException(sql);
+                    throw InternalDatabaseException(sql, ex);
+                }
+                else
+                {
+                    Misc.LogException(ex);
                 }
             }
             finally
             {
-                if (conn.State == ConnectionState.Open)
+                if (conn.State != ConnectionState.Closed)
                 {
                     conn.Close();
                 }
             }
             return databaseResult;
         }
-        private static NpgsqlException UnableToConnectDatabaseException(NpgsqlConnection conn, string sql)
+        private static NpgsqlException UnableToConnectDatabaseException(NpgsqlConnection conn, string sql, Exception ex)
         {
             return new NpgsqlException(
                 $"Unable to establish connection to database\n" +
                 $"Connection: {conn.ConnectionString}\n" +
                 $"SQL: {sql}\n" +
-                $"FUCK U >:( Please check is the cloudflared is running when in development enviroment u \"fuckin stoopid\""
+                $"FUCK U >:( Please check is the cloudflared is running when in development enviroment u \"fuckin stoopid\"\n" +
+                $"Exception Message: {ex.Message}"
             );
         }
-        private static NpgsqlException InternalDatabaseException(string sql)
+        private static NpgsqlException InternalDatabaseException(string sql, Exception ex)
         {
             return new NpgsqlException(
                 $"Internal Database Exception\n" +
                 $"Check SQL statements\n" +
                 $"SQL: {sql}\n" +
-                $"DIU!!! Check SQL statements la >:("
+                $"DIU!!! Check SQL statements la >:(\n" +
+                $"Exception Message: {ex.Message}"
             );
         }
     }

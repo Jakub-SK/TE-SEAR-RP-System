@@ -32,6 +32,12 @@ namespace SEAR_WEB.Controllers
         {
             return View();
         }
+        public IActionResult LogExceptionTest()
+        {
+            Exception ex = new Exception("TestExceptionJust a message");
+            HomeModel.LogException(ex);
+            return RedirectToAction("Index", "Home");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

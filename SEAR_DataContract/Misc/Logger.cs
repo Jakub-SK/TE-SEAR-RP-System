@@ -2,26 +2,18 @@
 {
     public static class Logger
     {
-        //public Logger()
-        //{
-        //    environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-        //}
-
         public static void LogInformation(string message)
         {
             Write("INFO", message);
         }
-
         public static void LogWarning(string message)
         {
             Write("WARN", message);
         }
-
         public static void LogError(string message)
         {
             Write("ERROR", message);
         }
-
         private static void Write(string level, string message)
         {
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";

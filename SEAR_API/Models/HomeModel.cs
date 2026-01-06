@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using System.Data;
+﻿using System.Data;
 using SEAR_DataContract;
 using SEAR_DataContract.Misc;
 

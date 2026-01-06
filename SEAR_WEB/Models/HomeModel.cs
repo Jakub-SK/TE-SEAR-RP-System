@@ -1,4 +1,5 @@
 ﻿using SEAR_DataContract;
+using SEAR_DataContract.Misc;
 using SEAR_WEB.ApiServer;
 
 namespace SEAR_WEB.Models
@@ -22,6 +23,10 @@ namespace SEAR_WEB.Models
         public static List<DatabaseUsers> GetDatabaseUsersList()
         {
             return ApiCaller.CallApi<List<DatabaseUsers>>("api/ApiHome/GetDatabaseUsersList");
+        }
+        public static string LogException(Exception ex)
+        {
+            return Misc.LogException(ex);
         }
     }
 }

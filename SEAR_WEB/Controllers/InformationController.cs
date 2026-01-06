@@ -8,12 +8,10 @@ namespace SEAR_WEB.Controllers
     public class InformationController : Controller
     {
         private readonly SessionCache sessionCache;
-
         public InformationController(SessionCache sessionCache)
         {
             this.sessionCache = sessionCache;
         }
-
         public IActionResult Index()
         {
             string ChosenValue = "";
@@ -36,7 +34,6 @@ namespace SEAR_WEB.Controllers
             ViewData["SusDropDownList"] = InsertSelectable;
             return View(model);
         }
-
         [HttpPost]
         public IActionResult GetForm(IFormCollection formValues, TextBoxForModel model)
         {

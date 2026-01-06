@@ -44,9 +44,16 @@ namespace SEAR_WEB.ApiServer
                     return (await response.Content.ReadFromJsonAsync<T>())!;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw CreateAppServerException(url, response, null);
+                if (Misc.CheckIsDevelopmentEnviroment())
+                {
+                    throw CreateAppServerException(url, response, null);
+                }
+                else
+                {
+                    Misc.LogException(ex);
+                }
             }
             throw CreateAppServerException(url, response, null);
         }
@@ -70,11 +77,15 @@ namespace SEAR_WEB.ApiServer
                     return (await response.Content.ReadFromJsonAsync<T>())!;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
                     throw CreateAppServerException(url, response, parameter);
+                }
+                else
+                {
+                    Misc.LogException(ex);
                 }
             }
             throw CreateAppServerException(url, response, parameter);
