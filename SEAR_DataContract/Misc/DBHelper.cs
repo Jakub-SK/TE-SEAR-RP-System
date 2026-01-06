@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using System;
 using System.Data;
 
 namespace SEAR_DataContract.Misc
@@ -112,6 +113,58 @@ namespace SEAR_DataContract.Misc
                 }
             }
             return databaseResult;
+        }
+        internal static string ExecuteToLogException(Exception ex)
+        {
+            string uuid = Guid.CreateVersion7().ToString();
+            string sql = "INSERT INTO log_exception (track_uuid, exception_message) VALUES (@UUID, @ExceptionMessage);";
+
+            List<NpgsqlParameter> parameterList = new List<NpgsqlParameter>();
+            parameterList.Add(new NpgsqlParameter("UUID", uuid));
+            parameterList.Add(new NpgsqlParameter("ExceptionMessage", ex.Message));
+
+            using var conn = GetConnection();
+            try
+            {
+                conn.Open();
+            }
+            catch
+            {
+                if (Misc.CheckIsDevelopmentEnviroment())
+                {
+                    throw UnableToConnectDatabaseException(conn, sql, ex);
+                }
+            }
+            try
+            {
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                {
+                    if (parameterList != null)
+                    {
+                        foreach (NpgsqlParameter parameter in parameterList)
+                        {
+                            cmd.Parameters.Add(parameter);
+                        }
+                    }
+                    using var adapter = new NpgsqlDataAdapter(cmd);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                if (Misc.CheckIsDevelopmentEnviroment())
+                {
+                    throw InternalDatabaseException(sql, ex);
+                }
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+            }
+            return uuid;
         }
         private static NpgsqlException UnableToConnectDatabaseException(NpgsqlConnection conn, string sql, Exception ex)
         {

@@ -14,15 +14,7 @@ namespace SEAR_DataContract.Misc
         }
         public static string LogException(Exception ex)
         {
-            string uuid = Guid.CreateVersion7().ToString();
-            string sql = "INSERT INTO log_exception (track_uuid, exception_message) VALUES (@UUID, @ExceptionMessage);";
-
-            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>();
-            parameters.Add(new NpgsqlParameter("UUID", uuid));
-            parameters.Add(new NpgsqlParameter("ExceptionMessage", ex.Message));
-
-            DBHelper.ExecuteDatabaseNonQuery(sql, parameters);
-            return uuid;
+            return DBHelper.ExecuteToLogException(ex);
         }
         public static int UpdateLogExceptionWithSteps(string uuid, string steps)
         {
