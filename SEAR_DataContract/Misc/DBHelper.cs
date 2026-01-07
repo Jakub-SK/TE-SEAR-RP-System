@@ -1,5 +1,4 @@
 ﻿using Npgsql;
-using System;
 using System.Data;
 
 namespace SEAR_DataContract.Misc
@@ -69,20 +68,6 @@ namespace SEAR_DataContract.Misc
             try
             {
                 conn.Open();
-            }
-            catch (Exception ex)
-            {
-                if (Misc.CheckIsDevelopmentEnviroment())
-                {
-                    throw UnableToConnectDatabaseException(conn, sql, ex);
-                }
-                else
-                {
-                    Misc.LogException(ex);
-                }
-            }
-            try
-            {
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
                     if (parameterList != null)
@@ -105,7 +90,14 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    throw InternalDatabaseException(sql, ex);
+                    if (ex.Message.Contains("Failed to connect to"))
+                    {
+                        throw UnableToConnectDatabaseException(conn, sql, ex);
+                    }
+                    else
+                    {
+                        throw InternalDatabaseException(sql, ex);
+                    }
                 }
                 else
                 {
@@ -121,7 +113,7 @@ namespace SEAR_DataContract.Misc
             }
             return databaseResult;
         }
-        internal static string ExecuteToLogException(Exception ex)
+        internal static string ExecuteLogException(Exception ex)
         {
             string uuid = Guid.CreateVersion7().ToString();
             string sql = "INSERT INTO log_exception (track_uuid, exception_message) VALUES (@UUID, @ExceptionMessage);";
@@ -134,16 +126,6 @@ namespace SEAR_DataContract.Misc
             try
             {
                 conn.Open();
-            }
-            catch
-            {
-                if (Misc.CheckIsDevelopmentEnviroment())
-                {
-                    throw UnableToConnectDatabaseException(conn, sql, ex);
-                }
-            }
-            try
-            {
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
                     if (parameterList != null)
@@ -161,7 +143,14 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    throw InternalDatabaseException(sql, ex);
+                    if (ex.Message.Contains("Failed to connect to"))
+                    {
+                        throw UnableToConnectDatabaseException(conn, sql, ex);
+                    }
+                    else
+                    {
+                        throw InternalDatabaseException(sql, ex);
+                    }
                 }
             }
             finally
@@ -172,6 +161,59 @@ namespace SEAR_DataContract.Misc
                 }
             }
             return uuid;
+        }
+        internal static int ExecuteUpdateLogExceptionWithSteps(string uuid, string steps)
+        {
+            int affectedRows = -1;
+            string sql = @"
+                UPDATE log_exception
+                SET steps = @Steps
+                WHERE track_uuid = @UUID
+            ;";
+
+            List<NpgsqlParameter> parameterList = new List<NpgsqlParameter>();
+            parameterList.Add(new NpgsqlParameter("Steps", steps));
+            parameterList.Add(new NpgsqlParameter("UUID", uuid));
+
+            using var conn = GetConnection();
+            try
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                {
+                    if (parameterList != null)
+                    {
+                        foreach (NpgsqlParameter parameter in parameterList)
+                        {
+                            cmd.Parameters.Add(parameter);
+                        }
+                    }
+                    using var adapter = new NpgsqlDataAdapter(cmd);
+                    affectedRows = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Misc.CheckIsDevelopmentEnviroment())
+                {
+                    if (ex.Message.Contains("Failed to connect to"))
+                    {
+                        throw UnableToConnectDatabaseException(conn, sql, ex);
+                    }
+                    else
+                    {
+                        throw InternalDatabaseException(sql, ex);
+                    }
+                }
+            }
+            finally
+            {
+                if (conn.State != ConnectionState.Closed)
+                {
+                    conn.Close();
+                }
+            }
+            return affectedRows;
         }
         private static NpgsqlException UnableToConnectDatabaseException(NpgsqlConnection conn, string sql, Exception ex)
         {

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SEAR_DataContract;
 using SEAR_DataContract.Misc;
@@ -59,11 +59,18 @@ namespace SEAR_WEB.Controllers
         {
             var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
             var exception = exceptionHandlerPathFeature?.Error;
-            if (exception != null)
+            string uuid = HomeModel.LogException(exception!);
+
+            return View(new ErrorViewModel
             {
-                HomeModel.LogException(exception);
-            }
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                UUID = uuid
+            });
+        }
+        public IActionResult SubmitExceptionSteps(ErrorViewModel model)
+        {
+            Misc.UpdateLogExceptionWithSteps(model.UUID!, model.ErrorSteps!);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.HttpOverrides;
-using SEAR_DataContract;
 using SEAR_WEB.Session;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,11 +17,11 @@ builder.Services.AddScoped<SessionCache>();
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-{
+//if (!app.Environment.IsDevelopment())
+//{
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-}
+//}
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {

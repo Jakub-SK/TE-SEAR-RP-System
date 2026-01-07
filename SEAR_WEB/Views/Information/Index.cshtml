@@ -10,7 +10,7 @@
 </div>
 <button><a href="@Url.Action("Index", "Home")">Some button</a></button>
 
-@using (Html.BeginForm("GetForm", "Information", new { ReturnUrl = ViewBag.ReturnURL }, FormMethod.Post, true, new { @class = "form-horizontal", role = "form", @id = "MeowForm" }))
+@using (Html.BeginForm("GetForm", "Information", new { ReturnUrl = ViewBag.ReturnURL }, FormMethod.Post, true, new { @class = "form-horizontal" }))
 {
     <div>
         Some Drop Down List

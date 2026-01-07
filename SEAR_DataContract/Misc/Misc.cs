@@ -14,21 +14,11 @@ namespace SEAR_DataContract.Misc
         }
         public static string LogException(Exception ex)
         {
-            return DBHelper.ExecuteToLogException(ex);
+            return DBHelper.ExecuteLogException(ex);
         }
         public static int UpdateLogExceptionWithSteps(string uuid, string steps)
         {
-            string sql = @"
-                UPDATE log_exception
-                SET steps = @Steps
-                WHERE uuid = @UUID
-            ;";
-
-            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>();
-            parameters.Add(new NpgsqlParameter("Steps", steps));
-            parameters.Add(new NpgsqlParameter("UUID", uuid));
-
-            return DBHelper.ExecuteDatabaseNonQuery(sql, parameters);
+            return DBHelper.ExecuteUpdateLogExceptionWithSteps(uuid, steps);
         }
     }
 }
