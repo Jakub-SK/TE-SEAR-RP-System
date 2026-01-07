@@ -28,7 +28,7 @@ namespace SEAR_WEB.ApiServer
         {
             url = BaseUrl.Url + url;
             HttpClient httpClient = new HttpClient();
-            HttpResponseMessage response = null;
+            HttpResponseMessage? response = null;
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
             {
@@ -48,20 +48,20 @@ namespace SEAR_WEB.ApiServer
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    throw CreateAppServerException(url, response, null);
+                    throw CreateAppServerException(url, response, null!);
                 }
                 else
                 {
                     Misc.LogException(ex);
                 }
             }
-            throw CreateAppServerException(url, response, null);
+            throw CreateAppServerException(url, response, null!);
         }
         private static async Task<T> CallApiAsync<T>(string url, object parameter)
         {
             url = BaseUrl.Url + url;
             HttpClient httpClient = new HttpClient();
-            HttpResponseMessage response = null;
+            HttpResponseMessage? response = null;
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
             {
@@ -90,13 +90,13 @@ namespace SEAR_WEB.ApiServer
             }
             throw CreateAppServerException(url, response, parameter);
         }
-        private static Exception CreateAppServerException(string url, HttpResponseMessage response, object parameter)
+        private static Exception CreateAppServerException(string url, HttpResponseMessage? response, object parameter)
         {
             parameter = parameter == null ? "Empty Parameter" : parameter;
             return new HttpRequestException(
                 $"API call failed.\n" +
                 $"URL: {url}\n" +
-                $"Response: {(int)response.StatusCode} {response.ReasonPhrase}\n" +
+                $"Response: {(int)response!.StatusCode} {response.ReasonPhrase}\n" +
                 $"Parameter Object: {parameter}"
             );
         }

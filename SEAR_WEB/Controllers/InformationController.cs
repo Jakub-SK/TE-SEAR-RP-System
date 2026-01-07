@@ -37,7 +37,7 @@ namespace SEAR_WEB.Controllers
         [HttpPost]
         public IActionResult GetForm(IFormCollection formValues, TextBoxForModel model)
         {
-            string value = formValues["SusDropDownList"];
+            string value = formValues["SusDropDownList"]!;
             sessionCache.SetSession("Choosed", value);
 
             if (String.IsNullOrEmpty(model.TextBoxFor))

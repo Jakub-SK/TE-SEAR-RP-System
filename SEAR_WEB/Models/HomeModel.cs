@@ -10,7 +10,6 @@ namespace SEAR_WEB.Models
         {
             return ApiCaller.CallApi<HomeDto>("api/ApiHome/GetTEName");
         }
-
         //Call Api with correct parameters
         //how to use
         //public (Return class type) MethodName(Parameter Model)

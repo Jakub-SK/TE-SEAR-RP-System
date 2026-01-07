@@ -17,7 +17,7 @@
     else
     {
         @*Loop List*@
-        @foreach (var item in Model.JSONList)
+        @foreach (var item in Model.JSONList!)
         {
             <p>ID: @item.MeowId</p>
             <br />

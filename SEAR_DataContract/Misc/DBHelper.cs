@@ -5,7 +5,7 @@ namespace SEAR_DataContract.Misc
 {
     internal class DatabaseResult
     {
-        public DataSet DataSet { get; set; }
+        public DataSet? DataSet { get; set; }
         public int AffectedRows { get; set; }
     }
     internal static class ConnectionString
@@ -52,15 +52,15 @@ namespace SEAR_DataContract.Misc
                 return conn;
             }
         }
-        public static DataSet ExecuteDatabaseQuery(string sql, List<NpgsqlParameter> parameterList = null)
+        public static DataSet ExecuteDatabaseQuery(string sql, List<NpgsqlParameter>? parameterList = null)
         {
-            return Execute(sql, parameterList).DataSet;
+            return Execute(sql, parameterList).DataSet!;
         }
-        public static int ExecuteDatabaseNonQuery(string sql, List<NpgsqlParameter> parameterList = null)
+        public static int ExecuteDatabaseNonQuery(string sql, List<NpgsqlParameter>? parameterList = null)
         {
             return Execute(sql, parameterList).AffectedRows;
         }
-        private static DatabaseResult Execute(string sql, List<NpgsqlParameter> parameterList = null)
+        private static DatabaseResult Execute(string sql, List<NpgsqlParameter>? parameterList = null)
         {
             DatabaseResult databaseResult = new DatabaseResult();
             using DataSet dataSet = new DataSet();
