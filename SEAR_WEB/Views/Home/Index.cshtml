@@ -33,6 +33,14 @@
         <p>@item.Rank</p>
     }
 
+    @using (Html.BeginForm("SubmitExceptionMessage", "Home", new { ReturnUrl = ViewBag.ReturnURL }, FormMethod.Post, true, new { @class = "form-horizontal", role = "form", @id = "MeowForm" }))
+    {
+        <div>
+            Some Drop Down List
+        </div>
+        @Html.TextAreaFor(model => model.ExceptionMessage, 3, 20, new { maxlength = "2000" })
+        <button id="SubmitButton" type="submit">Create Exception with message hehe</button>
+    }
     <a href="@Url.Action("LogExceptionTest", "Home")"><button>Test Log Exception</button></a>
 </div>
 <a href="@Url.Action("Index", "Information")"><button>Some button</button></a>

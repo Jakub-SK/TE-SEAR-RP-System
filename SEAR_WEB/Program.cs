@@ -13,17 +13,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-//builder.Services.AddHttpClient<ApiCaller>(client =>
-//{
-//    client.BaseAddress = new Uri("https://localhost:7001/");
-//});
 builder.Services.AddHttpContextAccessor();
-
-//Add Apis Registration here
-//builder.Services.AddScoped<HomeApi>();
-//Register Session Cache Class
 builder.Services.AddScoped<SessionCache>();
-//End
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

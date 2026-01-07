@@ -13,6 +13,7 @@
     public class JsonList
     {
         public List<NeedJSON> JSONList { get; set; }
+        public string ExceptionMessage { get; set; }
     }
     public class RequestGetWithJSONList
     {

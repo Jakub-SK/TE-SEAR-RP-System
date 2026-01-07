@@ -1,14 +1,21 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SEAR_DataContract;
-using SEAR_WEB.RedirectViewModels;
+using SEAR_DataContract.Misc;
 using SEAR_WEB.Models;
+using SEAR_WEB.RedirectViewModels;
+using SEAR_WEB.Session;
+using System.Diagnostics;
 
 namespace SEAR_WEB.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly SessionCache sessionCache;
+        public HomeController(SessionCache sessionCache)
+        {
+            this.sessionCache = sessionCache;
+        }
         //Call API Method and return model to Index.cshtml
         public IActionResult Index()
         {
@@ -38,6 +45,14 @@ namespace SEAR_WEB.Controllers
             Exception ex = new Exception("TestExceptionJust a message");
             HomeModel.LogException(ex);
             return RedirectToAction("Index", "Home");
+        }
+        public IActionResult SubmitExceptionMessage(JsonList model)
+        {
+            if (Misc.CheckIsDevelopmentEnviroment())
+            {
+                throw new Exception($"This is for Production Enviroment\n Exception message: {model.ExceptionMessage}");
+            }
+            throw new Exception(model.ExceptionMessage);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

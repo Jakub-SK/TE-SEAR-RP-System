@@ -11,7 +11,7 @@ namespace SEAR_DataContract.Misc
     }
     internal static class ConnectionString
     {
-        public static string GetDevelopmetString
+        public static string GetDevelopmentString
         {
             get
             {
@@ -36,7 +36,7 @@ namespace SEAR_DataContract.Misc
         {
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                var conn = new NpgsqlConnection(ConnectionString.GetDevelopmetString);
+                var conn = new NpgsqlConnection(ConnectionString.GetDevelopmentString);
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
                     Logger.LogInformation("Database connected with Development Enviroment");
