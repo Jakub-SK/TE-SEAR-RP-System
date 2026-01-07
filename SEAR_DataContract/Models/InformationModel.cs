@@ -2,6 +2,6 @@
 {
     public class TextBoxForModel
     {
-        public string TextBoxFor { get; set; }
+        public string? TextBoxFor { get; set; }
     }
 }
