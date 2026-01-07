@@ -11,11 +11,18 @@ namespace SEAR_DataContract.Misc
     }
     internal static class ConnectionString
     {
-        public static string Get
+        public static string GetDevelopmetString
         {
             get
             {
                 return "Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
+            }
+        }
+        public static string GetProductionString
+        {
+            get
+            {
+                return "Host=localhost:5432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
             }
         }
     }
@@ -29,7 +36,7 @@ namespace SEAR_DataContract.Misc
         {
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                var conn = new NpgsqlConnection(ConnectionString.Get);
+                var conn = new NpgsqlConnection(ConnectionString.GetDevelopmetString);
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
                     Logger.LogInformation("Database connected with Development Enviroment");
@@ -38,7 +45,7 @@ namespace SEAR_DataContract.Misc
             }
             else
             {
-                var conn = new NpgsqlConnection(ConnectionString.Get);
+                var conn = new NpgsqlConnection(ConnectionString.GetProductionString);
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
                     Logger.LogInformation("Database connected with Production Enviroment");
