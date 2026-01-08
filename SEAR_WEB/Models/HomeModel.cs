@@ -23,9 +23,9 @@ namespace SEAR_WEB.Models
         {
             return ApiCaller.CallApi<List<DatabaseUsers>>("api/ApiHome/GetDatabaseUsersList");
         }
-        public static string LogException(Exception ex)
+        public static string LogException(Exception ex, string? uuid = null)
         {
-            return Misc.LogException(ex);
+            return Misc.LogException(ex, uuid);
         }
     }
 }

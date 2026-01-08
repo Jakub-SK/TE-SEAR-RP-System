@@ -12,9 +12,9 @@ namespace SEAR_DataContract.Misc
             }
             return false;
         }
-        public static string LogException(Exception ex)
+        public static string LogException(Exception ex, string? uuid = null)
         {
-            return DBHelper.ExecuteLogException(ex);
+            return DBHelper.ExecuteLogException(ex, uuid);
         }
         public static int UpdateLogExceptionWithSteps(string uuid, string steps)
         {

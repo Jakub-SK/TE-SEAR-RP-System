@@ -113,9 +113,10 @@ namespace SEAR_DataContract.Misc
             }
             return databaseResult;
         }
-        internal static string ExecuteLogException(Exception ex)
+        internal static string ExecuteLogException(Exception ex, string? uuid = null)
         {
-            string uuid = Guid.CreateVersion7().ToString();
+            uuid = uuid == null ? Guid.CreateVersion7().ToString() : uuid;
+            
             string sql = "INSERT INTO log_exception (track_uuid, exception_message) VALUES (@UUID, @ExceptionMessage);";
 
             List<NpgsqlParameter> parameterList = new List<NpgsqlParameter>();
@@ -128,12 +129,9 @@ namespace SEAR_DataContract.Misc
                 conn.Open();
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
-                    if (parameterList != null)
+                    foreach (NpgsqlParameter parameter in parameterList)
                     {
-                        foreach (NpgsqlParameter parameter in parameterList)
-                        {
-                            cmd.Parameters.Add(parameter);
-                        }
+                        cmd.Parameters.Add(parameter);
                     }
                     using var adapter = new NpgsqlDataAdapter(cmd);
                     cmd.ExecuteNonQuery();
@@ -181,12 +179,9 @@ namespace SEAR_DataContract.Misc
                 conn.Open();
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
-                    if (parameterList != null)
+                    foreach (NpgsqlParameter parameter in parameterList)
                     {
-                        foreach (NpgsqlParameter parameter in parameterList)
-                        {
-                            cmd.Parameters.Add(parameter);
-                        }
+                        cmd.Parameters.Add(parameter);
                     }
                     using var adapter = new NpgsqlDataAdapter(cmd);
                     affectedRows = cmd.ExecuteNonQuery();

@@ -59,7 +59,8 @@ namespace SEAR_WEB.Controllers
         {
             var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
             var exception = exceptionHandlerPathFeature?.Error;
-            string uuid = HomeModel.LogException(exception!);
+            var uuid = Activity.Current?.Id;
+            HomeModel.LogException(exception!, uuid);
 
             return View(new ErrorViewModel
             {
