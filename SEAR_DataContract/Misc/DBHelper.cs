@@ -141,14 +141,7 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    if (ex.Message.Contains("Failed to connect to"))
-                    {
-                        throw UnableToConnectDatabaseException(conn, sql, ex);
-                    }
-                    else
-                    {
-                        throw InternalDatabaseException(sql, ex);
-                    }
+                    throw UnableToConnectDatabaseException(conn, sql, ex);
                 }
             }
             finally
@@ -191,14 +184,7 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    if (ex.Message.Contains("Failed to connect to"))
-                    {
-                        throw UnableToConnectDatabaseException(conn, sql, ex);
-                    }
-                    else
-                    {
-                        throw InternalDatabaseException(sql, ex);
-                    }
+                    throw UnableToConnectDatabaseException(conn, sql, ex);
                 }
             }
             finally

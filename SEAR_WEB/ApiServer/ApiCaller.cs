@@ -39,10 +39,6 @@ namespace SEAR_WEB.ApiServer
                 {
                     Logger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, "(Empty Object)", watch.ElapsedMilliseconds.ToString()));
                 }
-                if (response.IsSuccessStatusCode)
-                {
-                    return (await response.Content.ReadFromJsonAsync<T>())!;
-                }
             }
             catch (Exception ex)
             {
@@ -55,7 +51,7 @@ namespace SEAR_WEB.ApiServer
                     Misc.LogException(ex);
                 }
             }
-            throw CreateAppServerException(url, response, null!);
+            return (await response!.Content.ReadFromJsonAsync<T>())!;
         }
         private static async Task<T> CallApiAsync<T>(string url, object parameter)
         {
@@ -72,10 +68,6 @@ namespace SEAR_WEB.ApiServer
                 {
                     Logger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, parameter, watch.ElapsedMilliseconds.ToString()));
                 }
-                if (response.IsSuccessStatusCode)
-                {
-                    return (await response.Content.ReadFromJsonAsync<T>())!;
-                }
             }
             catch (Exception ex)
             {
@@ -88,7 +80,7 @@ namespace SEAR_WEB.ApiServer
                     Misc.LogException(ex);
                 }
             }
-            throw CreateAppServerException(url, response, parameter);
+            return (await response!.Content.ReadFromJsonAsync<T>())!;
         }
         private static Exception CreateAppServerException(string url, HttpResponseMessage? response, object parameter)
         {
