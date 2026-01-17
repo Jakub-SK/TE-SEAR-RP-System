@@ -43,7 +43,7 @@ namespace SEAR_WEB.Controllers
         public IActionResult LogExceptionTest()
         {
             Exception ex = new Exception("TestExceptionJust a message");
-            HomeModel.LogException(ex);
+            Misc.LogException(ex, "SEAR WEB", null!);
             return RedirectToAction("Index", "Home");
         }
         public IActionResult SubmitExceptionMessage(JsonList model)
@@ -60,12 +60,14 @@ namespace SEAR_WEB.Controllers
             var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
             var exception = exceptionHandlerPathFeature?.Error;
             var uuid = Activity.Current?.Id;
-            HomeModel.LogException(exception!, uuid);
+            ShowExceptionMessage display = new ShowExceptionMessage();
+            display = Misc.LogException(exception!, "SEAR WEB", uuid);
 
             return View(new ErrorViewModel
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-                UUID = uuid
+                UUID = display.UUID,
+                ErrorType = display.ErrorType
             });
         }
         public IActionResult SubmitExceptionSteps(ErrorViewModel model)

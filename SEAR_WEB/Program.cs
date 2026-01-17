@@ -1,5 +1,5 @@
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.HttpOverrides;
+using SEAR_DataContract.Misc;
 using SEAR_WEB.Session;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,5 +40,14 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+using (var scope = app.Services.CreateScope())
+{
+    var logger = scope.ServiceProvider
+                      .GetRequiredService<ILoggerFactory>()
+                      .CreateLogger("Global");
+
+    AppLogger.Initialize(logger);
+}
 
 app.Run();

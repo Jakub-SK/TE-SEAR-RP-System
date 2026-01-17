@@ -8,12 +8,20 @@
 
 @if (Model.UUID != null)
 {
-    <p>
+    <div>
         <strong>Track UUID:</strong> <code>@Model.UUID</code>
         <br />
         The ID above is use to track the error message, you should forward this UUID to Cat NooB or Jacob for further assistance
-    </p>
-
+        <br />
+        <strong>Error Type:</strong> <code>@Model.ErrorType</code>
+        @if (Model.ErrorType == "Undefined")
+        {
+            <div>
+                The error type is undefined, which means the error type is unknown, you should contact Cat NooB or Jacob immediately
+            </div>
+        }
+    </div>
+    <br />
     <p>If you are able to input the steps to reproduce error, please enter below, this can help us for easier debugging</p>
     @using (Html.BeginForm("SubmitExceptionSteps", "Home", new { ReturnUrl = ViewBag.ReturnURL }, FormMethod.Post, true, new { @class = "form-horizontal" }))
     {

@@ -1,6 +1,4 @@
-﻿using Npgsql;
-
-namespace SEAR_DataContract.Misc
+﻿namespace SEAR_DataContract.Misc
 {
     public static class Misc
     {
@@ -12,13 +10,27 @@ namespace SEAR_DataContract.Misc
             }
             return false;
         }
-        public static string LogException(Exception ex, string? uuid = null)
+        public static ShowExceptionMessage LogException(Exception ex, string appType, string ? uuid = null)
         {
-            return DBHelper.ExecuteLogException(ex, uuid);
+            return DBHelper.ExecuteLogException(ex, GetExceptionType(ex), appType, uuid);
         }
         public static int UpdateLogExceptionWithSteps(string uuid, string steps)
         {
             return DBHelper.ExecuteUpdateLogExceptionWithSteps(uuid, steps);
+        }
+        private static string GetExceptionType(Exception ex)
+        {
+            //Internal API Server Error
+            if (ex.Message.Contains("Response: 500 Internal Server Error"))
+            {
+                return "API-500";
+            }
+            //Unable to connect to Database
+            if (ex.Message.Contains("Failed to connect to"))
+            {
+                return "DB-001";
+            }
+            return "Undefined";
         }
     }
 }

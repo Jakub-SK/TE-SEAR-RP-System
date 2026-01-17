@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using SEAR_API.Models;
 using SEAR_DataContract;
+using SEAR_DataContract.Misc;
+using System.Diagnostics;
 
 namespace SEAR_API.Controllers
 {
@@ -35,6 +38,14 @@ namespace SEAR_API.Controllers
             List<DatabaseUsers> databaseUsersList = new List<DatabaseUsers>();
             databaseUsersList = HomeModel.GetDatabaseUsersList();
             return databaseUsersList;
+        }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public void Error()
+        {
+            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            var exception = exceptionHandlerPathFeature?.Error;
+            var uuid = Activity.Current?.Id;
+            Misc.LogException(exception!, "SEAR API", uuid);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace SEAR_WEB.Session
+﻿namespace SEAR_WEB.Session
 {
     public class SessionCache
     {

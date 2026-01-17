@@ -8,6 +8,12 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+//if (!app.Environment.IsDevelopment())
+//{
+    app.UseExceptionHandler("/ApiHome/Error");
+    app.UseHsts();
+//}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

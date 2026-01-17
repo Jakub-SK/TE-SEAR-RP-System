@@ -6,13 +6,7 @@ namespace SEAR_WEB.ApiServer
     {
         internal static class BaseUrl
         {
-            public static string Url
-            {
-                get
-                {
-                    return "http://localhost:7001/";
-                }
-            }
+            public static string Url => "http://localhost:7001/";
         }
         //Call API
         public static T CallApi<T>(string url)
@@ -37,18 +31,14 @@ namespace SEAR_WEB.ApiServer
                 response.EnsureSuccessStatusCode();
                 if (watch.ElapsedMilliseconds > 500)
                 {
-                    Logger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, "(Empty Object)", watch.ElapsedMilliseconds.ToString()));
+                    AppLogger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, "(Empty Object)", watch.ElapsedMilliseconds.ToString()));
                 }
             }
             catch (Exception ex)
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    throw CreateAppServerException(url, response, null!);
-                }
-                else
-                {
-                    Misc.LogException(ex);
+                    throw CreateAppServerException(url, response, null!, ex);
                 }
             }
             return (await response!.Content.ReadFromJsonAsync<T>())!;
@@ -66,30 +56,27 @@ namespace SEAR_WEB.ApiServer
                 response.EnsureSuccessStatusCode();
                 if (watch.ElapsedMilliseconds > 500)
                 {
-                    Logger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, parameter, watch.ElapsedMilliseconds.ToString()));
+                    AppLogger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, parameter, watch.ElapsedMilliseconds.ToString()));
                 }
             }
             catch (Exception ex)
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    throw CreateAppServerException(url, response, parameter);
-                }
-                else
-                {
-                    Misc.LogException(ex);
+                    throw CreateAppServerException(url, response, parameter, ex);
                 }
             }
             return (await response!.Content.ReadFromJsonAsync<T>())!;
         }
-        private static Exception CreateAppServerException(string url, HttpResponseMessage? response, object parameter)
+        private static Exception CreateAppServerException(string url, HttpResponseMessage? response, object parameter, Exception ex)
         {
-            parameter = parameter == null ? "Empty Parameter" : parameter;
+            parameter = parameter == null ? "No Any Parameter" : parameter;
             return new HttpRequestException(
                 $"API call failed.\n" +
                 $"URL: {url}\n" +
                 $"Response: {(int)response!.StatusCode} {response.ReasonPhrase}\n" +
-                $"Parameter Object: {parameter}"
+                $"Parameter Object: {parameter}" +
+                $"Exception Message: {ex.Message}"
             );
         }
     }

@@ -5,25 +5,27 @@ namespace SEAR_DataContract.Misc
 {
     internal class DatabaseResult
     {
-        public DataSet? DataSet { get; set; }
+        public DatabaseResult()
+        {
+            DataSet = new DataSet();
+        }
+        public DataSet DataSet { get; set; }
         public int AffectedRows { get; set; }
     }
     internal static class ConnectionString
     {
-        public static string GetDevelopmentString
+        public static string GetDevelopmentString => "Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
+        public static string GetProductionString => "Host=localhost:5432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
+    }
+    public class ShowExceptionMessage
+    {
+        public ShowExceptionMessage()
         {
-            get
-            {
-                return "Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
-            }
+            UUID = "Unable to get UUID";
+            ErrorType = "Unknown";
         }
-        public static string GetProductionString
-        {
-            get
-            {
-                return "Host=localhost:5432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
-            }
-        }
+        public string UUID { get; set; }
+        public string ErrorType { get; set; }
     }
     public static class DBHelper
     {
@@ -38,7 +40,7 @@ namespace SEAR_DataContract.Misc
                 var conn = new NpgsqlConnection(ConnectionString.GetDevelopmentString);
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    Logger.LogInformation("Database connected with Development Enviroment");
+                    AppLogger.LogInformation("Database connected with Development Enviroment");
                 }
                 return conn;
             }
@@ -47,14 +49,14 @@ namespace SEAR_DataContract.Misc
                 var conn = new NpgsqlConnection(ConnectionString.GetProductionString);
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    Logger.LogInformation("Database connected with Production Enviroment");
+                    AppLogger.LogInformation("Database connected with Production Enviroment");
                 }
                 return conn;
             }
         }
         public static DataSet ExecuteDatabaseQuery(string sql, List<NpgsqlParameter>? parameterList = null)
         {
-            return Execute(sql, parameterList).DataSet!;
+            return Execute(sql, parameterList).DataSet;
         }
         public static int ExecuteDatabaseNonQuery(string sql, List<NpgsqlParameter>? parameterList = null)
         {
@@ -63,7 +65,6 @@ namespace SEAR_DataContract.Misc
         private static DatabaseResult Execute(string sql, List<NpgsqlParameter>? parameterList = null)
         {
             DatabaseResult databaseResult = new DatabaseResult();
-            using DataSet dataSet = new DataSet();
             using var conn = GetConnection();
             try
             {
@@ -81,8 +82,7 @@ namespace SEAR_DataContract.Misc
                     databaseResult.AffectedRows = cmd.ExecuteNonQuery();
                     if (sql.Contains("SELECT"))
                     {
-                        adapter.Fill(dataSet);
-                        databaseResult.DataSet = dataSet;
+                        adapter.Fill(databaseResult.DataSet);
                     }
                 }
             }
@@ -99,10 +99,6 @@ namespace SEAR_DataContract.Misc
                         throw InternalDatabaseException(sql, ex);
                     }
                 }
-                else
-                {
-                    Misc.LogException(ex);
-                }
             }
             finally
             {
@@ -113,15 +109,35 @@ namespace SEAR_DataContract.Misc
             }
             return databaseResult;
         }
-        internal static string ExecuteLogException(Exception ex, string? uuid = null)
+        internal static ShowExceptionMessage ExecuteLogException(Exception ex, string errorType, string appType, string? uuid = null)
         {
             uuid = uuid == null ? Guid.CreateVersion7().ToString() : uuid;
+            ShowExceptionMessage display = new ShowExceptionMessage
+            {
+                UUID = uuid,
+                ErrorType = errorType
+            };
             
-            string sql = "INSERT INTO log_exception (track_uuid, exception_message) VALUES (@UUID, @ExceptionMessage);";
+            string sql = "INSERT INTO log_exception (track_uuid, exception_message, error_type";
+            if (!String.IsNullOrEmpty(appType))
+            {
+                sql += ", app_type";
+            }
+            sql += ") VALUES (@UUID, @ExceptionMessage, @Error_Type";
+            if (!String.IsNullOrEmpty(appType))
+            {
+                sql += ", @App_Type";
+            }
+            sql += ");";
 
             List<NpgsqlParameter> parameterList = new List<NpgsqlParameter>();
             parameterList.Add(new NpgsqlParameter("UUID", uuid));
             parameterList.Add(new NpgsqlParameter("ExceptionMessage", ex.Message));
+            parameterList.Add(new NpgsqlParameter("Error_Type", errorType));
+            if (!String.IsNullOrEmpty(appType))
+            {
+                parameterList.Add(new NpgsqlParameter("App_Type", appType));
+            }
 
             using var conn = GetConnection();
             try
@@ -141,7 +157,8 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    throw UnableToConnectDatabaseException(conn, sql, ex);
+                    //throw UnableToConnectDatabaseException(conn, sql, ex);
+                    AppLogger.LogError("Unable to log exception to database,\nFUCK U >:( Please check is the cloudflared is running when in development enviroment u \"fuckin stoopid\"");
                 }
             }
             finally
@@ -151,7 +168,7 @@ namespace SEAR_DataContract.Misc
                     conn.Close();
                 }
             }
-            return uuid;
+            return display;
         }
         internal static int ExecuteUpdateLogExceptionWithSteps(string uuid, string steps)
         {
@@ -184,7 +201,8 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    throw UnableToConnectDatabaseException(conn, sql, ex);
+                    //throw UnableToConnectDatabaseException(conn, sql, ex);
+                    AppLogger.LogError("Unable to update steps to database,\nFUCK U >:( Please check is the cloudflared is running when in development enviroment u \"fuckin stoopid\"");
                 }
             }
             finally
