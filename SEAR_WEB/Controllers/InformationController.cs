@@ -7,23 +7,23 @@ namespace SEAR_WEB.Controllers
 {
     public class InformationController : Controller
     {
-        private readonly SessionCache sessionCache;
+        private readonly SessionCache _sessionCache;
         public InformationController(SessionCache sessionCache)
         {
-            this.sessionCache = sessionCache;
+            _sessionCache = sessionCache;
         }
         public IActionResult Index()
         {
             string ChosenValue = "";
-            if (!String.IsNullOrEmpty(sessionCache.GetSession("Choosed")))
+            if (!String.IsNullOrEmpty(_sessionCache.GetSession("Choosed")))
             {
-                ChosenValue = sessionCache.GetSession("Choosed");
+                ChosenValue = _sessionCache.GetSession("Choosed");
             }
 
             TextBoxForModel model = new TextBoxForModel();
-            if (!String.IsNullOrEmpty(sessionCache.GetSession("TextBoxFor")))
+            if (!String.IsNullOrEmpty(_sessionCache.GetSession("TextBoxFor")))
             {
-                string TextBoxFor = sessionCache.GetSession("TextBoxFor");
+                string TextBoxFor = _sessionCache.GetSession("TextBoxFor");
                 model.TextBoxFor = TextBoxFor;
             }
 
@@ -38,14 +38,14 @@ namespace SEAR_WEB.Controllers
         public IActionResult GetForm(IFormCollection formValues, TextBoxForModel model)
         {
             string value = formValues["SusDropDownList"]!;
-            sessionCache.SetSession("Choosed", value);
+            _sessionCache.SetSession("Choosed", value);
 
             if (String.IsNullOrEmpty(model.TextBoxFor))
             {
                 model.TextBoxFor = "";
             }
             string value2 = model.TextBoxFor;
-            sessionCache.SetSession("TextBoxFor", value2);
+            _sessionCache.SetSession("TextBoxFor", value2);
             return RedirectToAction("Index", "Information");
         }
     }

@@ -2,18 +2,18 @@
 {
     public class SessionCache
     {
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public SessionCache(IHttpContextAccessor httpContextAccessor)
         {
-            this.httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
         public void SetSession(string cacheName, string cacheString)
         {
-            httpContextAccessor.HttpContext!.Session.SetString(cacheName, cacheString);
+            _httpContextAccessor.HttpContext!.Session.SetString(cacheName, cacheString);
         }
         public string GetSession(string cacheName)
         {
-            return httpContextAccessor.HttpContext!.Session.GetString(cacheName)!;
+            return _httpContextAccessor.HttpContext!.Session.GetString(cacheName)!;
         }
     }
 }
