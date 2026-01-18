@@ -12,11 +12,11 @@
         }
         public static ShowExceptionMessage LogException(Exception ex, string appType, string ? uuid = null)
         {
-            return DBHelper.ExecuteLogException(ex, GetExceptionType(ex), appType, uuid);
+            return DBHelper.LogException(ex, GetExceptionType(ex), appType, uuid);
         }
         public static int UpdateLogExceptionWithSteps(string uuid, string steps)
         {
-            return DBHelper.ExecuteUpdateLogExceptionWithSteps(uuid, steps);
+            return DBHelper.UpdateLogExceptionWithSteps(uuid, steps);
         }
         private static string GetExceptionType(Exception ex)
         {
@@ -30,7 +30,7 @@
             {
                 return "DB-001";
             }
-            return "Undefined";
+            return "Unknown";
         }
     }
 }

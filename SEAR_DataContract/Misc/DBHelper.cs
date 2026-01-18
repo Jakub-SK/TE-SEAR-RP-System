@@ -35,22 +35,16 @@ namespace SEAR_DataContract.Misc
         //parameters.Add(new NpgsqlParameter("p", "some"));
         public static NpgsqlConnection GetConnection()
         {
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            if (Misc.CheckIsDevelopmentEnviroment())
             {
                 var conn = new NpgsqlConnection(ConnectionString.GetDevelopmentString);
-                if (Misc.CheckIsDevelopmentEnviroment())
-                {
-                    AppLogger.LogInformation("Database connected with Development Enviroment");
-                }
+                AppLogger.LogInformation("Database connected with Development Enviroment");
                 return conn;
             }
             else
             {
                 var conn = new NpgsqlConnection(ConnectionString.GetProductionString);
-                if (Misc.CheckIsDevelopmentEnviroment())
-                {
-                    AppLogger.LogInformation("Database connected with Production Enviroment");
-                }
+                AppLogger.LogInformation("Database connected with Production Enviroment");
                 return conn;
             }
         }
@@ -109,7 +103,7 @@ namespace SEAR_DataContract.Misc
             }
             return databaseResult;
         }
-        internal static ShowExceptionMessage ExecuteLogException(Exception ex, string errorType, string appType, string? uuid = null)
+        internal static ShowExceptionMessage LogException(Exception ex, string errorType, string appType, string? uuid = null)
         {
             uuid = uuid == null ? Guid.CreateVersion7().ToString() : uuid;
             ShowExceptionMessage display = new ShowExceptionMessage
@@ -118,17 +112,7 @@ namespace SEAR_DataContract.Misc
                 ErrorType = errorType
             };
             
-            string sql = "INSERT INTO log_exception (track_uuid, exception_message, error_type";
-            if (!String.IsNullOrEmpty(appType))
-            {
-                sql += ", app_type";
-            }
-            sql += ") VALUES (@UUID, @ExceptionMessage, @Error_Type";
-            if (!String.IsNullOrEmpty(appType))
-            {
-                sql += ", @App_Type";
-            }
-            sql += ");";
+            string sql = "INSERT INTO log_exception (track_uuid, exception_message, error_type, app_type) VALUES (@UUID, @ExceptionMessage, @Error_Type, @App_Type);";
 
             List<NpgsqlParameter> parameterList = new List<NpgsqlParameter>();
             parameterList.Add(new NpgsqlParameter("UUID", uuid));
@@ -170,7 +154,7 @@ namespace SEAR_DataContract.Misc
             }
             return display;
         }
-        internal static int ExecuteUpdateLogExceptionWithSteps(string uuid, string steps)
+        internal static int UpdateLogExceptionWithSteps(string uuid, string steps)
         {
             int affectedRows = -1;
             string sql = @"
