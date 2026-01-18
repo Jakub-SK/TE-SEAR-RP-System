@@ -61,13 +61,19 @@ namespace SEAR_WEB.Controllers
             var exception = exceptionHandlerPathFeature?.Error;
             var uuid = Activity.Current?.Id;
             ShowExceptionMessage display = new ShowExceptionMessage();
-            display = Misc.LogException(exception!, "SEAR WEB", uuid);
-
+            if (exception != null)
+            {
+                display = Misc.LogException(exception, "SEAR WEB", uuid);
+                return View(new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    UUID = display.UUID,
+                    ErrorType = display.ErrorType
+                });
+            }
             return View(new ErrorViewModel
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-                UUID = display.UUID,
-                ErrorType = display.ErrorType
             });
         }
         public IActionResult SubmitExceptionSteps(ErrorViewModel model)
