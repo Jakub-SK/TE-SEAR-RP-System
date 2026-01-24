@@ -11,10 +11,10 @@ namespace SEAR_WEB.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly SessionCache sessionCache;
+        private readonly SessionCache _sessionCache;
         public HomeController(SessionCache sessionCache)
         {
-            this.sessionCache = sessionCache;
+            _sessionCache = sessionCache;
         }
         //Call API Method and return model to Index.cshtml
         public IActionResult Index()
@@ -54,6 +54,11 @@ namespace SEAR_WEB.Controllers
             }
             throw new Exception(model.ExceptionMessage);
         }
+        public IActionResult SubmitExceptionSteps(ErrorViewModel model)
+        {
+            Misc.UpdateLogExceptionWithSteps(model.UUID!, model.ErrorSteps!);
+            return RedirectToAction("Index", "Home");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -75,11 +80,6 @@ namespace SEAR_WEB.Controllers
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
             });
-        }
-        public IActionResult SubmitExceptionSteps(ErrorViewModel model)
-        {
-            Misc.UpdateLogExceptionWithSteps(model.UUID!, model.ErrorSteps!);
-            return RedirectToAction("Index", "Home");
         }
     }
 }
