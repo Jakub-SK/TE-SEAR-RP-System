@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SEAR_DataContract;
+using System.Diagnostics;
 using SEAR_DataContract.Misc;
 using SEAR_WEB.RedirectViewModels;
 using SEAR_WEB.Session;
-using System.Diagnostics;
 
 namespace SEAR_WEB.Controllers
 {
@@ -33,7 +32,7 @@ namespace SEAR_WEB.Controllers
             ShowExceptionMessage display = new ShowExceptionMessage();
             if (exception != null)
             {
-                display = Misc.LogException(exception, "SEAR WEB", uuid);
+                display = SEAR_DataContract.Misc.Misc.LogException(exception, "SEAR WEB", uuid);
                 return View(new ErrorViewModel
                 {
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
@@ -48,7 +47,7 @@ namespace SEAR_WEB.Controllers
         }
         public IActionResult SubmitExceptionSteps(ErrorViewModel model)
         {
-            Misc.UpdateLogExceptionWithSteps(model.UUID!, model.ErrorSteps!);
+            SEAR_DataContract.Misc.Misc.UpdateLogExceptionWithSteps(model.UUID!, model.ErrorSteps!);
             return RedirectToAction("Index", "Home");
         }
     }

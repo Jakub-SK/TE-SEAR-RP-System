@@ -1,6 +1,6 @@
 ﻿using SEAR_DataContract.Misc;
 
-namespace SEAR_WEB.ApiServer
+namespace SEAR_WEB.Misc
 {
     public static class ApiCaller
     {
@@ -36,7 +36,7 @@ namespace SEAR_WEB.ApiServer
             }
             catch (Exception ex)
             {
-                if (Misc.CheckIsDevelopmentEnviroment())
+                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment())
                 {
                     throw CreateAppServerException(url, response, null!, ex);
                 }
@@ -61,7 +61,7 @@ namespace SEAR_WEB.ApiServer
             }
             catch (Exception ex)
             {
-                if (Misc.CheckIsDevelopmentEnviroment())
+                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment())
                 {
                     throw CreateAppServerException(url, response, parameter, ex);
                 }
