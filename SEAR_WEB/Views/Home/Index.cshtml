@@ -1,46 +1,69 @@
-﻿@model JsonList
-
-@{
-    ViewData["Title"] = "Home Page";
+﻿@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<link rel="stylesheet" href="~/css/Home/Index.css" />
+<section id="section-hero">
+    <div class="hero-background">
+        <img src="~/images/raya_art/raya1.png" alt="Background" class="bg-image">
+    </div>
 
-    <div>@ViewData["ProjectName"]</div>
-    <div>@ViewData["Id"]</div>
+    <div class="hero-content container">
+        <nav class="main-nav">
+            <!-- Classes -->
+            <a href="@Url.Action("Index", "Classes")">
+                <div class="nav-item">
+                    <div class="nav-icon-group">
+                        <img src="~/images/svg/box.svg" alt="Classes Background" class="nav-bg-svg">
+                        <img src="~/images/classes.png" alt="Classes Icon" class="nav-icon">
+                    </div>
+                    <span class="nav-label">Classes</span>
+                </div>
+            </a>
 
-    @if (Model == null)
-    {
-        <p>Api return nothing else ;(</p>
-    }
-    else
-    {
-        @*Loop List*@
-        @foreach (var item in Model.JSONList!)
-        {
-            <p>ID: @item.MeowId</p>
-            <br />
-            <p>Name: @item.Name</p>
-        }
-    }
+            <!-- Psionics -->
+            <a href="@Url.Action("Index", "Psionics")">
+                <div class="nav-item">
+                    <div class="nav-icon-group">
+                        <img src="~/images/svg/box.svg" alt="Psionics Background" class="nav-bg-svg">
+                        <img src="~/images/psionics.png" alt="Psionics Icon" class="nav-icon">
+                    </div>
+                    <span class="nav-label">Psionics</span>
+                </div>
+            </a>
 
-    @foreach (DatabaseUsers item in ViewData["DatabaseUsersList"] as List<DatabaseUsers>)
-    {
-        <p>@item.ID</p>
-        <p>@item.Name</p>
-        <p>@item.Type</p>
-        <p>@item.Rank</p>
-    }
+            <!-- Enemies -->
+            <a href="@Url.Action("Index", "Enemies")">
+                <div class="nav-item">
+                    <div class="nav-icon-group">
+                        <img src="~/images/svg/box.svg" alt="Enemies Background" class="nav-bg-svg">
+                        <img src="~/images/enemies.png" alt="Enemies Icon" class="nav-icon">
+                    </div>
+                    <span class="nav-label">Enemies</span>
+                </div>
+            </a>
 
-    @using (Html.BeginForm("SubmitExceptionMessage", "Home", new { ReturnUrl = ViewBag.ReturnURL }, FormMethod.Post, true, new { @class = "form-horizontal" }))
-    {
-        <div>
-            Some Drop Down List
-        </div>
-        @Html.TextAreaFor(model => model.ExceptionMessage, 2, 30, new { maxlength = "2000" })
-        <button id="SubmitButton" type="submit">Create Exception with message hehe</button>
-    }
-    <a href="@Url.Action("LogExceptionTest", "Home")"><button>Test Log Exception</button></a>
-</div>
-<a href="@Url.Action("Index", "Information")"><button>Some button</button></a>
+            <!-- Items -->
+            <a href="@Url.Action("Index", "Items")">
+                <div class="nav-item">
+                    <div class="nav-icon-group">
+                        <img src="~/images/svg/box.svg" alt="Items Background" class="nav-bg-svg">
+                        <img src="~/images/items.png" alt="Items Icon" class="nav-icon">
+                    </div>
+                    <span class="nav-label">Items</span>
+                </div>
+            </a>
+
+            <!-- Manuals -->
+            <a href="@Url.Action("Index", "Manuals")">
+                <div class="nav-item">
+                    <div class="nav-icon-group">
+                        <img src="~/images/svg/box.svg" alt="Manuals Background" class="nav-bg-svg">
+                        <img src="~/images/manuals.png" alt="Manuals Icon" class="nav-icon">
+                    </div>
+                    <span class="nav-label">Manuals</span>
+                </div>
+            </a>
+        </nav>
+    </div>
+</section>
