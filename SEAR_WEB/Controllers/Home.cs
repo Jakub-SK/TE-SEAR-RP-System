@@ -14,7 +14,6 @@ namespace SEAR_WEB.Controllers
         {
             _sessionCache = sessionCache;
         }
-        //Call API Method and return model to Index.cshtml
         public IActionResult Index()
         {
             return View();
