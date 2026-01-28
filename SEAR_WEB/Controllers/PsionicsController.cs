@@ -3,10 +3,10 @@ using SEAR_WEB.Session;
 
 namespace SEAR_WEB.Controllers
 {
-    public class Items : Controller
+    public class PsionicsController : Controller
     {
         private readonly SessionCache _sessionCache;
-        public Items(SessionCache sessionCache)
+        public PsionicsController(SessionCache sessionCache)
         {
             _sessionCache = sessionCache;
         }

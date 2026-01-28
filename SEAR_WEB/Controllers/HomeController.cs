@@ -7,10 +7,10 @@ using SEAR_WEB.Session;
 
 namespace SEAR_WEB.Controllers
 {
-    public class Home : Controller
+    public class HomeController : Controller
     {
         private readonly SessionCache _sessionCache;
-        public Home(SessionCache sessionCache)
+        public HomeController(SessionCache sessionCache)
         {
             _sessionCache = sessionCache;
         }
