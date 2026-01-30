@@ -50,19 +50,18 @@ namespace SEAR_WEB.Controllers
         public async Task<IActionResult> RegisterResponse([FromBody] AuthenticatorAttestationRawResponse attestationResponse)
         {
             var json = HttpContext.Session.GetString("fido2.attestationOptions");
+            HttpContext.Session.Remove("fido2.attestationOptions");
             var options = CredentialCreateOptions.FromJson(json!);
 
-            var result = await _fido2.MakeNewCredentialAsync(
-                new MakeNewCredentialParams
+            var result = await _fido2.MakeNewCredentialAsync(new MakeNewCredentialParams
+            {
+                AttestationResponse = attestationResponse,
+                OriginalOptions = options,
+                IsCredentialIdUniqueToUserCallback = async (args, cancellationToken) =>
                 {
-                    AttestationResponse = attestationResponse,
-                    OriginalOptions = options,
-                    IsCredentialIdUniqueToUserCallback = async (args, cancellationToken) =>
-                    {
-                        // Check in your DB if CredentialId already exists
-                        return true;
-                    }
-                });
+                    return true;
+                }
+            });
 
             // Store in database
             var credentialId = result.Id;
@@ -73,9 +72,8 @@ namespace SEAR_WEB.Controllers
             // username must match what was used during registration
             var username = Encoding.UTF8.GetString(result.User.Id);
 
-            PasskeyModel.InsertPasskey(username, credentialId, publicKey, counter, userHandle);
-
             // Save to PostgreSQL
+            PasskeyModel.InsertPasskey(username, credentialId, publicKey, counter, userHandle);
 
             return Ok();
         }
@@ -86,7 +84,8 @@ namespace SEAR_WEB.Controllers
             var credentialIds = PasskeyModel.GetCredentialIdsByUsername(username);
 
             if (credentialIds.Count == 0)
-                return BadRequest("No passkeys registered for user");
+                return Unauthorized();
+                //return BadRequest("No passkeys registered for user");
 
             var descriptors = credentialIds.Select(id => new PublicKeyCredentialDescriptor(id)).ToList();
 
@@ -96,20 +95,28 @@ namespace SEAR_WEB.Controllers
                 UserVerification = UserVerificationRequirement.Preferred
             });
 
+            HttpContext.Session.SetString("fido2.username", username);
             HttpContext.Session.SetString("fido2.assertionOptions", options.ToJson());
 
             return Json(options);
         }
         [HttpPost]
         public async Task<IActionResult> LoginResponse([FromBody] AuthenticatorAssertionRawResponse assertionResponse)
-        {
+        {   
+            var username = HttpContext.Session.GetString("fido2.username");
+            HttpContext.Session.Remove("fido2.username");
             var json = HttpContext.Session.GetString("fido2.assertionOptions");
+            HttpContext.Session.Remove("fido2.assertionOptions");
             var options = AssertionOptions.FromJson(json!);
 
             var storedCredential = PasskeyModel.GetPasskeyByCredentialId(assertionResponse.RawId);
 
             if (storedCredential == null)
-                return BadRequest("Credential not found");
+                return Unauthorized();
+                //return BadRequest("Credential not found");
+
+            if (storedCredential.Username != username)
+                return Unauthorized();
 
             var result = await _fido2.MakeAssertionAsync(new MakeAssertionParams
             {
@@ -119,14 +126,12 @@ namespace SEAR_WEB.Controllers
                 StoredSignatureCounter = storedCredential.SignatureCounter,
                 IsUserHandleOwnerOfCredentialIdCallback = async (args, cancellationToken) =>
                 {
-                    return true;
+                    return storedCredential.Username == username;
                 }
             });
 
             // Update counter in DB
             PasskeyModel.UpdateCounter(result.CredentialId, result.SignCount);
-
-            // Sign in user here (ASP.NET Cookie Auth)
 
             return Ok();
         }

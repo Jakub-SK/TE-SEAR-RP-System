@@ -25,7 +25,7 @@ builder.Services.AddSingleton<IFido2>(sp =>
     {
         ServerDomain = "localhost",
         ServerName = "SEAR Web",
-        Origins = new HashSet<string> { "https://localhost:5001" }
+        Origins = new HashSet<string> { "https://localhost:5002" }
     };
 
     return new Fido2(fido2Config);

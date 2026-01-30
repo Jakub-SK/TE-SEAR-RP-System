@@ -27,7 +27,10 @@ namespace SEAR_WEB.Models
                 new NpgsqlParameter("@username", username),
                 new NpgsqlParameter("@credential_id", credentialId),
                 new NpgsqlParameter("@public_key", publicKey),
-                new NpgsqlParameter("@counter", counter),
+                new NpgsqlParameter("@counter", NpgsqlTypes.NpgsqlDbType.Integer)
+                {
+                    Value = (int)counter
+                },
                 new NpgsqlParameter("@user_handle", userHandle)
             };
 
@@ -45,12 +48,12 @@ namespace SEAR_WEB.Models
                 new NpgsqlParameter("@credential_id", credentialId)
             };
 
-            var ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
+            DataSet ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
 
             if (ds.Tables[0].Rows.Count == 0)
                 return null;
 
-            var row = ds.Tables[0].Rows[0];
+            DataRow row = ds.Tables[0].Rows[0];
 
             return new Passkey
             {
@@ -63,19 +66,25 @@ namespace SEAR_WEB.Models
         }
         public static List<byte[]> GetCredentialIdsByUsername(string username)
         {
+            if (string.IsNullOrEmpty(username))
+                throw new ArgumentException("Username cannot be null or empty.");
+
             string sql = @"
                 SELECT credential_id
                 FROM passkeys
                 WHERE username = @username";
 
-            var parameters = new List<NpgsqlParameter>
+            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
             {
-                new NpgsqlParameter("@username", username)
+                new NpgsqlParameter("@username", NpgsqlTypes.NpgsqlDbType.Text)
+                {
+                    Value = username
+                }
             };
 
-            var ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
+            DataSet ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
 
-            var list = new List<byte[]>();
+            List<byte[]> list = new List<byte[]>();
 
             foreach (DataRow row in ds.Tables[0].Rows)
             {
@@ -91,9 +100,12 @@ namespace SEAR_WEB.Models
                 SET signature_counter = @counter
                 WHERE credential_id = @credential_id";
 
-            var parameters = new List<NpgsqlParameter>
+            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
             {
-                new NpgsqlParameter("@counter", newCounter),
+                new NpgsqlParameter("@counter", NpgsqlTypes.NpgsqlDbType.Integer)
+                {
+                    Value = (int)newCounter
+                },
                 new NpgsqlParameter("@credential_id", credentialId)
             };
 

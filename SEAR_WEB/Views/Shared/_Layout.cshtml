@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Figtree:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="global.js" defer></script>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -24,14 +23,14 @@
         <header class="site-header">
             <a href="@Url.Action("Index", "Home")">
                 <div class="header-left">
-                    <img src="images/logo.png" alt="Logo" class="logo">
+                    <img src="~/images/logo.png" alt="Logo" class="logo">
                     <h1 class="site-title">The Truth Enforcers</h1>
                 </div>
             </a>
 
             <div class="header-center">
                 <div class="search-bar">
-                    <img src="images/svg/search.svg" alt="Search" class="search-icon">
+                    <img src="~/images/svg/search.svg" alt="Search" class="search-icon">
                     <input type="text" class="search-input" placeholder="Search">
                 </div>
             </div>
@@ -50,13 +49,13 @@
         <footer class="site-footer">
             <div class="social-icons">
                 <a href="#" class="social-link">
-                    <img src="images/svg/discord.svg" alt="Discord" class="social-icon">
+                    <img src="~/images/svg/discord.svg" alt="Discord" class="social-icon">
                 </a>
                 <a href="#" class="social-link">
-                    <img src="images/svg/github.svg" alt="GitHub" class="social-icon">
+                    <img src="~/images/svg/github.svg" alt="GitHub" class="social-icon">
                 </a>
                 <a href="#" class="social-link">
-                    <img src="images/svg/google.svg" alt="Google" class="social-icon">
+                    <img src="~/images/svg/google.svg" alt="Google" class="social-icon">
                 </a>
             </div>
         </footer>
