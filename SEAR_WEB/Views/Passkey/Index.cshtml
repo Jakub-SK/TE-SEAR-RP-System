@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "Passkey Authentication";
+}
+<div style="padding-top: 50px;">
+    <h2>Passkey Authentication Demo</h2>
+    <p>Click the button below to register a new passkey.</p>
+    <button onclick="registerPasskey()">Register Passkey</button>
+</div>
+
+
+<script>
+    async function registerPasskey() {
+
+        // 1️ Ask server for options
+        const response = await fetch('/Passkey/RegisterRequest', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: 'testuser' })
+        });
+
+        const options = await response.json();
+
+        // 2️ Convert Base64URL fields to ArrayBuffer
+        options.challenge = base64UrlToBuffer(options.challenge);
+        options.user.id = base64UrlToBuffer(options.user.id);
+
+        if (options.excludeCredentials) {
+            options.excludeCredentials.forEach(x => {
+                x.id = base64UrlToBuffer(x.id);
+            });
+        }
+
+        // 3️ Call browser WebAuthn API
+        const credential = await navigator.credentials.create({
+            publicKey: options
+        });
+
+        // 4️ Send result back to server
+        await fetch('/Passkey/RegisterResponse', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credential)
+        });
+
+        alert("Passkey Registered!");
+    }
+
+    function base64UrlToBuffer(base64url) {
+        const padding = '='.repeat((4 - base64url.length % 4) % 4);
+        const base64 = (base64url + padding)
+            .replace(/-/g, '+')
+            .replace(/_/g, '/');
+
+        const raw = window.atob(base64);
+        const buffer = new ArrayBuffer(raw.length);
+        const view = new Uint8Array(buffer);
+
+        for (let i = 0; i < raw.length; ++i)
+            view[i] = raw.charCodeAt(i);
+
+        return buffer;
+    }
+</script>
+
+<div style="padding-top: 50px;">
+    <button onclick="registerPasskey()">Login with Passkey</button>
+</div>
+<button onclick="loginPasskey()">Login with Passkey</button>
+
+<script>
+    async function loginPasskey() {
+
+        const response = await fetch('/Passkey/LoginRequest', {
+            method: 'POST'
+        });
+
+        const options = await response.json();
+
+        options.challenge = base64UrlToBuffer(options.challenge);
+
+        options.allowCredentials.forEach(x => {
+            x.id = base64UrlToBuffer(x.id);
+        });
+
+        const assertion = await navigator.credentials.get({
+            publicKey: options
+        });
+
+        await fetch('/Passkey/LoginResponse', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(assertion)
+        });
+
+        alert("Login success!");
+    }
+</script>

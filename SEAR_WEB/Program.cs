@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.HttpOverrides;
+using Fido2NetLib;
 using SEAR_DataContract.Misc;
 using SEAR_WEB.Session;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromDays(30);
@@ -14,6 +16,20 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<SessionCache>();
+
+builder.Services.AddSingleton<IFido2>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+
+    var fido2Config = new Fido2Configuration
+    {
+        ServerDomain = "localhost",
+        ServerName = "SEAR Web",
+        Origins = new HashSet<string> { "https://localhost:5001" }
+    };
+
+    return new Fido2(fido2Config);
+});
 
 var app = builder.Build();
 
