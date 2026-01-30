@@ -21,12 +21,19 @@ builder.Services.AddSingleton<IFido2>(sp =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();
 
-    var fido2Config = new Fido2Configuration
+    var fido2Config = new Fido2Configuration();
+    if (builder.Environment.IsDevelopment())
     {
-        ServerDomain = "localhost",
-        ServerName = "SEAR Web",
-        Origins = new HashSet<string> { "https://localhost:5002" }
-    };
+        fido2Config.ServerDomain = "localhost";
+        fido2Config.ServerName = "SEAR Web";
+        fido2Config.Origins = new HashSet<string> { "https://localhost:5002" };
+    }
+    else
+    {
+        fido2Config.ServerDomain = "noobxryan.org";
+        fido2Config.ServerName = "SEAR Web";
+        fido2Config.Origins = new HashSet<string> { "https://tesear.noobxryan.org" };
+    }
 
     return new Fido2(fido2Config);
 });

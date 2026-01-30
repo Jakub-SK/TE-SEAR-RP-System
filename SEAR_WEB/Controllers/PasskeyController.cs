@@ -80,6 +80,9 @@ namespace SEAR_WEB.Controllers
         [HttpPost]
         public IActionResult LoginRequest(string username)
         {
+            if (username == null)
+                return Unauthorized();
+            
             // Load user's credential ID from DB
             var credentialIds = PasskeyModel.GetCredentialIdsByUsername(username);
 
