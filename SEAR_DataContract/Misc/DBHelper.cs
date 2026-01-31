@@ -181,7 +181,7 @@ namespace SEAR_DataContract.Misc
                     affectedRows = cmd.ExecuteNonQuery();
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {

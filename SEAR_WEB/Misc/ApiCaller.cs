@@ -6,7 +6,7 @@ namespace SEAR_WEB.Misc
     {
         internal static class BaseUrl
         {
-            public static string Url => "https://localhost:7001/";
+            public static string Url => "http://localhost:7001/";
         }
         //Call API
         public static T CallApi<T>(string url)
