@@ -74,7 +74,6 @@
                 alert("Passkey registration failed.");
             }
         } catch {
-            console.error(err);
             errorBox.innerText = "Unexpected error occurred.";
         } finally {
             document.getElementById("loadingMessage").innerText = "";
