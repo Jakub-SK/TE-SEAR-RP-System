@@ -22,14 +22,14 @@ namespace SEAR_WEB.Controllers
         [HttpPost]
         public IActionResult RegisterRequest(string username)
         {
-            var user = new Fido2User
+            Fido2User user = new Fido2User
             {
                 DisplayName = username,
                 Name = username,
                 Id = Encoding.UTF8.GetBytes(username)
             };
 
-            var requestParams = new RequestNewCredentialParams
+            CredentialCreateOptions options = _fido2.RequestNewCredential(new RequestNewCredentialParams
             {
                 User = user,
                 ExcludeCredentials = new List<PublicKeyCredentialDescriptor>(),
@@ -38,9 +38,7 @@ namespace SEAR_WEB.Controllers
                     UserVerification = UserVerificationRequirement.Preferred
                 },
                 AttestationPreference = AttestationConveyancePreference.None
-            };
-
-            var options = _fido2.RequestNewCredential(requestParams);
+            });
 
             HttpContext.Session.SetString("fido2.attestationOptions", options.ToJson());
 
@@ -49,31 +47,35 @@ namespace SEAR_WEB.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterResponse([FromBody] AuthenticatorAttestationRawResponse attestationResponse)
         {
-            var json = HttpContext.Session.GetString("fido2.attestationOptions");
+            string? json = HttpContext.Session.GetString("fido2.attestationOptions");
             HttpContext.Session.Remove("fido2.attestationOptions");
-            var options = CredentialCreateOptions.FromJson(json!);
-
-            var result = await _fido2.MakeNewCredentialAsync(new MakeNewCredentialParams
+            CredentialCreateOptions options = CredentialCreateOptions.FromJson(json!);
+            
+            RegisteredPublicKeyCredential result = await _fido2.MakeNewCredentialAsync(new MakeNewCredentialParams
             {
                 AttestationResponse = attestationResponse,
                 OriginalOptions = options,
                 IsCredentialIdUniqueToUserCallback = async (args, cancellationToken) =>
                 {
-                    return true;
+                    // Check if credential ID already exists in DB
+                    var existing = PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
+
+                    // If null → unique
+                    return existing == null;
                 }
             });
 
             // Store in database
-            var credentialId = result.Id;
-            var publicKey = result.PublicKey;
-            var counter = result.SignCount;
-            var userHandle = result.User.Id;
-
-            // username must match what was used during registration
-            var username = Encoding.UTF8.GetString(result.User.Id);
-
+            // username must match what was used during registration (Encoding UTF8)
             // Save to PostgreSQL
-            PasskeyModel.InsertPasskey(username, credentialId, publicKey, counter, userHandle);
+            try
+            {
+                PasskeyModel.InsertPasskey(Encoding.UTF8.GetString(result.User.Id), result.Id, result.PublicKey, result.SignCount, result.User.Id);
+            }
+            catch
+            {
+                return Unauthorized();
+            }
 
             return Ok();
         }
