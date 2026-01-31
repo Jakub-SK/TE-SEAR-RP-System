@@ -6,7 +6,7 @@ using SEAR_DataContract.Misc;
 namespace SEAR_API.Controllers
 {
     [ApiController]
-    [Route("api/ApiHome")]
+    [Route("Api/Home")]
     public class ApiHomeController : ControllerBase
     {
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

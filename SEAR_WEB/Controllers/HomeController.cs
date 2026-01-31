@@ -4,6 +4,7 @@ using System.Diagnostics;
 using SEAR_DataContract.Misc;
 using SEAR_WEB.RedirectViewModels;
 using SEAR_WEB.Session;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SEAR_WEB.Controllers
 {
@@ -14,6 +15,7 @@ namespace SEAR_WEB.Controllers
         {
             _sessionCache = sessionCache;
         }
+        [Authorize]
         public IActionResult Index()
         {
             return View();

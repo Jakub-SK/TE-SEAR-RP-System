@@ -20,16 +20,19 @@
         }
         private static string GetExceptionType(Exception ex)
         {
+            //API 404 Not Found
+            if (ex.Message.Contains("Response: 404"))
+                return "API-404";
             //Internal API Server Error
-            if (ex.Message.Contains("Response: 500 Internal Server Error"))
-            {
+            if (ex.Message.Contains("Response: 500"))
                 return "API-500";
-            }
             //Unable to connect to Database
             if (ex.Message.Contains("Failed to connect to"))
-            {
                 return "DB-001";
-            }
+            //SQL column reference is ambiguous
+            if (ex.Message.Contains("42702"))
+                return "DB-42702";
+            
             return "Unknown";
         }
     }

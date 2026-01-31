@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Fido2NetLib;
 using SEAR_DataContract.Misc;
 using SEAR_WEB.Session;
@@ -13,7 +14,6 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<SessionCache>();
 
@@ -38,6 +38,29 @@ builder.Services.AddSingleton<IFido2>(sp =>
     return new Fido2(fido2Config);
 });
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+    {
+        options.LoginPath = "/Passkey/Index";
+        options.AccessDeniedPath = "/Passkey/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+    });
+}
+else
+{
+    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+    {
+        options.LoginPath = "/Passkey/Index";
+        options.AccessDeniedPath = "/Passkey/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.Cookie.HttpOnly = true;
+    });
+}
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 //if (!app.Environment.IsDevelopment())
@@ -57,6 +80,8 @@ app.UseStaticFiles();
 app.MapStaticAssets();
 app.UseRouting();
 app.UseSession();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -68,7 +93,7 @@ using (var scope = app.Services.CreateScope())
 {
     var logger = scope.ServiceProvider
                       .GetRequiredService<ILoggerFactory>()
-                      .CreateLogger("Global");
+                      .CreateLogger("SEAR Web");
 
     AppLogger.Initialize(logger);
 }

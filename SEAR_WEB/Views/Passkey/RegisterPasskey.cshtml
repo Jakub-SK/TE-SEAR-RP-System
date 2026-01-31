@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "Passkey Registration";
+}
+
+<div style="padding-top:150px;">
+    <h2>Passkey Authentication</h2>
+
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="text" id="displayName" placeholder="Display Name" required />
+
+    <button onclick="registerPasskey()">Register Passkey</button>
+
+    <p id="loadingMessage" style="color:yellow;"></p>
+    <p id="errorMessage" style="color:red;"></p>
+</div>
+
+<script>
+    async function registerPasskey() {
+        document.getElementById("loadingMessage").innerText = "Loading...";
+        const username = document.getElementById("username").value.trim();
+        const displayName = document.getElementById("displayName").value.trim();
+        const errorBox = document.getElementById("errorMessage");
+        errorBox.innerText = "";
+
+        if (!username || !displayName) {
+            errorBox.innerText = "Username and Display Name are required.";
+            return;
+        }
+
+        try {
+            const response = await fetch('/Passkey/RegisterRequest', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, displayName })
+            });
+
+            if (!response.ok) {
+                errorBox.innerText = "User creation or request failed.";
+                return;
+            }
+
+            const options = await response.json();
+
+            options.challenge = base64UrlToBuffer(options.challenge);
+            options.user.id = base64UrlToBuffer(options.user.id);
+
+            if (options.excludeCredentials) {
+                options.excludeCredentials.forEach(x => {
+                    x.id = base64UrlToBuffer(x.id);
+                });
+            }
+
+            const credential = await navigator.credentials.create({
+                publicKey: options
+            });
+
+            const verifyResponse = await fetch('/Passkey/RegisterResponse', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(credential)
+            });
+
+            if (!verifyResponse.ok) {
+                errorBox.innerText = "Passkey registration failed.";
+                return;
+            }
+
+            const responseJson = await verifyResponse.json();
+
+            if (responseJson.success) {
+                window.location.href = responseJson.redirectUrl;
+            } else {
+                alert("Passkey registration failed.");
+            }
+        } catch {
+            const response = await fetch('/Passkey/RemoveUserByUsername', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username })
+            });
+
+            if (!response.ok) {
+                errorBox.innerText = "Unable to remove user account";
+            }
+
+            errorBox.innerText = "Unexpected error occurred.";
+        } finally {
+            document.getElementById("loadingMessage").innerText = "";
+        }
+    }
+
+    function base64UrlToBuffer(base64url) {
+        const padding = '='.repeat((4 - base64url.length % 4) % 4);
+        const base64 = (base64url + padding)
+            .replace(/-/g, '+')
+            .replace(/_/g, '/');
+
+        const raw = window.atob(base64);
+        const buffer = new ArrayBuffer(raw.length);
+        const view = new Uint8Array(buffer);
+
+        for (let i = 0; i < raw.length; ++i)
+            view[i] = raw.charCodeAt(i);
+
+        return buffer;
+    }
+</script>

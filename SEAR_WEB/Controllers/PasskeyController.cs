@@ -1,7 +1,12 @@
 ﻿using Fido2NetLib;
 using Fido2NetLib.Objects;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SEAR_DataContract.Models;
 using SEAR_WEB.Models;
+using System.Security.Claims;
 using System.Text;
 
 namespace SEAR_WEB.Controllers
@@ -14,25 +19,84 @@ namespace SEAR_WEB.Controllers
         {
             _fido2 = fido2;
         }
+        public class RegisterRequestParameters
+        {
+            public string? Username { get; set; }
+            public string? DisplayName { get; set; }
+        }
+        public class RemoveUserByUsernameParameters
+        {
+            public string? Username { get; set; }
+        }
         public IActionResult Index()
+        {
+            return RedirectToAction("Login", "Passkey");
+        }
+        public IActionResult Login()
         {
             return View();
         }
-
-        [HttpPost]
-        public IActionResult RegisterRequest(string username)
+        public IActionResult RegisterPasskey()
         {
+            return View();
+        }
+        [Authorize]
+        public IActionResult ViewPasskey()
+        {
+            ViewData["Passkeys"] = PasskeyModel.ViewAllPasskeysByUserId(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!));
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RegisterRequest([FromBody] RegisterRequestParameters parameters)
+        {
+            if (string.IsNullOrEmpty(parameters.Username) || string.IsNullOrEmpty(parameters.DisplayName))
+                return BadRequest();
+
+            Guid? userId = PasskeyModel.GetUserIdByUsername(parameters.Username);
+
+            if (userId == null)
+            {
+                userId = PasskeyModel.CreateUserAccount(parameters.Username, parameters.DisplayName);
+            }
+
             Fido2User user = new Fido2User
             {
-                DisplayName = username,
-                Name = username,
-                Id = Encoding.UTF8.GetBytes(username)
+                DisplayName = parameters.DisplayName,
+                Name = parameters.Username,
+                Id = userId.Value.ToByteArray()
             };
 
             CredentialCreateOptions options = _fido2.RequestNewCredential(new RequestNewCredentialParams
             {
                 User = user,
-                ExcludeCredentials = new List<PublicKeyCredentialDescriptor>(),
+                AuthenticatorSelection = new AuthenticatorSelection
+                {
+                    UserVerification = UserVerificationRequirement.Preferred
+                },
+                AttestationPreference = AttestationConveyancePreference.None
+            });
+
+            HttpContext.Session.SetString("fido2.attestationOptions", options.ToJson());
+
+            return Json(options);
+        }
+        [HttpPost]
+        public IActionResult RegisterRequestByUserId()
+        {
+            Guid userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            ReturnGetUsernameByUserId users = PasskeyModel.GetUsernameByUserId(userId);
+
+            Fido2User user = new Fido2User
+            {
+                DisplayName = users.DisplayName,
+                Name = users.Username,
+                Id = userId.ToByteArray()
+            };
+
+            CredentialCreateOptions options = _fido2.RequestNewCredential(new RequestNewCredentialParams
+            {
+                User = user,
                 AuthenticatorSelection = new AuthenticatorSelection
                 {
                     UserVerification = UserVerificationRequirement.Preferred
@@ -47,9 +111,9 @@ namespace SEAR_WEB.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterResponse([FromBody] AuthenticatorAttestationRawResponse attestationResponse)
         {
-            string? json = HttpContext.Session.GetString("fido2.attestationOptions");
+            string json = HttpContext.Session.GetString("fido2.attestationOptions")!;
             HttpContext.Session.Remove("fido2.attestationOptions");
-            CredentialCreateOptions options = CredentialCreateOptions.FromJson(json!);
+            CredentialCreateOptions options = CredentialCreateOptions.FromJson(json);
             
             RegisteredPublicKeyCredential result = await _fido2.MakeNewCredentialAsync(new MakeNewCredentialParams
             {
@@ -58,9 +122,9 @@ namespace SEAR_WEB.Controllers
                 IsCredentialIdUniqueToUserCallback = async (args, cancellationToken) =>
                 {
                     // Check if credential ID already exists in DB
-                    var existing = PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
+                    Passkey? existing = PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
 
-                    // If null → unique
+                    // If null then it is unique
                     return existing == null;
                 }
             });
@@ -68,59 +132,68 @@ namespace SEAR_WEB.Controllers
             // Store in database
             // username must match what was used during registration (Encoding UTF8)
             // Save to PostgreSQL
-            try
-            {
-                PasskeyModel.InsertPasskey(Encoding.UTF8.GetString(result.User.Id), result.Id, result.PublicKey, result.SignCount, result.User.Id);
-            }
-            catch
-            {
-                return Unauthorized();
-            }
+            Guid userId = new Guid(result.User.Id);
+            PasskeyModel.InsertPasskey(userId, result.Id, result.PublicKey, result.SignCount);
 
+            return Json(new { success = true, redirectUrl = "/Passkey/Login" }); ;
+        }
+        [HttpPost]
+        public async Task<IActionResult> RegisterResponseByUserId([FromBody] AuthenticatorAttestationRawResponse attestationResponse)
+        {
+            string json = HttpContext.Session.GetString("fido2.attestationOptions")!;
+            HttpContext.Session.Remove("fido2.attestationOptions");
+            CredentialCreateOptions options = CredentialCreateOptions.FromJson(json);
+
+            RegisteredPublicKeyCredential result = await _fido2.MakeNewCredentialAsync(new MakeNewCredentialParams
+            {
+                AttestationResponse = attestationResponse,
+                OriginalOptions = options,
+                IsCredentialIdUniqueToUserCallback = async (args, cancellationToken) =>
+                {
+                    // Check if credential ID already exists in DB
+                    Passkey? existing = PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
+
+                    // If null then it is unique
+                    return existing == null;
+                }
+            });
+
+            // Store in database
+            // username must match what was used during registration (Encoding UTF8)
+            // Save to PostgreSQL
+            Guid userId = new Guid(result.User.Id);
+            PasskeyModel.InsertPasskey(userId, result.Id, result.PublicKey, result.SignCount);
+            
+            return Json(new { success = true, redirectUrl = "/Passkey/ViewPasskey" }); ;
+        }
+        [HttpPost]
+        public IActionResult RemoveUserByUsername([FromBody] RemoveUserByUsernameParameters parameters)
+        {
+            PasskeyModel.RemoveUserAccountByUsername(parameters.Username!);
             return Ok();
         }
         [HttpPost]
-        public IActionResult LoginRequest(string username)
+        public IActionResult LoginRequest()
         {
-            if (username == null)
-                return Unauthorized();
-            
-            // Load user's credential ID from DB
-            var credentialIds = PasskeyModel.GetCredentialIdsByUsername(username);
-
-            if (credentialIds.Count == 0)
-                return Unauthorized();
-                //return BadRequest("No passkeys registered for user");
-
-            var descriptors = credentialIds.Select(id => new PublicKeyCredentialDescriptor(id)).ToList();
-
-            var options = _fido2.GetAssertionOptions(new GetAssertionOptionsParams
+            AssertionOptions options = _fido2.GetAssertionOptions(new GetAssertionOptionsParams
             {
-                AllowedCredentials = descriptors,
                 UserVerification = UserVerificationRequirement.Preferred
             });
 
-            HttpContext.Session.SetString("fido2.username", username);
             HttpContext.Session.SetString("fido2.assertionOptions", options.ToJson());
 
             return Json(options);
         }
         [HttpPost]
         public async Task<IActionResult> LoginResponse([FromBody] AuthenticatorAssertionRawResponse assertionResponse)
-        {   
-            var username = HttpContext.Session.GetString("fido2.username");
-            HttpContext.Session.Remove("fido2.username");
-            var json = HttpContext.Session.GetString("fido2.assertionOptions");
+        {
+            string json = HttpContext.Session.GetString("fido2.assertionOptions")!;
             HttpContext.Session.Remove("fido2.assertionOptions");
-            var options = AssertionOptions.FromJson(json!);
+            AssertionOptions options = AssertionOptions.FromJson(json);
 
-            var storedCredential = PasskeyModel.GetPasskeyByCredentialId(assertionResponse.RawId);
+            Passkey? storedCredential = PasskeyModel.GetPasskeyByCredentialId(assertionResponse.RawId);
 
             if (storedCredential == null)
-                return Unauthorized();
-                //return BadRequest("Credential not found");
-
-            if (storedCredential.Username != username)
                 return Unauthorized();
 
             var result = await _fido2.MakeAssertionAsync(new MakeAssertionParams
@@ -131,14 +204,39 @@ namespace SEAR_WEB.Controllers
                 StoredSignatureCounter = storedCredential.SignatureCounter,
                 IsUserHandleOwnerOfCredentialIdCallback = async (args, cancellationToken) =>
                 {
-                    return storedCredential.Username == username;
+                    Passkey? credential = PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
+
+                    if (credential == null)
+                        return false;
+
+                    return credential.UserId == new Guid(args.UserHandle);
                 }
             });
 
-            // Update counter in DB
             PasskeyModel.UpdateCounter(result.CredentialId, result.SignCount);
+            string displayName = PasskeyModel.GetUsernameByUserId(storedCredential.UserId).DisplayName;
 
-            return Ok();
+            // Create claims
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, storedCredential.UserId.ToString()),
+                new Claim("DisplayName", displayName)
+            };
+
+            // Create identity
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            // Sign in user
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+
+            return Json(new { success = true, redirectUrl = "/Home/Index" });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Passkey");
         }
     }
 }
