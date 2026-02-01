@@ -196,5 +196,38 @@ namespace SEAR_API.Controllers
             }
             return passkeys;
         }
+        [HttpPost("CheckUserExistByUserId")]
+        public ReturnCheckUserExistByUserId CheckUserExistByUserId([FromBody] CheckUserExistByUserIdParameters model)
+        {
+            string KeyId = Guid.CreateVersion7().ToString();
+            string sql = @"
+                SELECT username
+                FROM users
+                WHERE user_id = @userId;";
+
+            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
+            {
+                new NpgsqlParameter("@userId", model.UserId)
+            };
+
+            if (DBHelper.ExecuteDatabaseNonQuery(sql, parameters) >= 1)
+            {
+                return new ReturnCheckUserExistByUserId
+                {
+                    IsExist = true
+                };
+            }
+            return new ReturnCheckUserExistByUserId
+            {
+                IsExist = false
+            };
+        }
+        [HttpPost("InsertRegisterAdditionalPasskeyKeyId")]
+        public IActionResult InsertRegisterAdditionalPasskeyKeyId([FromBody] InsertRegisterAdditionalPasskeyKeyIdParameters model)
+        {
+            string sql = @"
+                INSERT INTO  ";
+            return BadRequest();
+        }
     }
 }

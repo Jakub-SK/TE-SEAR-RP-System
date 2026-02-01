@@ -57,8 +57,23 @@
     public class ViewAllPasskeysByUserIdParameters{
         public required Guid UserId { get; set; }
     }
-    public class ReturnPasskeysByUserId {
+    public class ReturnPasskeysByUserId
+    {
         public required string DisplayName { get; set; }
         public required DateTime CreateDate { get; set; }
+    }
+    public class CheckUserExistByUserIdParameters
+    {
+        public required Guid UserId { get; set; }
+    }
+    public class ReturnCheckUserExistByUserId
+    {
+        public required bool IsExist { get; set; }
+    }
+
+    public class InsertRegisterAdditionalPasskeyKeyIdParameters
+    {
+        public required string KeyId { get; set; }
+        public required Guid UserId { get; set; }
     }
 }

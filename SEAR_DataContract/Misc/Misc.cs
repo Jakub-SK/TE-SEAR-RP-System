@@ -5,9 +5,7 @@
         public static bool CheckIsDevelopmentEnviroment()
         {
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-            {
                 return true;
-            }
             return false;
         }
         public static ShowExceptionMessage LogException(Exception ex, string appType, string ? uuid = null)
@@ -17,6 +15,12 @@
         public static int UpdateLogExceptionWithSteps(string uuid, string steps)
         {
             return DBHelper.UpdateLogExceptionWithSteps(uuid, steps);
+        }
+        public static string GetWebsiteUrl()
+        {
+            if (CheckIsDevelopmentEnviroment())
+                return "https://localhost:5002/";
+            return "https://tesear.noobxryan.org/";
         }
         private static string GetExceptionType(Exception ex)
         {

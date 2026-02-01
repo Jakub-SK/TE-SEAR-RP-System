@@ -1,8 +1,5 @@
-﻿using Npgsql;
-using SEAR_DataContract.Misc;
-using SEAR_DataContract.Models;
+﻿using SEAR_DataContract.Models;
 using SEAR_WEB.Misc;
-using System.Data;
 
 namespace SEAR_WEB.Models
 {
@@ -68,6 +65,23 @@ namespace SEAR_WEB.Models
             {
                 UserId = userId
             });
+        }
+        public static string? CreateRegisterAdditionalPasskeyUrl(Guid userId)
+        {
+            if (ApiCaller.CallApi<ReturnCheckUserExistByUserId>("Api/ApiPasskey/CheckUserExistByUserId", new CheckUserExistByUserIdParameters
+            {
+                UserId = userId
+            }).IsExist == true)
+            {
+                string keyId = Guid.CreateVersion7().ToString();
+                ApiCaller.CallApi("Api/ApiPasskey/InsertRegisterAdditionalPasskeyKeyId", new InsertRegisterAdditionalPasskeyKeyIdParameters
+                {
+                    KeyId = keyId,
+                    UserId = userId
+                });
+                return keyId;
+            }
+            return null;
         }
     }
 }

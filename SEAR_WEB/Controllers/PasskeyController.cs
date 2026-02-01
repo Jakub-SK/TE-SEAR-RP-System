@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using SEAR_DataContract.Models;
 using SEAR_WEB.Models;
-using System.Security.Claims;
-using System.Text;
 
 namespace SEAR_WEB.Controllers
 {
@@ -237,6 +236,28 @@ namespace SEAR_WEB.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Passkey");
+        }
+        [HttpPost]
+        public IActionResult CreateRegisterAdditionalPasskey()
+        {
+            string? cacheUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (cacheUserId == null)
+                return BadRequest();
+            string? keyId = PasskeyModel.CreateRegisterAdditionalPasskeyUrl(Guid.Parse(cacheUserId));
+            if (keyId == null)
+                return BadRequest();
+            if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment())
+            {
+                keyId = SEAR_DataContract.Misc.Misc.GetWebsiteUrl() + Url.Action("RegisterAdditionalPasskey", "Passkey") + keyId;
+            }
+            return Json(new { keyUrl = keyId });
+        }
+        [HttpGet]
+        public IActionResult RegisterAdditionalPasskey(string registerKey)
+        {
+            if (string.IsNullOrEmpty(registerKey))
+                return BadRequest();
+            return View();
         }
     }
 }
