@@ -1,41 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Passkey Registration";
+﻿@model RegisterAdditionalPasskeyKeyIdViewModel
+@{
+    ViewData["Title"] = "Register Additional Passkey";
 }
 
 <div style="padding-top:200px;">
-    <h2>Passkey Authentication</h2>
-
-    <input type="text" id="username" placeholder="Username" required />
-    <input type="text" id="displayName" placeholder="Display Name" required />
-
-    <button onclick="registerPasskey()">Register Passkey</button>
-
+    Logged in as: @User.FindFirst("DisplayName")?.Value
+    <h2>Register Additional Passkey</h2>
+    <button onclick="registerAdditionalPasskey()">Register Additional Passkey</button>
     <p id="loadingMessage" style="color:yellow;"></p>
     <p id="errorMessage" style="color:red;"></p>
+    <input type="hidden" id="keyId" asp-for="KeyId" />
 </div>
 
 <script>
-    async function registerPasskey() {
+    async function registerAdditionalPasskey() {
         document.getElementById("loadingMessage").innerText = "Loading...";
-        const username = document.getElementById("username").value.trim();
-        const displayName = document.getElementById("displayName").value.trim();
         const errorBox = document.getElementById("errorMessage");
         errorBox.innerText = "";
-
-        if (!username || !displayName) {
-            errorBox.innerText = "Username and Display Name are required.";
-            return;
-        }
+        const keyId = document.getElementById('keyId').value;
 
         try {
-            const response = await fetch('/Passkey/RegisterRequest', {
+            const response = await fetch('/Passkey/ConfirmRegisterAdditionalPasskey', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, displayName })
+                body: JSON.stringify({
+                    KeyId: keyId
+                })
             });
 
             if (!response.ok) {
-                errorBox.innerText = "Register failed, username maybe already been used.";
+                errorBox.innerText = "User creation or request failed.";
                 return;
             }
 
@@ -54,7 +48,7 @@
                 publicKey: options
             });
 
-            const verifyResponse = await fetch('/Passkey/RegisterResponse', {
+            const verifyResponse = await fetch('/Passkey/RegisterResponseByUserId', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credential)
@@ -73,17 +67,6 @@
                 alert("Passkey registration failed.");
             }
         } catch {
-            const response = await fetch('/Passkey/RemoveUserByUsername', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username })
-            });
-
-            if (!response.ok) {
-                errorBox.innerText = "Unable to remove user account";
-                return;
-            }
-
             errorBox.innerText = "Unexpected error occurred.";
         } finally {
             document.getElementById("loadingMessage").innerText = "";

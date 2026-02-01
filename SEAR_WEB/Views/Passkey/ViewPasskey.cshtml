@@ -2,13 +2,13 @@
     ViewData["Title"] = "View Passkey";
 }
 
-<div style="padding-top:150px;">
+<div style="padding-top:200px;">
     <h2>Passkey Authentication</h2>
-
-    <button onclick="registerPasskey()">Register Passkey</button>
-
+    <button onclick="registerPasskey()">Register Additional Passkey</button>
+    <button onclick="createRegisterAdditionalPasskeyUrl()">Register Additional Passkey on another device</button>
     <p id="loadingMessage" style="color:yellow;"></p>
     <p id="errorMessage" style="color:red;"></p>
+    <p id="returnRegisterUrl"></p>
 </div>
 <div>Saved Passkey:</div>
 <table>
@@ -33,10 +33,11 @@
         try {
             const response = await fetch('/Passkey/RegisterRequestByUserId', {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
             });
 
             if (!response.ok) {
-                errorBox.innerText = "User creation or request failed.";
+                errorBox.innerText = "Passkey registration failed.";
                 return;
             }
 
@@ -75,6 +76,31 @@
             }
         } catch {
             errorBox.innerText = "Unexpected error occurred.";
+        } finally {
+            document.getElementById("loadingMessage").innerText = "";
+        }
+    }
+
+    async function createRegisterAdditionalPasskeyUrl() {
+        document.getElementById("loadingMessage").innerText = "Loading...";
+        const errorBox = document.getElementById("errorMessage");
+        errorBox.innerText = "";
+
+        try {
+            const response = await fetch('/Passkey/CreateRegisterAdditionalPasskey', {
+                method: 'POST',
+            });
+
+            if (!response.ok) {
+                errorBox.innerText = "User creation or request failed.";
+                return;
+            }
+
+            const keyUrl = await response.json();
+            document.getElementById("returnRegisterUrl").innerText = keyUrl.keyUrl;
+        } catch {
+            console.log("Unexpected error occurred.");
+            errorBox.innerText = "Unexpected error occurred";
         } finally {
             document.getElementById("loadingMessage").innerText = "";
         }

@@ -19,8 +19,8 @@
         public static string GetWebsiteUrl()
         {
             if (CheckIsDevelopmentEnviroment())
-                return "https://localhost:5002/";
-            return "https://tesear.noobxryan.org/";
+                return "https://localhost:5002";
+            return "https://tesear.noobxryan.org";
         }
         private static string GetExceptionType(Exception ex)
         {
@@ -36,6 +36,9 @@
             //SQL column reference is ambiguous
             if (ex.Message.Contains("42702"))
                 return "DB-42702";
+            //SQL column does not exist
+            if (ex.Message.Contains("42703"))
+                return "DB-42703";
             
             return "Unknown";
         }

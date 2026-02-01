@@ -70,10 +70,21 @@
     {
         public required bool IsExist { get; set; }
     }
-
     public class InsertRegisterAdditionalPasskeyKeyIdParameters
     {
-        public required string KeyId { get; set; }
+        public required Guid KeyId { get; set; }
         public required Guid UserId { get; set; }
+    }
+    public class ValidateCreateRegisterAdditionalPasskeyKeyIdParameters
+    {
+        public required Guid KeyId { get; set; }
+    }
+    public class ReturnValidateCreateRegisterAdditionalPasskeyKeyId
+    {
+        public required bool IsValid { get; set; }
+    }
+    public class RemoveRegisterAdditionalPasskeyKeyIdParameters
+    {
+        public required Guid KeyId { get; set; }
     }
 }

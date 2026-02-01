@@ -4,9 +4,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Microsoft.CodeAnalysis;
+using SEAR_DataContract.Misc;
 using SEAR_DataContract.Models;
 using SEAR_WEB.Models;
+using SEAR_WEB.RedirectViewModels;
+using System.Security.Claims;
 
 namespace SEAR_WEB.Controllers
 {
@@ -53,10 +56,10 @@ namespace SEAR_WEB.Controllers
 
             Guid? userId = PasskeyModel.GetUserIdByUsername(parameters.Username);
 
-            if (userId == null)
-            {
-                userId = PasskeyModel.CreateUserAccount(parameters.Username, parameters.DisplayName);
-            }
+            if (userId != null)
+                return BadRequest();
+
+            userId = PasskeyModel.CreateUserAccount(parameters.Username, parameters.DisplayName);
 
             Fido2User user = new Fido2User
             {
@@ -129,10 +132,9 @@ namespace SEAR_WEB.Controllers
             });
 
             // Store in database
-            // username must match what was used during registration (Encoding UTF8)
+            // userId must match what was used during registration (Encoding UTF8)
             // Save to PostgreSQL
-            Guid userId = new Guid(result.User.Id);
-            PasskeyModel.InsertPasskey(userId, result.Id, result.PublicKey, result.SignCount);
+            PasskeyModel.InsertPasskey(new Guid(result.User.Id), result.Id, result.PublicKey, result.SignCount);
 
             return Json(new { success = true, redirectUrl = "/Passkey/Login" }); ;
         }
@@ -158,11 +160,14 @@ namespace SEAR_WEB.Controllers
             });
 
             // Store in database
-            // username must match what was used during registration (Encoding UTF8)
+            // userId must match what was used during registration (Encoding UTF8)
             // Save to PostgreSQL
-            Guid userId = new Guid(result.User.Id);
-            PasskeyModel.InsertPasskey(userId, result.Id, result.PublicKey, result.SignCount);
-            
+            PasskeyModel.InsertPasskey(new Guid(result.User.Id), result.Id, result.PublicKey, result.SignCount);
+
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IsRegisteringByUrl")))
+                PasskeyModel.RemoveRegisterAdditionalPasskeyKeyId(Guid.Parse(HttpContext.Session.GetString("IsRegisteringByUrl")!));
+            HttpContext.Session.Remove("IsRegisteringByUrl");
+
             return Json(new { success = true, redirectUrl = "/Passkey/ViewPasskey" }); ;
         }
         [HttpPost]
@@ -240,24 +245,75 @@ namespace SEAR_WEB.Controllers
         [HttpPost]
         public IActionResult CreateRegisterAdditionalPasskey()
         {
-            string? cacheUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (cacheUserId == null)
-                return BadRequest();
-            string? keyId = PasskeyModel.CreateRegisterAdditionalPasskeyUrl(Guid.Parse(cacheUserId));
-            if (keyId == null)
-                return BadRequest();
-            if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment())
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
             {
-                keyId = SEAR_DataContract.Misc.Misc.GetWebsiteUrl() + Url.Action("RegisterAdditionalPasskey", "Passkey") + keyId;
+                return BadRequest();
             }
+
+            string? keyId = PasskeyModel.CreateRegisterAdditionalPasskeyUrl(Guid.Parse(userId));
+
+            if (keyId == null)
+            {
+                return BadRequest();
+            }
+
+            if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment())
+                keyId = SEAR_DataContract.Misc.Misc.GetWebsiteUrl() + Url.Action("RegisterAdditionalPasskey", "Passkey") + "/" + keyId;
+
             return Json(new { keyUrl = keyId });
         }
-        [HttpGet]
+        [HttpGet("Passkey/RegisterAdditionalPasskey/{registerKey}")]
         public IActionResult RegisterAdditionalPasskey(string registerKey)
         {
             if (string.IsNullOrEmpty(registerKey))
                 return BadRequest();
-            return View();
+
+            if (PasskeyModel.ValidateCreateRegisterAdditionalPasskeyKeyId(Guid.Parse(registerKey)))
+            {
+                return View("RegisterAdditionalPasskey", new RegisterAdditionalPasskeyKeyIdViewModel
+                {
+                    KeyId = registerKey
+                });
+            }
+            AppLogger.LogError("Unable to validate");
+            return Unauthorized();
+        }
+        [HttpPost]
+        public IActionResult ConfirmRegisterAdditionalPasskey([FromBody] RegisterAdditionalPasskeyKeyIdViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.KeyId))
+                return BadRequest();
+
+            if (PasskeyModel.ValidateCreateRegisterAdditionalPasskeyKeyId(Guid.Parse(model.KeyId)))
+            {
+                Guid userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+                ReturnGetUsernameByUserId users = PasskeyModel.GetUsernameByUserId(userId);
+
+                Fido2User user = new Fido2User
+                {
+                    DisplayName = users.DisplayName,
+                    Name = users.Username,
+                    Id = userId.ToByteArray()
+                };
+
+                CredentialCreateOptions options = _fido2.RequestNewCredential(new RequestNewCredentialParams
+                {
+                    User = user,
+                    AuthenticatorSelection = new AuthenticatorSelection
+                    {
+                        UserVerification = UserVerificationRequirement.Preferred
+                    },
+                    AttestationPreference = AttestationConveyancePreference.None
+                });
+
+                HttpContext.Session.SetString("fido2.attestationOptions", options.ToJson());
+                HttpContext.Session.SetString("IsRegisteringByUrl", model.KeyId);
+
+                return Json(options);
+            }
+            return Unauthorized();
         }
     }
 }

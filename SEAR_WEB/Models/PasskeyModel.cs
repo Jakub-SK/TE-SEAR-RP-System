@@ -1,4 +1,5 @@
-﻿using SEAR_DataContract.Models;
+﻿using SEAR_DataContract.Misc;
+using SEAR_DataContract.Models;
 using SEAR_WEB.Misc;
 
 namespace SEAR_WEB.Models
@@ -73,15 +74,30 @@ namespace SEAR_WEB.Models
                 UserId = userId
             }).IsExist == true)
             {
-                string keyId = Guid.CreateVersion7().ToString();
+                AppLogger.LogInformation("IsExist is true");
+                Guid keyId = Guid.NewGuid();
                 ApiCaller.CallApi("Api/ApiPasskey/InsertRegisterAdditionalPasskeyKeyId", new InsertRegisterAdditionalPasskeyKeyIdParameters
                 {
                     KeyId = keyId,
                     UserId = userId
                 });
-                return keyId;
+                return keyId.ToString();
             }
             return null;
+        }
+        public static bool ValidateCreateRegisterAdditionalPasskeyKeyId(Guid keyId)
+        {
+            return ApiCaller.CallApi<ReturnValidateCreateRegisterAdditionalPasskeyKeyId>("Api/ApiPasskey/ValidateCreateRegisterAdditionalPasskeyKeyId", new ValidateCreateRegisterAdditionalPasskeyKeyIdParameters
+            {
+                KeyId = keyId
+            }).IsValid;
+        }
+        public static void RemoveRegisterAdditionalPasskeyKeyId(Guid keyId)
+        {
+            ApiCaller.CallApi("Api/ApiPasskey/RemoveRegisterAdditionalPasskeyKeyId", new RemoveRegisterAdditionalPasskeyKeyIdParameters
+            {
+                KeyId = keyId
+            });
         }
     }
 }

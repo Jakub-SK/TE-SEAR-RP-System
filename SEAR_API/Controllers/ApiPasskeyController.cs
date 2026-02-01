@@ -199,9 +199,8 @@ namespace SEAR_API.Controllers
         [HttpPost("CheckUserExistByUserId")]
         public ReturnCheckUserExistByUserId CheckUserExistByUserId([FromBody] CheckUserExistByUserIdParameters model)
         {
-            string KeyId = Guid.CreateVersion7().ToString();
             string sql = @"
-                SELECT username
+                SELECT *
                 FROM users
                 WHERE user_id = @userId;";
 
@@ -210,23 +209,66 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@userId", model.UserId)
             };
 
-            if (DBHelper.ExecuteDatabaseNonQuery(sql, parameters) >= 1)
-            {
-                return new ReturnCheckUserExistByUserId
-                {
-                    IsExist = true
-                };
-            }
+            DataSet ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
+
             return new ReturnCheckUserExistByUserId
             {
-                IsExist = false
+                IsExist = ds.Tables[0].Rows.Count >= 1
             };
         }
         [HttpPost("InsertRegisterAdditionalPasskeyKeyId")]
         public IActionResult InsertRegisterAdditionalPasskeyKeyId([FromBody] InsertRegisterAdditionalPasskeyKeyIdParameters model)
         {
             string sql = @"
-                INSERT INTO  ";
+                INSERT INTO register_additional_passkey (key_id, user_id)
+                VALUES (@keyId, @userId);";
+
+            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
+            {
+                new NpgsqlParameter("@keyId", model.KeyId),
+                new NpgsqlParameter("@userId", model.UserId)
+            };
+
+            if (DBHelper.ExecuteDatabaseNonQuery(sql, parameters) >= 1)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+        [HttpPost("ValidateCreateRegisterAdditionalPasskeyKeyId")]
+        public ReturnValidateCreateRegisterAdditionalPasskeyKeyId ValidateCreateRegisterAdditionalPasskeyKeyId([FromBody] ValidateCreateRegisterAdditionalPasskeyKeyIdParameters model)
+        {
+            string sql = @"
+                SELECT key_id
+                FROM register_additional_passkey
+                WHERE key_id = @keyId
+                AND
+                expire_date > NOW();";
+
+            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
+            {
+                new NpgsqlParameter("@keyId", model.KeyId)
+            };
+
+            DataSet ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
+
+            return new ReturnValidateCreateRegisterAdditionalPasskeyKeyId
+            {
+                IsValid = ds.Tables[0].Rows.Count >= 1
+            };
+        }
+        [HttpPost("RemoveRegisterAdditionalPasskeyKeyId")]
+        public IActionResult RemoveRegisterAdditionalPasskeyKeyId([FromBody] RemoveRegisterAdditionalPasskeyKeyIdParameters model)
+        {
+            string sql = "DELETE FROM register_additional_passkey WHERE key_id = @keyId;";
+
+            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
+            {
+                new NpgsqlParameter("keyId", model.KeyId)
+            };
+
+            if (DBHelper.ExecuteDatabaseNonQuery(sql, parameters) >= 1)
+                return Ok();
             return BadRequest();
         }
     }
