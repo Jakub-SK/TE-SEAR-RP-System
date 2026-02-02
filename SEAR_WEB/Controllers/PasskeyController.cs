@@ -16,50 +16,40 @@ namespace SEAR_WEB.Controllers
     public class PasskeyController : Controller
     {
         private readonly IFido2 _fido2;
-
         public PasskeyController(IFido2 fido2)
         {
             _fido2 = fido2;
         }
-        public class RegisterRequestParameters
-        {
-            public string? Username { get; set; }
-            public string? DisplayName { get; set; }
-        }
-        public class RemoveUserByUsernameParameters
-        {
-            public string? Username { get; set; }
-        }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return RedirectToAction("Login", "Passkey");
         }
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
             return View();
         }
-        public IActionResult RegisterPasskey()
+        public async Task<IActionResult> RegisterPasskey()
         {
             return View();
         }
         [Authorize]
-        public IActionResult ViewPasskey()
+        public async Task<IActionResult> ViewPasskey()
         {
             ViewData["Passkeys"] = PasskeyModel.ViewAllPasskeysByUserId(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!));
             return View();
         }
         [HttpPost]
-        public IActionResult RegisterRequest([FromBody] RegisterRequestParameters parameters)
+        public async Task<IActionResult> RegisterRequest([FromBody] RegisterRequestParameters parameters)
         {
             if (string.IsNullOrEmpty(parameters.Username) || string.IsNullOrEmpty(parameters.DisplayName))
                 return BadRequest();
 
-            Guid? userId = PasskeyModel.GetUserIdByUsername(parameters.Username);
+            Guid? userId = await PasskeyModel.GetUserIdByUsername(parameters.Username);
 
             if (userId != null)
                 return BadRequest();
 
-            userId = PasskeyModel.CreateUserAccount(parameters.Username, parameters.DisplayName);
+            userId = await PasskeyModel.CreateUserAccount(parameters.Username, parameters.DisplayName);
 
             Fido2User user = new Fido2User
             {
@@ -83,11 +73,11 @@ namespace SEAR_WEB.Controllers
             return Json(options);
         }
         [HttpPost]
-        public IActionResult RegisterRequestByUserId()
+        public async Task<IActionResult> RegisterRequestByUserId()
         {
             Guid userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-            ReturnGetUsernameByUserId users = PasskeyModel.GetUsernameByUserId(userId);
+            ReturnGetUsernameByUserId users = await PasskeyModel.GetUsernameByUserId(userId);
 
             Fido2User user = new Fido2User
             {
@@ -124,7 +114,7 @@ namespace SEAR_WEB.Controllers
                 IsCredentialIdUniqueToUserCallback = async (args, cancellationToken) =>
                 {
                     // Check if credential ID already exists in DB
-                    Passkey? existing = PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
+                    Passkey? existing = await PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
 
                     // If null then it is unique
                     return existing == null;
@@ -152,7 +142,7 @@ namespace SEAR_WEB.Controllers
                 IsCredentialIdUniqueToUserCallback = async (args, cancellationToken) =>
                 {
                     // Check if credential ID already exists in DB
-                    Passkey? existing = PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
+                    Passkey? existing = await PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
 
                     // If null then it is unique
                     return existing == null;
@@ -195,7 +185,7 @@ namespace SEAR_WEB.Controllers
             HttpContext.Session.Remove("fido2.assertionOptions");
             AssertionOptions options = AssertionOptions.FromJson(json);
 
-            Passkey? storedCredential = PasskeyModel.GetPasskeyByCredentialId(assertionResponse.RawId);
+            Passkey? storedCredential = await PasskeyModel.GetPasskeyByCredentialId(assertionResponse.RawId);
 
             if (storedCredential == null)
                 return Unauthorized();
@@ -208,7 +198,7 @@ namespace SEAR_WEB.Controllers
                 StoredSignatureCounter = storedCredential.SignatureCounter,
                 IsUserHandleOwnerOfCredentialIdCallback = async (args, cancellationToken) =>
                 {
-                    Passkey? credential = PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
+                    Passkey? credential = await PasskeyModel.GetPasskeyByCredentialId(args.CredentialId);
 
                     if (credential == null)
                         return false;
@@ -218,7 +208,8 @@ namespace SEAR_WEB.Controllers
             });
 
             PasskeyModel.UpdateCounter(result.CredentialId, result.SignCount);
-            string displayName = PasskeyModel.GetUsernameByUserId(storedCredential.UserId).DisplayName;
+            ReturnGetUsernameByUserId response = await PasskeyModel.GetUsernameByUserId(storedCredential.UserId);
+            string displayName = response.DisplayName;
 
             // Create claims
             List<Claim> claims = new List<Claim>
@@ -243,7 +234,7 @@ namespace SEAR_WEB.Controllers
             return RedirectToAction("Login", "Passkey");
         }
         [HttpPost]
-        public IActionResult CreateRegisterAdditionalPasskey()
+        public async Task<IActionResult> CreateRegisterAdditionalPasskey()
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
@@ -251,7 +242,7 @@ namespace SEAR_WEB.Controllers
                 return BadRequest();
             }
 
-            string? keyId = PasskeyModel.CreateRegisterAdditionalPasskeyUrl(Guid.Parse(userId));
+            string? keyId = await PasskeyModel.CreateRegisterAdditionalPasskeyUrl(Guid.Parse(userId));
 
             if (keyId == null)
             {
@@ -264,32 +255,33 @@ namespace SEAR_WEB.Controllers
             return Json(new { keyUrl = keyId });
         }
         [HttpGet("Passkey/RegisterAdditionalPasskey/{registerKey}")]
-        public IActionResult RegisterAdditionalPasskey(string registerKey)
+        public async Task<IActionResult> RegisterAdditionalPasskey(string registerKey)
         {
             if (string.IsNullOrEmpty(registerKey))
                 return BadRequest();
 
-            if (PasskeyModel.ValidateCreateRegisterAdditionalPasskeyKeyId(Guid.Parse(registerKey)))
+            bool response = await PasskeyModel.ValidateCreateRegisterAdditionalPasskeyKeyId(Guid.Parse(registerKey));
+            if (response)
             {
                 return View("RegisterAdditionalPasskey", new RegisterAdditionalPasskeyKeyIdViewModel
                 {
                     KeyId = registerKey
                 });
             }
-            AppLogger.LogError("Unable to validate");
             return Unauthorized();
         }
         [HttpPost]
-        public IActionResult ConfirmRegisterAdditionalPasskey([FromBody] RegisterAdditionalPasskeyKeyIdViewModel model)
+        public async Task<IActionResult> ConfirmRegisterAdditionalPasskey([FromBody] RegisterAdditionalPasskeyKeyIdViewModel model)
         {
             if (string.IsNullOrEmpty(model.KeyId))
                 return BadRequest();
 
-            if (PasskeyModel.ValidateCreateRegisterAdditionalPasskeyKeyId(Guid.Parse(model.KeyId)))
+            bool response = await PasskeyModel.ValidateCreateRegisterAdditionalPasskeyKeyId(Guid.Parse(model.KeyId));
+            if (response)
             {
                 Guid userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-                ReturnGetUsernameByUserId users = PasskeyModel.GetUsernameByUserId(userId);
+                ReturnGetUsernameByUserId users = await PasskeyModel.GetUsernameByUserId(userId);
 
                 Fido2User user = new Fido2User
                 {

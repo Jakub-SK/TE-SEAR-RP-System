@@ -11,7 +11,7 @@ namespace SEAR_API.Controllers
     public class ApiPasskeyController : Controller
     {
         [HttpPost("CreateUserAccount")]
-        public Guid CreateUserAccount([FromBody] CreateUserAccountParameters model)
+        public async Task<Guid> CreateUserAccount([FromBody] CreateUserAccountParameters model)
         {
             Guid userID = Guid.NewGuid();
             string sql = @"
@@ -27,12 +27,12 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@displayName", model.DisplayName)
             };
 
-            DBHelper.ExecuteDatabaseNonQuery(sql, parameters);
+            DBHelper.ExecuteDatabaseNonQueryAsyncNoReturn(sql, parameters);
 
             return userID;
         }
         [HttpPost("RemoveUserAccountByUsername")]
-        public IActionResult RemoveUserAccountByUsername([FromBody] RemoveUserAccountByUsernameParameters model)
+        public async Task<IActionResult> RemoveUserAccountByUsername([FromBody] RemoveUserAccountByUsernameParameters model)
         {
             string sql = "DELETE FROM users WHERE username = @username;";
 
@@ -41,13 +41,14 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@username", model.Username)
             };
 
-            if (DBHelper.ExecuteDatabaseNonQuery(sql, parameters) >= 1)
+            int affectedRows = await DBHelper.ExecuteDatabaseNonQueryAsync(sql, parameters);
+            if (affectedRows >= 1)
                 return Ok();
 
             return NotFound();
         }
         [HttpPost("GetUserIdByUsername")]
-        public ReturnGetUserIdByUsername GetUserIdByUsername([FromBody] GetUserIdByUsernameParameters model)
+        public async Task<ReturnGetUserIdByUsername> GetUserIdByUsername([FromBody] GetUserIdByUsernameParameters model)
         {
             string sql = @"
                 SELECT user_id
@@ -59,9 +60,9 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@username", model.Username)
             };
 
-            DataSet ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
+            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
 
-            if (ds.Tables[0].Rows.Count == 0)
+            if (dataTable.Rows.Count == 0)
             {
                 return new ReturnGetUserIdByUsername
                 {
@@ -71,11 +72,11 @@ namespace SEAR_API.Controllers
 
             return new ReturnGetUserIdByUsername
             {
-                UserId = (Guid)ds.Tables[0].Rows[0]["user_id"]
+                UserId = (Guid)dataTable.Rows[0]["user_id"]
             };
         }
         [HttpPost("InsertPasskey")]
-        public IActionResult InsertPasskey([FromBody] InsertPasskeyParameters model)
+        public async Task<IActionResult> InsertPasskey([FromBody] InsertPasskeyParameters model)
         {
             string sql = @"
                 INSERT INTO passkeys
@@ -92,11 +93,11 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@user_handle", NpgsqlTypes.NpgsqlDbType.Bytea) { Value = model.UserId.ToByteArray() }
             };
 
-            DBHelper.ExecuteDatabaseNonQuery(sql, parameters);
+            DBHelper.ExecuteDatabaseNonQueryAsyncNoReturn(sql, parameters);
             return Ok();
         }
         [HttpPost("GetPasskeyByCredentialId")]
-        public ReturnGetPasskeyByCredentialId GetPasskeyByCredentialId([FromBody] GetPasskeyByCredentialIdParameters model)
+        public async Task<ReturnGetPasskeyByCredentialId> GetPasskeyByCredentialId([FromBody] GetPasskeyByCredentialIdParameters model)
         {
             string sql = @"
                 SELECT *
@@ -108,13 +109,13 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@credential_id", model.CredentialId)
             };
 
-            DataSet ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
-            if (ds.Tables[0].Rows.Count == 0)
+            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
+            if (dataTable.Rows.Count == 0)
                 return new ReturnGetPasskeyByCredentialId
                 {
                     Passkey = null
                 };
-            DataRow row = ds.Tables[0].Rows[0];
+            DataRow row = dataTable.Rows[0];
 
             return new ReturnGetPasskeyByCredentialId
             {
@@ -129,7 +130,7 @@ namespace SEAR_API.Controllers
             };
         }
         [HttpPost("UpdateCounter")]
-        public IActionResult UpdateCounter([FromBody] UpdateCounterParameters model)
+        public async Task<IActionResult> UpdateCounter([FromBody] UpdateCounterParameters model)
         {
             string sql = @"
                 UPDATE passkeys
@@ -145,11 +146,11 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@credential_id", model.CredentialId)
             };
 
-            DBHelper.ExecuteDatabaseNonQuery(sql, parameters);
+            DBHelper.ExecuteDatabaseNonQueryAsyncNoReturn(sql, parameters);
             return Ok();
         }
         [HttpPost("GetUsernameByUserId")]
-        public ReturnGetUsernameByUserId GetUsernameByUserId([FromBody] GetUsernameByUserIdParameters model)
+        public async Task<ReturnGetUsernameByUserId> GetUsernameByUserId([FromBody] GetUsernameByUserIdParameters model)
         {
             string sql = @"
                 SELECT username, display_name
@@ -161,16 +162,16 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@userId", model.UserId)
             };
 
-            DataSet ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
+            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
 
             return new ReturnGetUsernameByUserId
             {
-                Username = ds.Tables[0].Rows[0]["username"].ToString() ?? "Unknown User",
-                DisplayName = ds.Tables[0].Rows[0]["display_name"].ToString() ?? "Unable to get display name"
+                Username = dataTable.Rows[0]["username"].ToString() ?? "Unknown User",
+                DisplayName = dataTable.Rows[0]["display_name"].ToString() ?? "Unable to get display name"
             };
         }
         [HttpPost("ViewAllPasskeysByUserId")]
-        public List<ReturnPasskeysByUserId> ViewAllPasskeysByUserId([FromBody] ViewAllPasskeysByUserIdParameters model)
+        public async Task<List<ReturnViewAllPasskeysByUserId>> ViewAllPasskeysByUserId([FromBody] ViewAllPasskeysByUserIdParameters model)
         {
             string sql = @"
                 SELECT passkeys.display_name, passkeys.create_date
@@ -183,12 +184,12 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@userId", model.UserId)
             };
 
-            DataSet ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
+            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
 
-            List<ReturnPasskeysByUserId> passkeys = new List<ReturnPasskeysByUserId>();
-            foreach (DataRow row in ds.Tables[0].Rows)
+            List<ReturnViewAllPasskeysByUserId> passkeys = new List<ReturnViewAllPasskeysByUserId>();
+            foreach (DataRow row in dataTable.Rows)
             {
-                passkeys.Add(new ReturnPasskeysByUserId
+                passkeys.Add(new ReturnViewAllPasskeysByUserId
                 {
                     DisplayName = row["display_name"].ToString() ?? "",
                     CreateDate = Convert.ToDateTime(row["create_date"])
@@ -197,7 +198,7 @@ namespace SEAR_API.Controllers
             return passkeys;
         }
         [HttpPost("CheckUserExistByUserId")]
-        public ReturnCheckUserExistByUserId CheckUserExistByUserId([FromBody] CheckUserExistByUserIdParameters model)
+        public async Task<ReturnCheckUserExistByUserId> CheckUserExistByUserId([FromBody] CheckUserExistByUserIdParameters model)
         {
             string sql = @"
                 SELECT *
@@ -209,15 +210,15 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@userId", model.UserId)
             };
 
-            DataSet ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
+            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
 
             return new ReturnCheckUserExistByUserId
             {
-                IsExist = ds.Tables[0].Rows.Count >= 1
+                IsExist = dataTable.Rows.Count >= 1
             };
         }
         [HttpPost("InsertRegisterAdditionalPasskeyKeyId")]
-        public IActionResult InsertRegisterAdditionalPasskeyKeyId([FromBody] InsertRegisterAdditionalPasskeyKeyIdParameters model)
+        public async Task<IActionResult> InsertRegisterAdditionalPasskeyKeyId([FromBody] InsertRegisterAdditionalPasskeyKeyIdParameters model)
         {
             string sql = @"
                 INSERT INTO register_additional_passkey (key_id, user_id)
@@ -229,14 +230,15 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@userId", model.UserId)
             };
 
-            if (DBHelper.ExecuteDatabaseNonQuery(sql, parameters) >= 1)
+            int affectedRows = await DBHelper.ExecuteDatabaseNonQueryAsync(sql, parameters);
+            if (affectedRows >= 1)
             {
                 return Ok();
             }
             return BadRequest();
         }
         [HttpPost("ValidateCreateRegisterAdditionalPasskeyKeyId")]
-        public ReturnValidateCreateRegisterAdditionalPasskeyKeyId ValidateCreateRegisterAdditionalPasskeyKeyId([FromBody] ValidateCreateRegisterAdditionalPasskeyKeyIdParameters model)
+        public async Task<ReturnValidateCreateRegisterAdditionalPasskeyKeyId> ValidateCreateRegisterAdditionalPasskeyKeyId([FromBody] ValidateCreateRegisterAdditionalPasskeyKeyIdParameters model)
         {
             string sql = @"
                 SELECT key_id
@@ -250,15 +252,15 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@keyId", model.KeyId)
             };
 
-            DataSet ds = DBHelper.ExecuteDatabaseQuery(sql, parameters);
+            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
 
             return new ReturnValidateCreateRegisterAdditionalPasskeyKeyId
             {
-                IsValid = ds.Tables[0].Rows.Count >= 1
+                IsValid = dataTable.Rows.Count >= 1
             };
         }
         [HttpPost("RemoveRegisterAdditionalPasskeyKeyId")]
-        public IActionResult RemoveRegisterAdditionalPasskeyKeyId([FromBody] RemoveRegisterAdditionalPasskeyKeyIdParameters model)
+        public async Task<IActionResult> RemoveRegisterAdditionalPasskeyKeyId([FromBody] RemoveRegisterAdditionalPasskeyKeyIdParameters model)
         {
             string sql = "DELETE FROM register_additional_passkey WHERE key_id = @keyId;";
 
@@ -267,7 +269,8 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("keyId", model.KeyId)
             };
 
-            if (DBHelper.ExecuteDatabaseNonQuery(sql, parameters) >= 1)
+            int affectedRows = await DBHelper.ExecuteDatabaseNonQueryAsync(sql, parameters);
+            if (affectedRows >= 1)
                 return Ok();
             return BadRequest();
         }

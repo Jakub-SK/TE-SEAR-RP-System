@@ -16,16 +16,16 @@ namespace SEAR_WEB.Controllers
             _sessionCache = sessionCache;
         }
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
             return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public async Task<IActionResult> Error()
         {
             var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
             var exception = exceptionHandlerPathFeature?.Error;
@@ -33,7 +33,7 @@ namespace SEAR_WEB.Controllers
             ShowExceptionMessage display = new ShowExceptionMessage();
             if (exception != null)
             {
-                display = SEAR_DataContract.Misc.Misc.LogException(exception, "SEAR WEB", uuid);
+                display = await SEAR_DataContract.Misc.Misc.LogException(exception, "SEAR WEB", uuid);
                 return View(new ErrorViewModel
                 {
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
@@ -46,7 +46,7 @@ namespace SEAR_WEB.Controllers
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
             });
         }
-        public IActionResult SubmitExceptionSteps(ErrorViewModel model)
+        public async Task<IActionResult> SubmitExceptionSteps(ErrorViewModel model)
         {
             SEAR_DataContract.Misc.Misc.UpdateLogExceptionWithSteps(model.UUID!, model.ErrorSteps!);
             return RedirectToAction("Index", "Home");

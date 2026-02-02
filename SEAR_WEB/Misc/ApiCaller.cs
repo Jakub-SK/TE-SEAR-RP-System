@@ -4,32 +4,50 @@ namespace SEAR_WEB.Misc
 {
     public static class ApiCaller
     {
+        private static readonly HttpClient _httpClient = new HttpClient();
         internal static class BaseUrl
         {
             public static string Url => "http://localhost:7001/";
         }
         //Call API
-        public static T CallApi<T>(string url)
+        //public static T CallApi<T>(string url)
+        //{
+        //    return CallBackObjectApiAsync<T>(url).GetAwaiter().GetResult();
+        //}
+        //public static T CallApi<T>(string url, object parameter)
+        //{
+        //    return CallBackObjectApiAsync<T>(url, parameter).GetAwaiter().GetResult();
+        //}
+        //public static void CallApi(string url)
+        //{
+        //    CallBackApiAsync(url);
+        //}
+        //public static void CallApi(string url, object parameter)
+        //{
+        //    CallBackApiAsync(url, parameter);
+        //}
+        //Call API Async
+        public static async Task<T> CallApiAsync<T>(string url)
         {
-            return CallBackObjectApiAsync<T>(url).GetAwaiter().GetResult();
+            return await CallBackObjectApiAsync<T>(url);
         }
-        public static T CallApi<T>(string url, object parameter)
+        public static async Task<T> CallApiAsync<T>(string url, object parameter)
         {
-            return CallBackObjectApiAsync<T>(url, parameter).GetAwaiter().GetResult();
+            return await CallBackObjectApiAsync<T>(url, parameter);
         }
-        public static void CallApi(string url)
+        public static async void CallApiAsync(string url)
         {
-            CallApiAsync(url);
+            CallBackApiAsync(url);
         }
-        public static void CallApi(string url, object parameter)
+        public static async void CallApiAsync(string url, object parameter)
         {
-            CallApiAsync(url, parameter);
+            CallBackApiAsync(url, parameter);
         }
         //Don't Call this method directly, use the method above CallApi()<T>
         private static async Task<T> CallBackObjectApiAsync<T>(string url)
         {
             url = BaseUrl.Url + url;
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _httpClient;
             HttpResponseMessage? response = null;
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
@@ -54,7 +72,7 @@ namespace SEAR_WEB.Misc
         private static async Task<T> CallBackObjectApiAsync<T>(string url, object parameter)
         {
             url = BaseUrl.Url + url;
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _httpClient;
             HttpResponseMessage? response = null;
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
@@ -76,10 +94,10 @@ namespace SEAR_WEB.Misc
             }
             return (await response!.Content.ReadFromJsonAsync<T>())!;
         }
-        private static async void CallApiAsync(string url)
+        private static async void CallBackApiAsync(string url)
         {
             url = BaseUrl.Url + url;
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _httpClient;
             HttpResponseMessage? response = null;
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
@@ -100,10 +118,10 @@ namespace SEAR_WEB.Misc
                 }
             }
         }
-        private static async void CallApiAsync(string url, object parameter)
+        private static async void CallBackApiAsync(string url, object parameter)
         {
             url = BaseUrl.Url + url;
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = _httpClient;
             HttpResponseMessage? response = null;
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try

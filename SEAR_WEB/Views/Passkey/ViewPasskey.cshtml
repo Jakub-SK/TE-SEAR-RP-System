@@ -12,7 +12,7 @@
 </div>
 <div>Saved Passkey:</div>
 <table>
-@foreach (ReturnPasskeysByUserId item in ViewData["Passkeys"] as List<ReturnPasskeysByUserId>)
+@foreach (ReturnViewAllPasskeysByUserId item in (ViewData["Passkeys"] as List<ReturnViewAllPasskeysByUserId>)!)
 {
     <tr>
         <td>

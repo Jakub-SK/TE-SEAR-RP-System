@@ -8,13 +8,13 @@
                 return true;
             return false;
         }
-        public static ShowExceptionMessage LogException(Exception ex, string appType, string ? uuid = null)
+        public static async Task<ShowExceptionMessage> LogException(Exception ex, string appType, string ? uuid = null)
         {
-            return DBHelper.LogException(ex, GetExceptionType(ex), appType, uuid);
+            return await DBHelper.LogException(ex, GetExceptionType(ex), appType, uuid);
         }
-        public static int UpdateLogExceptionWithSteps(string uuid, string steps)
+        public static async void UpdateLogExceptionWithSteps(string uuid, string steps)
         {
-            return DBHelper.UpdateLogExceptionWithSteps(uuid, steps);
+            DBHelper.UpdateLogExceptionWithSteps(uuid, steps);
         }
         public static string GetWebsiteUrl()
         {

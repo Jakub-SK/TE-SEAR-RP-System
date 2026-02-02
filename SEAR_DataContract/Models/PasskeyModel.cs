@@ -57,7 +57,7 @@
     public class ViewAllPasskeysByUserIdParameters{
         public required Guid UserId { get; set; }
     }
-    public class ReturnPasskeysByUserId
+    public class ReturnViewAllPasskeysByUserId
     {
         public required string DisplayName { get; set; }
         public required DateTime CreateDate { get; set; }

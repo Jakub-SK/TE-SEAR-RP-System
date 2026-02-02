@@ -4,33 +4,43 @@ using SEAR_WEB.Misc;
 
 namespace SEAR_WEB.Models
 {
+    public class RegisterRequestParameters
+    {
+        public required string Username { get; set; }
+        public required string DisplayName { get; set; }
+    }
+    public class RemoveUserByUsernameParameters
+    {
+        public required string Username { get; set; }
+    }
     public class PasskeyModel
     {
-        public static Guid CreateUserAccount(string username, string displayName)
+        public static async Task<Guid> CreateUserAccount(string username, string displayName)
         {
-            return ApiCaller.CallApi<Guid>("Api/ApiPasskey/CreateUserAccount", new CreateUserAccountParameters
+            return await ApiCaller.CallApiAsync<Guid>("Api/ApiPasskey/CreateUserAccount", new CreateUserAccountParameters
             {
                 Username = username,
                 DisplayName = displayName
             });
         }
-        public static void RemoveUserAccountByUsername(string username)
+        public static async void RemoveUserAccountByUsername(string username)
         {
-            ApiCaller.CallApi("Api/ApiPasskey/RemoveUserAccountByUsername", new RemoveUserAccountByUsernameParameters
+            ApiCaller.CallApiAsync("Api/ApiPasskey/RemoveUserAccountByUsername", new RemoveUserAccountByUsernameParameters
             {
                 Username = username
             });
         }
-        public static Guid? GetUserIdByUsername(string username)
+        public static async Task<Guid?> GetUserIdByUsername(string username)
         {
-            return ApiCaller.CallApi<ReturnGetUserIdByUsername>("Api/ApiPasskey/GetUserIdByUsername", new GetUserIdByUsernameParameters
+            ReturnGetUserIdByUsername response = await ApiCaller.CallApiAsync<ReturnGetUserIdByUsername>("Api/ApiPasskey/GetUserIdByUsername", new GetUserIdByUsernameParameters
             {
                 Username = username
-            }).UserId;
+            });
+            return response.UserId;
         }
-        public static void InsertPasskey(Guid userId, byte[] credentialId, byte[] publicKey, uint counter)
+        public static async void InsertPasskey(Guid userId, byte[] credentialId, byte[] publicKey, uint counter)
         {
-            ApiCaller.CallApi("Api/ApiPasskey/InsertPasskey", new InsertPasskeyParameters
+            ApiCaller.CallApiAsync("Api/ApiPasskey/InsertPasskey", new InsertPasskeyParameters
             {
                 UserId = userId,
                 CredentialId = credentialId,
@@ -38,45 +48,46 @@ namespace SEAR_WEB.Models
                 Counter = counter
             });
         }
-        public static Passkey? GetPasskeyByCredentialId(byte[] credentialId)
+        public static async Task<Passkey?> GetPasskeyByCredentialId(byte[] credentialId)
         {
-            return ApiCaller.CallApi<ReturnGetPasskeyByCredentialId>("Api/ApiPasskey/GetPasskeyByCredentialId", new GetPasskeyByCredentialIdParameters
+            ReturnGetPasskeyByCredentialId response = await ApiCaller.CallApiAsync<ReturnGetPasskeyByCredentialId>("Api/ApiPasskey/GetPasskeyByCredentialId", new GetPasskeyByCredentialIdParameters
             {
                 CredentialId = credentialId
-            }).Passkey;
+            });
+            return response.Passkey;
         }
-        public static void UpdateCounter(byte[] credentialId, uint newCounter)
+        public static async void UpdateCounter(byte[] credentialId, uint newCounter)
         {
-            ApiCaller.CallApi("Api/ApiPasskey/UpdateCounter", new UpdateCounterParameters
+            ApiCaller.CallApiAsync("Api/ApiPasskey/UpdateCounter", new UpdateCounterParameters
             {
                 CredentialId = credentialId,
                 NewCounter = newCounter
             });
         }
-        public static ReturnGetUsernameByUserId GetUsernameByUserId(Guid userId)
+        public static async Task<ReturnGetUsernameByUserId> GetUsernameByUserId(Guid userId)
         {
-            return ApiCaller.CallApi<ReturnGetUsernameByUserId>("Api/ApiPasskey/GetUsernameByUserId", new GetUsernameByUserIdParameters
+            return await ApiCaller.CallApiAsync<ReturnGetUsernameByUserId>("Api/ApiPasskey/GetUsernameByUserId", new GetUsernameByUserIdParameters
             {
                 UserId = userId
             });
         }
-        public static List<ReturnPasskeysByUserId> ViewAllPasskeysByUserId(Guid userId)
+        public static async Task<List<ReturnViewAllPasskeysByUserId>> ViewAllPasskeysByUserId(Guid userId)
         {
-            return ApiCaller.CallApi<List<ReturnPasskeysByUserId>>("Api/ApiPasskey/ViewAllPasskeysByUserId", new ViewAllPasskeysByUserIdParameters
+            return await ApiCaller.CallApiAsync<List<ReturnViewAllPasskeysByUserId>>("Api/ApiPasskey/ViewAllPasskeysByUserId", new ViewAllPasskeysByUserIdParameters
             {
                 UserId = userId
             });
         }
-        public static string? CreateRegisterAdditionalPasskeyUrl(Guid userId)
+        public static async Task<string?> CreateRegisterAdditionalPasskeyUrl(Guid userId)
         {
-            if (ApiCaller.CallApi<ReturnCheckUserExistByUserId>("Api/ApiPasskey/CheckUserExistByUserId", new CheckUserExistByUserIdParameters
+            ReturnCheckUserExistByUserId response = await ApiCaller.CallApiAsync<ReturnCheckUserExistByUserId>("Api/ApiPasskey/CheckUserExistByUserId", new CheckUserExistByUserIdParameters
             {
                 UserId = userId
-            }).IsExist == true)
+            });
+            if (response.IsExist == true)
             {
-                AppLogger.LogInformation("IsExist is true");
                 Guid keyId = Guid.NewGuid();
-                ApiCaller.CallApi("Api/ApiPasskey/InsertRegisterAdditionalPasskeyKeyId", new InsertRegisterAdditionalPasskeyKeyIdParameters
+                ApiCaller.CallApiAsync("Api/ApiPasskey/InsertRegisterAdditionalPasskeyKeyId", new InsertRegisterAdditionalPasskeyKeyIdParameters
                 {
                     KeyId = keyId,
                     UserId = userId
@@ -85,16 +96,17 @@ namespace SEAR_WEB.Models
             }
             return null;
         }
-        public static bool ValidateCreateRegisterAdditionalPasskeyKeyId(Guid keyId)
+        public static async Task<bool> ValidateCreateRegisterAdditionalPasskeyKeyId(Guid keyId)
         {
-            return ApiCaller.CallApi<ReturnValidateCreateRegisterAdditionalPasskeyKeyId>("Api/ApiPasskey/ValidateCreateRegisterAdditionalPasskeyKeyId", new ValidateCreateRegisterAdditionalPasskeyKeyIdParameters
+            ReturnValidateCreateRegisterAdditionalPasskeyKeyId response = await ApiCaller.CallApiAsync<ReturnValidateCreateRegisterAdditionalPasskeyKeyId>("Api/ApiPasskey/ValidateCreateRegisterAdditionalPasskeyKeyId", new ValidateCreateRegisterAdditionalPasskeyKeyIdParameters
             {
                 KeyId = keyId
-            }).IsValid;
+            });
+            return response.IsValid;
         }
-        public static void RemoveRegisterAdditionalPasskeyKeyId(Guid keyId)
+        public static async void RemoveRegisterAdditionalPasskeyKeyId(Guid keyId)
         {
-            ApiCaller.CallApi("Api/ApiPasskey/RemoveRegisterAdditionalPasskeyKeyId", new RemoveRegisterAdditionalPasskeyKeyIdParameters
+            ApiCaller.CallApiAsync("Api/ApiPasskey/RemoveRegisterAdditionalPasskeyKeyId", new RemoveRegisterAdditionalPasskeyKeyIdParameters
             {
                 KeyId = keyId
             });

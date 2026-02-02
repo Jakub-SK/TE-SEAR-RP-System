@@ -38,28 +38,28 @@
                 errorBox.innerText = "Register failed, username maybe already been used.";
                 return;
             }
-
+            
             const options = await response.json();
 
             options.challenge = base64UrlToBuffer(options.challenge);
             options.user.id = base64UrlToBuffer(options.user.id);
-
+            
             if (options.excludeCredentials) {
                 options.excludeCredentials.forEach(x => {
                     x.id = base64UrlToBuffer(x.id);
                 });
             }
-
+            
             const credential = await navigator.credentials.create({
                 publicKey: options
             });
-
+            
             const verifyResponse = await fetch('/Passkey/RegisterResponse', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credential)
             });
-
+            
             if (!verifyResponse.ok) {
                 errorBox.innerText = "Passkey registration failed.";
                 return;
