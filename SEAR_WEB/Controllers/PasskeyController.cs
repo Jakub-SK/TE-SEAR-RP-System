@@ -236,21 +236,16 @@ namespace SEAR_WEB.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRegisterAdditionalPasskey()
         {
-            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null)
-            {
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            if (string.IsNullOrEmpty(userId))
                 return BadRequest();
-            }
 
-            string? keyId = await PasskeyModel.CreateRegisterAdditionalPasskeyUrl(Guid.Parse(userId));
+            string keyId = await PasskeyModel.CreateRegisterAdditionalPasskeyUrl(Guid.Parse(userId));
 
-            if (keyId == null)
-            {
+            if (string.IsNullOrEmpty(keyId))
                 return BadRequest();
-            }
 
-            if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment())
-                keyId = SEAR_DataContract.Misc.Misc.GetWebsiteUrl() + Url.Action("RegisterAdditionalPasskey", "Passkey") + "/" + keyId;
+            keyId = SEAR_DataContract.Misc.Misc.GetWebsiteUrl() + Url.Action("RegisterAdditionalPasskey", "Passkey") + "/" + keyId;
 
             return Json(new { keyUrl = keyId });
         }

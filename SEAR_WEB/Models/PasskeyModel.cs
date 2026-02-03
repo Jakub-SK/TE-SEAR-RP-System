@@ -78,7 +78,7 @@ namespace SEAR_WEB.Models
                 UserId = userId
             });
         }
-        public static async Task<string?> CreateRegisterAdditionalPasskeyUrl(Guid userId)
+        public static async Task<string> CreateRegisterAdditionalPasskeyUrl(Guid userId)
         {
             ReturnCheckUserExistByUserId response = await ApiCaller.CallApiAsync<ReturnCheckUserExistByUserId>("Api/ApiPasskey/CheckUserExistByUserId", new CheckUserExistByUserIdParameters
             {
@@ -94,7 +94,7 @@ namespace SEAR_WEB.Models
                 });
                 return keyId.ToString();
             }
-            return null;
+            return "";
         }
         public static async Task<bool> ValidateCreateRegisterAdditionalPasskeyKeyId(Guid keyId)
         {
