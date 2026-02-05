@@ -35,7 +35,7 @@ namespace SEAR_WEB.Controllers
         [Authorize]
         public async Task<IActionResult> ViewPasskey()
         {
-            ViewData["Passkeys"] = PasskeyModel.ViewAllPasskeysByUserId(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!));
+            ViewData["Passkeys"] = await PasskeyModel.ViewAllPasskeysByUserId(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!));
             return View();
         }
         [HttpPost]

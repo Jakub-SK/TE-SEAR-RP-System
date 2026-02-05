@@ -1,124 +1,28 @@
 ﻿@{
-    ViewData["Title"] = "View Passkey";
+    ViewData["Title"] = Localizer["View Passkey"];
 }
+<script src="~/js/Views/Passkey/ViewPasskey.js"></script>
+<script src="~/js/Views/Passkey/Shared.js"></script>
 
 <div style="padding-top:200px;">
-    <h2>Passkey Authentication</h2>
-    <button onclick="registerPasskey()">Register Additional Passkey</button>
-    <button onclick="createRegisterAdditionalPasskeyUrl()">Register Additional Passkey on another device</button>
+    <h2>@Localizer["Passkey Auth"]</h2>
+    <button onclick="registerPasskey()">@Localizer["Register Additional Passkey"]</button>
+    <button onclick="createRegisterAdditionalPasskeyUrl()">@Localizer["Register Additional Passkey another device"]</button>
     <p id="loadingMessage" style="color:yellow;"></p>
-    <p id="errorMessage" style="color:red;"></p>
+    <p id="errorMessage" style="color:rgb(180, 0, 0);"></p>
     <p id="returnRegisterUrl"></p>
 </div>
-<div>Saved Passkey:</div>
+<div>@Localizer["Saved Passkey"]:</div>
 <table>
 @foreach (ReturnViewAllPasskeysByUserId item in (ViewData["Passkeys"] as List<ReturnViewAllPasskeysByUserId>)!)
 {
     <tr>
         <td>
-            Name: @(string.IsNullOrEmpty(item.DisplayName) ? "Passkey" : item.DisplayName)
+            @Localizer["Name"]: @(string.IsNullOrEmpty(item.DisplayName) ? "Passkey" : item.DisplayName)
         </td>
         <td>
-            Created At: @item.CreateDate
+            @Localizer["Create At"]: @item.CreateDate
         </td>
     </tr>
 }
 </table>
-<script>
-    async function registerPasskey() {
-        document.getElementById("loadingMessage").innerText = "Loading...";
-        const errorBox = document.getElementById("errorMessage");
-        errorBox.innerText = "";
-
-        try {
-            const response = await fetch('/Passkey/RegisterRequestByUserId', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            if (!response.ok) {
-                errorBox.innerText = "Passkey registration failed.";
-                return;
-            }
-
-            const options = await response.json();
-
-            options.challenge = base64UrlToBuffer(options.challenge);
-            options.user.id = base64UrlToBuffer(options.user.id);
-
-            if (options.excludeCredentials) {
-                options.excludeCredentials.forEach(x => {
-                    x.id = base64UrlToBuffer(x.id);
-                });
-            }
-
-            const credential = await navigator.credentials.create({
-                publicKey: options
-            });
-
-            const verifyResponse = await fetch('/Passkey/RegisterResponseByUserId', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(credential)
-            });
-
-            if (!verifyResponse.ok) {
-                errorBox.innerText = "Passkey registration failed.";
-                return;
-            }
-
-            const responseJson = await verifyResponse.json();
-
-            if (responseJson.success) {
-                window.location.href = responseJson.redirectUrl;
-            } else {
-                alert("Passkey registration failed.");
-            }
-        } catch {
-            errorBox.innerText = "Unexpected error occurred.";
-        } finally {
-            document.getElementById("loadingMessage").innerText = "";
-        }
-    }
-
-    async function createRegisterAdditionalPasskeyUrl() {
-        document.getElementById("loadingMessage").innerText = "Loading...";
-        const errorBox = document.getElementById("errorMessage");
-        errorBox.innerText = "";
-
-        try {
-            const response = await fetch('/Passkey/CreateRegisterAdditionalPasskey', {
-                method: 'POST',
-            });
-
-            if (!response.ok) {
-                errorBox.innerText = "User creation or request failed.";
-                return;
-            }
-
-            const keyUrl = await response.json();
-            document.getElementById("returnRegisterUrl").innerText = keyUrl.keyUrl;
-        } catch {
-            console.log("Unexpected error occurred.");
-            errorBox.innerText = "Unexpected error occurred";
-        } finally {
-            document.getElementById("loadingMessage").innerText = "";
-        }
-    }
-
-    function base64UrlToBuffer(base64url) {
-        const padding = '='.repeat((4 - base64url.length % 4) % 4);
-        const base64 = (base64url + padding)
-            .replace(/-/g, '+')
-            .replace(/_/g, '/');
-
-        const raw = window.atob(base64);
-        const buffer = new ArrayBuffer(raw.length);
-        const view = new Uint8Array(buffer);
-
-        for (let i = 0; i < raw.length; ++i)
-            view[i] = raw.charCodeAt(i);
-
-        return buffer;
-    }
-</script>

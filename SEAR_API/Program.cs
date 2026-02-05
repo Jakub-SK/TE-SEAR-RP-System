@@ -23,9 +23,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
@@ -33,7 +31,6 @@ using (var scope = app.Services.CreateScope())
     var logger = scope.ServiceProvider
                       .GetRequiredService<ILoggerFactory>()
                       .CreateLogger("SEAR API");
-
     AppLogger.Initialize(logger);
 }
 

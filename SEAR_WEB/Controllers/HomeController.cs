@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using System.Diagnostics;
 using SEAR_DataContract.Misc;
 using SEAR_WEB.RedirectViewModels;
 using SEAR_WEB.Session;
-using Microsoft.AspNetCore.Authorization;
 
 namespace SEAR_WEB.Controllers
 {
@@ -23,6 +24,15 @@ namespace SEAR_WEB.Controllers
         public async Task<IActionResult> Privacy()
         {
             return View();
+        }
+        public async Task<IActionResult> SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+            return LocalRedirect(returnUrl);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Error()

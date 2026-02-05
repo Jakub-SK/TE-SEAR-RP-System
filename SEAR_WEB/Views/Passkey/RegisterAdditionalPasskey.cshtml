@@ -1,91 +1,15 @@
 ﻿@model RegisterAdditionalPasskeyKeyIdViewModel
 @{
-    ViewData["Title"] = "Register Additional Passkey";
+    ViewData["Title"] = Localizer["Register Additional Passkey"];
 }
+<script src="~/js/Views/Passkey/RegisterAdditionalPasskey.js"></script>
+<script src="~/js/Views/Passkey/Shared.js"></script>
 
 <div style="padding-top:200px;">
-    Logged in as: @User.FindFirst("DisplayName")?.Value
-    <h2>Register Additional Passkey</h2>
-    <button onclick="registerAdditionalPasskey()">Register Additional Passkey</button>
+    @Localizer["Logged"]: @User.FindFirst("DisplayName")?.Value
+    <h2>@Localizer["Register Additional Passkey"]</h2>
+    <button onclick="registerAdditionalPasskey()">@Localizer["Register Additional Passkey"]</button>
     <p id="loadingMessage" style="color:yellow;"></p>
-    <p id="errorMessage" style="color:red;"></p>
+    <p id="errorMessage" style="color:rgb(180, 0, 0);"></p>
     <input type="hidden" id="keyId" asp-for="KeyId" />
 </div>
-
-<script>
-    async function registerAdditionalPasskey() {
-        document.getElementById("loadingMessage").innerText = "Loading...";
-        const errorBox = document.getElementById("errorMessage");
-        errorBox.innerText = "";
-        const keyId = document.getElementById('keyId').value;
-
-        try {
-            const response = await fetch('/Passkey/ConfirmRegisterAdditionalPasskey', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    KeyId: keyId
-                })
-            });
-
-            if (!response.ok) {
-                errorBox.innerText = "User creation or request failed.";
-                return;
-            }
-
-            const options = await response.json();
-
-            options.challenge = base64UrlToBuffer(options.challenge);
-            options.user.id = base64UrlToBuffer(options.user.id);
-
-            if (options.excludeCredentials) {
-                options.excludeCredentials.forEach(x => {
-                    x.id = base64UrlToBuffer(x.id);
-                });
-            }
-
-            const credential = await navigator.credentials.create({
-                publicKey: options
-            });
-
-            const verifyResponse = await fetch('/Passkey/RegisterResponseByUserId', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(credential)
-            });
-
-            if (!verifyResponse.ok) {
-                errorBox.innerText = "Passkey registration failed.";
-                return;
-            }
-
-            const responseJson = await verifyResponse.json();
-
-            if (responseJson.success) {
-                window.location.href = responseJson.redirectUrl;
-            } else {
-                alert("Passkey registration failed.");
-            }
-        } catch {
-            errorBox.innerText = "Unexpected error occurred.";
-        } finally {
-            document.getElementById("loadingMessage").innerText = "";
-        }
-    }
-
-    function base64UrlToBuffer(base64url) {
-        const padding = '='.repeat((4 - base64url.length % 4) % 4);
-        const base64 = (base64url + padding)
-            .replace(/-/g, '+')
-            .replace(/_/g, '/');
-
-        const raw = window.atob(base64);
-        const buffer = new ArrayBuffer(raw.length);
-        const view = new Uint8Array(buffer);
-
-        for (let i = 0; i < raw.length; ++i)
-            view[i] = raw.charCodeAt(i);
-
-        return buffer;
-    }
-</script>
