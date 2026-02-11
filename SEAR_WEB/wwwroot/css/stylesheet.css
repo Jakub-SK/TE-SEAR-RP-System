@@ -19,11 +19,16 @@
 
 */
 
+/* ############################################################################################################### /*
+/* CSS for general tags/ general fixes */
+
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: "Figtree", sans-serif;
+    font-size: 20px;
+    font-optical-sizing: auto;
     margin: 0;
     padding: 0;
-    background-color: #000;
+    background-color: #171b1e;
     color: #ffffff;
     overflow-x: hidden;
 }
@@ -35,6 +40,31 @@ body {
 img {
     display: block;
     max-width: 100%;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+h1, h2, h3, h4, p {
+    margin: 0;
+}
+
+strong {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
@@ -79,8 +109,8 @@ img {
 }
 
 .site-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 27px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 39px;
     font-weight: 700;
     color: #ffffff;
     margin: 0;
@@ -133,8 +163,8 @@ img {
 }
 
 .subtitle {
-    font-family: 'Inter', sans-serif;
-    font-size: 24px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 35px;
     font-weight: 600;
     color: #ffffff;
     white-space: nowrap;
@@ -205,24 +235,6 @@ img {
     pointer-events: none; /* Let clicks pass through to nav */
 }
 
-.main-nav {
-    position: absolute;
-    top: 35em;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 825px;
-    height: 115px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border: 1px solid #000000;
-    backdrop-filter: blur(1px);
-    border-radius: 88px; /* Half of height for pill shape */
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    pointer-events: auto;
-    padding: 0 20px;
-}
-
 .nav-item {
     position: relative;
     width: 133px;
@@ -282,20 +294,6 @@ img {
     #section-hero {
         height: auto;
         min-height: 100vh;
-    }
-
-    .main-nav {
-        position: relative;
-        top: auto;
-        bottom: auto;
-        margin-top: 200px; /* Push down below header */
-        margin-bottom: 50px;
-        width: 90%;
-        height: auto;
-        flex-wrap: wrap;
-        border-radius: 20px;
-        padding: 20px;
-        gap: 20px;
     }
 }
 

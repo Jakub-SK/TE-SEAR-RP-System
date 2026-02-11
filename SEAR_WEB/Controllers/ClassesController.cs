@@ -11,7 +11,6 @@ namespace SEAR_WEB.Controllers
         {
             _sessionCache = sessionCache;
         }
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View();
