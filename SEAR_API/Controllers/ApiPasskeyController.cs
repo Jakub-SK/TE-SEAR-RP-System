@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using Npgsql;
 using SEAR_DataContract.Misc;
 using SEAR_DataContract.Models;
-using System.Data;
 
 namespace SEAR_API.Controllers
 {
@@ -232,9 +232,7 @@ namespace SEAR_API.Controllers
 
             int affectedRows = await DBHelper.ExecuteDatabaseNonQueryAsync(sql, parameters);
             if (affectedRows >= 1)
-            {
                 return Ok();
-            }
             return BadRequest();
         }
         [HttpPost("ValidateCreateRegisterAdditionalPasskeyKeyId")]

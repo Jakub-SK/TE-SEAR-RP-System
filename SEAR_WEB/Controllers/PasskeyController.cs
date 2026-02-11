@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
-using SEAR_DataContract.Misc;
+using System.Security.Claims;
 using SEAR_DataContract.Models;
 using SEAR_WEB.Models;
 using SEAR_WEB.RedirectViewModels;
-using System.Security.Claims;
 
 namespace SEAR_WEB.Controllers
 {
@@ -126,7 +124,7 @@ namespace SEAR_WEB.Controllers
             // Save to PostgreSQL
             PasskeyModel.InsertPasskey(new Guid(result.User.Id), result.Id, result.PublicKey, result.SignCount);
 
-            return Json(new { success = true, redirectUrl = "/Passkey/Login" }); ;
+            return Json(new { success = true, redirectUrl = "/Passkey/Login" });
         }
         [HttpPost]
         public async Task<IActionResult> RegisterResponseByUserId([FromBody] AuthenticatorAttestationRawResponse attestationResponse)
@@ -158,7 +156,7 @@ namespace SEAR_WEB.Controllers
                 PasskeyModel.RemoveRegisterAdditionalPasskeyKeyId(Guid.Parse(HttpContext.Session.GetString("IsRegisteringByUrl")!));
             HttpContext.Session.Remove("IsRegisteringByUrl");
 
-            return Json(new { success = true, redirectUrl = "/Passkey/ViewPasskey" }); ;
+            return Json(new { success = true, redirectUrl = "/Passkey/ViewPasskey" });
         }
         [HttpPost]
         public IActionResult RemoveUserByUsername([FromBody] RemoveUserByUsernameParameters parameters)

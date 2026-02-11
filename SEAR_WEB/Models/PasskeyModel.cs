@@ -1,5 +1,4 @@
-﻿using SEAR_DataContract.Misc;
-using SEAR_DataContract.Models;
+﻿using SEAR_DataContract.Models;
 using SEAR_WEB.Misc;
 
 namespace SEAR_WEB.Models
