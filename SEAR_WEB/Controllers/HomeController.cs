@@ -16,10 +16,6 @@ namespace SEAR_WEB.Controllers
         {
             _sessionCache = sessionCache;
         }
-        public async Task<IActionResult> Index()
-        {
-            return View();
-        }
         public async Task<IActionResult> Privacy()
         {
             return View();
