@@ -10,28 +10,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Figtree:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    @*For ASP.NET internal*@
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SEAR_WEB.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/stylesheet.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Shared/site.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/SEAR_WEB.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Shared/site.css" asp-append-version="true" />
+    @*For ASP.NET internal*@
+    <link rel="stylesheet" href="~/css/Shared/stylesheet.css" />
+    <link rel="stylesheet" href="~/css/Shared/layout.css" />
 </head>
 <body>
     <section id="section-header">
         <header class="site-header">
             <a href="@Url.Action("Index", "Home")">
                 <div class="header-left">
-                    <img src="~/images/logo.png" alt="Logo" class="logo">
+                    <img src="~/images/Shared/logo.png" alt="Logo" class="logo">
                     <h1 class="site-title">@Localizer["TE Name"]</h1>
                 </div>
             </a>
 
             <div class="header-center">
                 <div class="search-bar">
-                    <img src="~/images/svg/search.svg" alt="Search" class="search-icon">
+                    <img src="~/images/Shared/svg/search.svg" alt="Search" class="search-icon">
                     <input type="text" class="search-input" placeholder="@Localizer["Search"]">
                 </div>
             </div>
@@ -43,6 +46,79 @@
     </section>
     <div class="container">
         <main role="main" class="pb-3">
+            <!-- Buttons -->
+            <section id="section-hero">
+                <div class="hero-background">
+                    @if (!string.IsNullOrEmpty(ViewData["Raya Art Path"] as string))
+                    {
+                        <img src="~/@(ViewData["Raya Art Path"] as string)" alt="Background" class="bg-image">
+                    }
+                    else
+                    {
+                        <div style="margin: 200px;">The art path is null or invalid :( (try remove the "~/")</div>
+                    }
+                </div>
+
+                <div class="hero-content container">
+                    <nav class="main-nav">
+                        <!-- Classes -->
+                        <a href="@Url.Action("Index", "Classes")">
+                            <div class="nav-item">
+                                <div class="nav-icon-group">
+                                    <img src="~/images/Shared/svg/box.svg" alt="Classes Background" class="nav-bg-svg">
+                                    <img src="~/images/Shared/ClassIcons/classes.png" alt="Classes Icon" class="nav-icon">
+                                </div>
+                                <span class="nav-label">Classes</span>
+                            </div>
+                        </a>
+
+                        <!-- Psionics -->
+                        <a href="@Url.Action("Index", "Psionics")">
+                            <div class="nav-item">
+                                <div class="nav-icon-group">
+                                    <img src="~/images/Shared/svg/box.svg" alt="Psionics Background" class="nav-bg-svg">
+                                    <img src="~/images/Shared/ClassIcons/psionics.png" alt="Psionics Icon" class="nav-icon">
+                                </div>
+                                <span class="nav-label">Psionics</span>
+                            </div>
+                        </a>
+
+                        <!-- Enemies -->
+                        <a href="@Url.Action("Index", "Enemies")">
+                            <div class="nav-item">
+                                <div class="nav-icon-group">
+                                    <img src="~/images/Shared/svg/box.svg" alt="Enemies Background" class="nav-bg-svg">
+                                    <img src="~/images/Shared/ClassIcons/enemies.png" alt="Enemies Icon" class="nav-icon">
+                                </div>
+                                <span class="nav-label">Enemies</span>
+                            </div>
+                        </a>
+
+                        <!-- Items -->
+                        <a href="@Url.Action("Index", "Items")">
+                            <div class="nav-item">
+                                <div class="nav-icon-group">
+                                    <img src="~/images/Shared/svg/box.svg" alt="Items Background" class="nav-bg-svg">
+                                    <img src="~/images/Shared/ClassIcons/items.png" alt="Items Icon" class="nav-icon">
+                                </div>
+                                <span class="nav-label">Items</span>
+                            </div>
+                        </a>
+
+                        <!-- Manuals -->
+                        <a href="@Url.Action("Index", "Manuals")">
+                            <div class="nav-item">
+                                <div class="nav-icon-group">
+                                    <img src="~/images/Shared/svg/box.svg" alt="Manuals Background" class="nav-bg-svg">
+                                    <img src="~/images/Shared/ClassIcons/manuals.png" alt="Manuals Icon" class="nav-icon">
+                                </div>
+                                <span class="nav-label">Manuals</span>
+                            </div>
+                        </a>
+                    </nav>
+                </div>
+            </section>
+            <!-- ################################################################################################################################# -->
             @RenderBody()
         </main>
     </div>
@@ -50,13 +126,13 @@
         <footer class="site-footer">
             <div class="social-icons">
                 <a href="#" class="social-link">
-                    <img src="~/images/svg/discord.svg" alt="Discord" class="social-icon">
+                    <img src="~/images/Shared/svg/discord.svg" alt="Discord" class="social-icon">
                 </a>
                 <a href="#" class="social-link">
-                    <img src="~/images/svg/github.svg" alt="GitHub" class="social-icon">
+                    <img src="~/images/Shared/svg/github.svg" alt="GitHub" class="social-icon">
                 </a>
                 <a href="#" class="social-link">
-                    <img src="~/images/svg/google.svg" alt="Google" class="social-icon">
+                    <img src="~/images/Shared/svg/google.svg" alt="Google" class="social-icon">
                 </a>
             </div>
         </footer>

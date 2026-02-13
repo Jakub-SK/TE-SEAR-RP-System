@@ -1,685 +1,605 @@
 ﻿@{
     ViewData["Title"] = "Classes";
+    ViewData["Raya Art Path"] = "images/Shared/RayaArt/raya2.png";
 }
 
-<link rel="stylesheet" href="~/css/Home/Index.css" />
-<link rel="stylesheet" href="~/css/Classes/classes.css" />
-<script src="js/classMenu.js" defer></script>
-<section id="section-hero">
-    <div class="hero-background">
-        <img src="~/images/raya_art/raya2.png" alt="Background" class="bg-image">
-    </div>
-
-    <div class="hero-content container">
-        <nav class="main-nav">
-            <!-- Classes -->
-            <a href="@Url.Action("Index", "Classes")">
-                <div class="nav-item">
-                    <div class="nav-icon-group">
-                        <img src="~/images/svg/box.svg" alt="Classes Background" class="nav-bg-svg">
-                        <img src="~/images/classes.png" alt="Classes Icon" class="nav-icon">
-                    </div>
-                    <span class="nav-label">Classes</span>
-                </div>
-            </a>
-
-            <!-- Psionics -->
-            <a href="@Url.Action("Index", "Psionics")">
-                <div class="nav-item">
-                    <div class="nav-icon-group">
-                        <img src="~/images/svg/box.svg" alt="Psionics Background" class="nav-bg-svg">
-                        <img src="~/images/psionics.png" alt="Psionics Icon" class="nav-icon">
-                    </div>
-                    <span class="nav-label">Psionics</span>
-                </div>
-            </a>
-
-            <!-- Enemies -->
-            <a href="@Url.Action("Index", "Enemies")">
-                <div class="nav-item">
-                    <div class="nav-icon-group">
-                        <img src="~/images/svg/box.svg" alt="Enemies Background" class="nav-bg-svg">
-                        <img src="~/images/enemies.png" alt="Enemies Icon" class="nav-icon">
-                    </div>
-                    <span class="nav-label">Enemies</span>
-                </div>
-            </a>
-
-            <!-- Items -->
-            <a href="@Url.Action("Index", "Items")">
-                <div class="nav-item">
-                    <div class="nav-icon-group">
-                        <img src="~/images/svg/box.svg" alt="Items Background" class="nav-bg-svg">
-                        <img src="~/images/items.png" alt="Items Icon" class="nav-icon">
-                    </div>
-                    <span class="nav-label">Items</span>
-                </div>
-            </a>
-
-            <!-- Manuals -->
-            <a href="@Url.Action("Index", "Manuals")">
-                <div class="nav-item">
-                    <div class="nav-icon-group">
-                        <img src="~/images/svg/box.svg" alt="Manuals Background" class="nav-bg-svg">
-                        <img src="~/images/manuals.png" alt="Manuals Icon" class="nav-icon">
-                    </div>
-                    <span class="nav-label">Manuals</span>
-                </div>
-            </a>
-        </nav>
-    </div>
-</section>
-
-<!-- ################################################################################################################################# -->
- 
+<link rel="stylesheet" href="~/css/Classes/Index.css" />
+<script src="~/js/Shared/ClassMenu.js"></script>
 
 <section id="section-class-selection">
 
-  <div class="container">
+    <div class="container">
 
-  <div class="class-card">
+        <div class="class-card">
 
-    <!-- ===== TABS ===== -->
-    <div class="tabs-header">
+            <!-- ===== TABS ===== -->
+            <div class="tabs-header">
 
-      <div class="tab active">
-        <span>Standard Combat Classes</span>
-      </div>
+                <div class="tab active">
+                    <span>Standard Combat Classes</span>
+                </div>
 
-      <div class="tab">
-        <span>Vehicle and Specialist Classes</span>
-      </div>
+                <div class="tab">
+                    <span>Vehicle and Specialist Classes</span>
+                </div>
 
-      <div class="tab">
-        <span>Advanced Combat Classes</span>
-      </div>
+                <div class="tab">
+                    <span>Advanced Combat Classes</span>
+                </div>
 
-      <div class="tab-indicator"></div>
+                <div class="tab-indicator"></div>
 
+            </div>
+
+            <div class="tab-divider"></div>
+
+            <!-- ###### Martial and Combat Classes ##############################################################################-->
+
+            <div class="tab-content active" data-tab="0">
+
+                <div class="class-grid">
+
+                    <div class="class-column">
+
+                        <div class="class-item active-item">
+                            <h3>✦ Shock Trooper</h3>
+                            <p>Frontline assault and breach specialist. Excels in close combat and momentum-driven engagements.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Soldier</h3>
+                            <p>Professional baseline combatant. Flexible weapon use and sustained battlefield presence.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Marksman</h3>
+                            <p>Long-range precision and target elimination. Controls space through accuracy and patience.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Close Quarters Specialist</h3>
+                            <p>Confined-space combat and disabling control. Excels where weapons fail and space is limited.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="class-column">
+
+                        <div class="section-label">
+                            Psionic Classes
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Psionic Operative</h3>
+                            <p>High-risk psionic offense and control. Uses INT to execute effects and WIS to survive degradation.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ###### Vehicle and Specialist Classes ################################################################################################-->
+
+            <div class="tab-content" data-tab="1">
+                <div class="class-grid">
+
+                    <div class="class-column">
+
+                        <div class="class-item">
+                            <h3>✦ Pilot</h3>
+                            <p>Eagle pilots, Mech operators, Armored vehicle specialists. This class covers them all.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Combat Specialist</h3>
+                            <p>Battlefield modification, repairs, and demolitions. Solves problems with tools and explosives.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Trauma Specialist</h3>
+                            <p>Trauma Specialists are battlefield critical care operators. They stabilize casualties, suppress lethal conditions.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Electronic Warfare Specialist</h3>
+                            <p>Command autonomous weapons, intrude hostile systems. Dominate the invisible layer of modern war</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="class-column">
+
+                        <div class="section-label">
+                            Stealth and Control Classes
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Infiltrator</h3>
+                            <p>Stealth, sabotage, and intelligence acquisition. Operates unseen and unsupported.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Intelligence Handler</h3>
+                            <p>Morale, influence, and psychological operations. Controls narrative, interrogation, and command cohesion.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ###### Advanced Classes ################################################################################################-->
+
+            <div class="tab-content" data-tab="2">
+                <div class="class-grid">
+                    <div class="class-column">
+
+                        <div class="section-label">
+                            GM Approved Classes
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Hellmarine</h3>
+                            <p>Experts in tight environments and disabling control.  They end fights where maneuvering is no longer an option.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Warden</h3>
+                            <p>The Praetorians of the Truth Enforcers. Deployed for suppression of dissidence.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Commando</h3>
+                            <p>Specialised survivalists and saboteurs, blending in with their environment and utilising it to the fullest.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Psionic Assassin</h3>
+                            <p>Operatives who learned just enough psionics to weaponize it without surrendering to total neural collapse.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="class-column">
+
+                        <div class="section-label">
+                            Commander Classes
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Fleet Commander</h3>
+                            <p>Fleet Commanders do not fight the enemy directly. They move fleets, people, and consequences.</p>
+                        </div>
+
+                        <div class="class-item">
+                            <h3>✦ Field Commander</h3>
+                            <p>Field Commander controls tempo, positioning, and morale. They win fights by deciding who acts when and where the line holds.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="tab-divider"></div>
-
-
-
-    <!-- ###### Martial and Combat Classes ##############################################################################-->
-    
-    
-    
-    <div class="tab-content active" data-tab="0">
-
-      <div class="class-grid">
-
-        <div class="class-column">
-
-          <div class="class-item active-item">
-            <h3>✦ Shock Trooper</h3>
-            <p>Frontline assault and breach specialist. Excels in close combat and momentum-driven engagements.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Soldier</h3>
-            <p>Professional baseline combatant. Flexible weapon use and sustained battlefield presence.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Marksman</h3>
-            <p>Long-range precision and target elimination. Controls space through accuracy and patience.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Close Quarters Specialist</h3>
-            <p>Confined-space combat and disabling control. Excels where weapons fail and space is limited.</p>
-          </div>
-
-        </div>
-
-
-        <div class="class-column">
-
-          <div class="section-label">
-            Psionic Classes
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Psionic Operative</h3>
-            <p>High-risk psionic offense and control. Uses INT to execute effects and WIS to survive degradation.</p>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-
-
-
-    <!-- ###### Vehicle and Specialist Classes ################################################################################################-->
-    
-    
-    
-    <div class="tab-content" data-tab="1">
-      <div class="class-grid">
-
-        <div class="class-column">
-
-          <div class="class-item">
-            <h3>✦ Pilot</h3>
-            <p>Eagle pilots, Mech operators, Armored vehicle specialists. This class covers them all.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Combat Specialist</h3>
-            <p>Battlefield modification, repairs, and demolitions. Solves problems with tools and explosives.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Trauma Specialist</h3>
-            <p>Trauma Specialists are battlefield critical care operators. They stabilize casualties, suppress lethal conditions.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Electronic Warfare Specialist</h3>
-            <p>Command autonomous weapons, intrude hostile systems. Dominate the invisible layer of modern war</p>
-          </div>
-
-        </div>
-
-
-        <div class="class-column">
-
-          <div class="section-label">
-            Stealth and Control Classes
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Infiltrator</h3>
-            <p>Stealth, sabotage, and intelligence acquisition. Operates unseen and unsupported.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Intelligence Handler</h3>
-            <p>Morale, influence, and psychological operations. Controls narrative, interrogation, and command cohesion.</p>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-
-    <!-- ###### Advanced Classes ################################################################################################-->
-    
-    <div class="tab-content" data-tab="2">
-      <div class="class-grid">
-        <div class="class-column">
-
-          <div class="section-label">
-            GM Approved Classes
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Hellmarine</h3>
-            <p>Experts in tight environments and disabling control.  They end fights where maneuvering is no longer an option.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Warden</h3>
-            <p>The Praetorians of the Truth Enforcers. Deployed for suppression of dissidence.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Commando</h3>
-            <p>Specialised survivalists and saboteurs, blending in with their environment and utilising it to the fullest.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Psionic Assassin</h3>
-            <p>Operatives who learned just enough psionics to weaponize it without surrendering to total neural collapse.</p>
-          </div>
-        
-        </div>
-
-
-
-        <div class="class-column">
-
-          <div class="section-label">
-            Commander Classes
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Fleet Commander</h3>
-            <p>Fleet Commanders do not fight the enemy directly. They move fleets, people, and consequences.</p>
-          </div>
-
-          <div class="class-item">
-            <h3>✦ Field Commander</h3>
-            <p>Field Commander controls tempo, positioning, and morale. They win fights by deciding who acts when and where the line holds.</p>
-          </div>
-        </div>
-      </div>
-
-
-      </div>
-    </div>
-  </div>
 </section>
 
 <section id="section-shock-trooper">
-  <div class="container content-wrapper">
-    <!-- Class Title (making this was ass lol) -->
-    <div class="trooper-header">
-      <div class="title-line"></div>
-      <h1 class="trooper-title">Shock Trooper</h1>
-      <div class="title-line"></div>
-    </div>
-
-    <!-- Class Image -->
-    <div class="trooper-image-container">
-      <img src="images/class_icons/Shocktrooper.png" alt="Shock Trooper" class="trooper-img">
-    </div>
-
-    <!-- Class Intro -->
-    <div class="intro-text">
-      <p>Shock Troopers are deployed where the line has already failed. They are breach assets, suppression weapons, and controlled violence made mobile. Shock Troopers do not finesse the battlefield. They overwhelm it.</p>
-    </div>
-
-    <!-- Class Identity -->
-    <div class="break-section-bottom">
-      <h2 class="section-title">Role Identity</h2>
-      <div class="two-col-grid">
-        <div class="col">
-          <h3>Shock Troopers specialize in:</h3>
-          <ul>
-            <li>Frontline assault</li>
-            <li>Breaching fortified positions</li>
-            <li>Close-quarters domination</li>
-            <li>Momentum-driven engagements</li>
-          </ul>
+    <div class="container content-wrapper">
+        <!-- Class Title (making this was ass lol) -->
+        <div class="trooper-header">
+            <div class="title-line"></div>
+            <h1 class="trooper-title">Shock Trooper</h1>
+            <div class="title-line"></div>
         </div>
-        <div class="col">
-          <h3>They are expected to:</h3>
-          <ul>
-            <li>Take hits</li>
-            <li>Keep moving</li>
-            <li>Break resistance through pressure</li>
-          </ul>
+
+        <!-- Class Image -->
+        <div class="trooper-image-container">
+            <img src="~/images/Classes/shocktrooper.png" alt="Shock Trooper" class="trooper-img">
         </div>
-      </div>
-      <div class="quote-line">
-        <p>Shock Troopers are not subtle. They are decisive.</p>
-        <div class="divider-line"></div>
-      </div>
-    </div>
 
-    <!-- Ability Score Focus -->
-    <div class="break-section-bottom">
-      <h2 class="section-title">Ability Score Focus</h2>
-      <div class="two-col-grid">
-        <div class="col">
-          <h3>Primary Abilities:</h3>
-          <p>✪ STR – Melee damage, force, breaching power</p>
+        <!-- Class Intro -->
+        <div class="intro-text">
+            <p>Shock Troopers are deployed where the line has already failed. They are breach assets, suppression weapons, and controlled violence made mobile. Shock Troopers do not finesse the battlefield. They overwhelm it.</p>
         </div>
-        <div class="col">
-          <h3>Secondary Abilities:</h3>
-          <p>✪ CON – Endurance, pain tolerance, survivability</p>
+
+        <!-- Class Identity -->
+        <div class="break-section-bottom">
+            <h2 class="section-title">Role Identity</h2>
+            <div class="two-col-grid">
+                <div class="col">
+                    <h3>Shock Troopers specialize in:</h3>
+                    <ul>
+                        <li>Frontline assault</li>
+                        <li>Breaching fortified positions</li>
+                        <li>Close-quarters domination</li>
+                        <li>Momentum-driven engagements</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h3>They are expected to:</h3>
+                    <ul>
+                        <li>Take hits</li>
+                        <li>Keep moving</li>
+                        <li>Break resistance through pressure</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="quote-line">
+                <p>Shock Troopers are not subtle. They are decisive.</p>
+                <div class="divider-line"></div>
+            </div>
         </div>
-      </div>
-      <div class="quote-line">
-        <p>DEX matters less. Shock Troopers solve problems by advancing.</p>
-        <div class="divider-line"></div>
-      </div>
-    </div>
 
-    <!-- Proficiencies & Equipment -->
-    <div class="proficiencies-section">
-      <h2 class="section-title">Proficiencies & Starting Equipment</h2>
-      
-      <div class="info-box">
-        <div class="box-grid">
-          <div class="box-cell">
-            <h3>Saving Throws:</h3>
-            <p>✪ Strength</p>
-            <p>✪ Constitution</p>
-          </div>
-          
-          <div class="box-cell">
-            <h3>Equipment Proficiencies:</h3>
-            <ul>
-              <li>All armor</li>
-              <li>Shields</li>
-              <li>Melee weapons</li>
-              <li>Shotguns and heavy close-quarters firearms</li>
-            </ul>
-          </div>
-
-          <div class="box-cell">
-            <h3>Skill Proficiencies:</h3>
-            <p>Choose two from:</p>
-            <ul>
-              <li>Athletics</li>
-              <li>Intimidation</li>
-              <li>Survival</li>
-              <li>Perception</li>
-            </ul>
-          </div>
-
-          <div class="box-cell">
-            <h3>Starting Equipment</h3>
-            <ul>
-              <li>Heavy combat armor or standard combat armor</li>
-              <li>Primary close-quarters weapon</li>
-              <li>Sidearm</li>
-              <li>Breaching charges or shock grenades</li>
-            </ul>
-          </div>
+        <!-- Ability Score Focus -->
+        <div class="break-section-bottom">
+            <h2 class="section-title">Ability Score Focus</h2>
+            <div class="two-col-grid">
+                <div class="col">
+                    <h3>Primary Abilities:</h3>
+                    <p>✪ STR – Melee damage, force, breaching power</p>
+                </div>
+                <div class="col">
+                    <h3>Secondary Abilities:</h3>
+                    <p>✪ CON – Endurance, pain tolerance, survivability</p>
+                </div>
+            </div>
+            <div class="quote-line">
+                <p>DEX matters less. Shock Troopers solve problems by advancing.</p>
+                <div class="divider-line"></div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="quote-line break-section-bottom">
-      <p>There are no armor restrictions.</p>
-      <div class="divider-line"></div>
-    </div>
+        <!-- Proficiencies & Equipment -->
+        <div class="proficiencies-section">
+            <h2 class="section-title">Proficiencies & Starting Equipment</h2>
 
-    <div class="break-section-bottom">
-      <h2 class="section-title">Class Progression</h2>
-      <table class="progression">
-        <thead>
-          <tr>
-            <th>Level</th>
-            <th>Feature Gained</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Adrenal State, Combat Surge</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Reckless Advance</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Enraged Throw</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Ability Score Improvement or Feat</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Extra Attack</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>Hardened Physiology</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>Doctrine Feature</td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Ability Score Improvement or Feat</td>
-          </tr>
-          <tr>
-            <td>9</td>
-            <td>Unstoppable Momentum</td>
-          </tr>
-          <tr>
-            <td>10</td>
-            <td>Berserker Protocol</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    
-    <div class="quote-line break-section-bottom">
-      <div class="divider-line"></div>
-    </div>
+            <div class="info-box">
+                <div class="box-grid">
+                    <div class="box-cell">
+                        <h3>Saving Throws:</h3>
+                        <p>✪ Strength</p>
+                        <p>✪ Constitution</p>
+                    </div>
 
-    <div class="break-section-bottom">
-      <div class="break-section-bottom info-box">
-        <h2 class="section-title">Level 1</h2>
-        <h3 class="section-title">Adrenal State</h3>
-        <p>
-          Shock Troopers can enter an Adrenal State, representing combat stimulants, 
-          pain suppressors, and psychological conditioning activating simultaneously.
-        </p>
-        <p>Activating Adrenal State:</p>
-        <ul>
-          <li>Bonus Action</li>
-          <li>Lasts for the duration of the encounter or until incapacitated</li>
-        </ul>
-        <p>While in Adrenal State:</p>
-        <ul>
-          <li>Gain advantage on STR-based attack rolls</li>
-          <li>Gain damage resistance against physical damage <strong>(-2 HP Damage)</strong></li>
-          <li>Gain advantage on STR and CON saves</li>
-          <li>Cannot be frightened or suppressed</li>
-        </ul>
-        <p>This functions regardless of armor worn.</p>
-        <h3>Adrenal Cost</h3>
-        <p>Adrenal State is not free</p>
-        <p>When Adrenal State ends:</p>
-        <ul>
-          <li>Gain Exhaustion <strong>(-2 to combat and defensive rolls & This effect stacks by -2 by each step)</strong></li>
-          <li>If reduced to 0 HP while in Adrenal State, automatically suffer an additional penalty at GM discretion</li>
-        </ul>
+                    <div class="box-cell">
+                        <h3>Equipment Proficiencies:</h3>
+                        <ul>
+                            <li>All armor</li>
+                            <li>Shields</li>
+                            <li>Melee weapons</li>
+                            <li>Shotguns and heavy close-quarters firearms</li>
+                        </ul>
+                    </div>
+
+                    <div class="box-cell">
+                        <h3>Skill Proficiencies:</h3>
+                        <p>Choose two from:</p>
+                        <ul>
+                            <li>Athletics</li>
+                            <li>Intimidation</li>
+                            <li>Survival</li>
+                            <li>Perception</li>
+                        </ul>
+                    </div>
+
+                    <div class="box-cell">
+                        <h3>Starting Equipment</h3>
+                        <ul>
+                            <li>Heavy combat armor or standard combat armor</li>
+                            <li>Primary close-quarters weapon</li>
+                            <li>Sidearm</li>
+                            <li>Breaching charges or shock grenades</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="quote-line break-section-bottom">
-          <p>Shock Troopers survive the fight.</p>
-          <p>They pay for it afterward.</p>
+            <p>There are no armor restrictions.</p>
+            <div class="divider-line"></div>
         </div>
-        <h3 class="section-title">Combat Surge</h3>
-        <p>Once per operation, you may take an additional action on your turn.</p>
-        <p>This represents dumping emergency reserves and burning future endurance.</p>
-      </div>
-      <div class="break-section-top info-box">
-        <h3 class="section-title">Level 2</h3>
-        <h3 class="section-title">Reckless Advance</h3>
-        <p>You may choose to attack recklessly.</p>
-        <ul>
-          <li>You gain advantage on attacks</li>
-          <li>Attacks against you also gain advantage</li>
-        </ul>
-      </div>
-      <div class="info-box">
-        <h3 class="section-title">Level 3</h3>
-        <h3 class="section-title">Enraged Throw</h3>
-        <p>
-            While in Adrenal State, a Shock Trooper may use Enraged Throw, 
-            the limits of which are determined by Strength score, not modifier alone.
-        </p>
-        <p>This allows the Shock Trooper to:</p>
-        <ul>
-          <li>Grab and throw an object</li>
-          <li>Or grab and throw a creature</li>
-        </ul>
-        <table class="progression">
-          <thead>
-          <tr>
-            <th>STR Score</th>
-            <th>Can Throw</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>10–11</td>
-              <td>Small objects (chairs, crates, debris)</td>
-            </tr>
-            <tr>
-              <td>12–13</td>
-              <td>Small creatures &amp; Medium objects </td>
-            </tr>
-            <tr>
-              <td>14–15</td>
-              <td>Medium creatures &amp; Medium objects</td>
-            </tr>
-            <tr>
-              <td>16–17</td>
-              <td>Medium creatures &amp; Heavy objects</td>
-            </tr>
-            <tr>
-              <td>18–19</td>
-              <td>Heavy creatures &amp; Heavy objects</td>
-            </tr>
-            <tr>
-              <td>20</td>
-              <td>Large creatures &amp; Massive objects</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="break-section-top break-section-bottom">If something is anchored, braced, or resisting, the GM may require a contested roll.</p>
-        <h2>Distance Thrown</h2>
-        <p>
-            Base distance is tied to STR modifier, so <strong>Throw Distance = 5 meters × STR modifier (minimum 5 meters)</strong>. 
-            Additionally Throwing upward halves distance.Throwing downward may increase impact damage.
-        </p>
-        <p>Examples:</p>
-        <ul>
-          <li>STR 14 (+2): 10 meters</li>
-          <li>STR 18 (+4): 20 meters</li>
-        </ul>
-        <h2>Impact Damage</h2>
-        <p class="break-section-bottom">
-          When an <strong>Enraged Throw</strong> successfully hits a target, roll damage based on 
-          <strong>what was thrown and how violently it impacts</strong>, not purely on Strength.
-          Strength determines capacity and distance. Impact determines damage.
-        </p>
-        <table class="progression">
-          <thead>
-            <tr>
-              <th>Thrown Object / Target</th>
-              <th>Damage Dice</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Light object (chairs, loose debris)</td>
-              <td>1d10 bludgeoning</td>
-            </tr>
-            <tr>
-              <td>Heavy object (crates, machinery, barricade parts)</td>
-              <td>2d10 bludgeoning</td>
-            </tr>
-            <tr>
-              <td>Thrown creature (Small or Medium)</td>
-              <td>2d10 bludgeoning</td>
-            </tr>
-            <tr>
-              <td>Thrown creature colliding with another creature</td>
-              <td>2d10 bludgeoning to both targets + STR Modifier</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="break-section-top">Directional Impact:</p>
-        <ul>
-          <li><strong>Thrown Upward</strong> = No bonus/reduced damage; Distance already reduced.</li>
-          <li><strong>Thrown downward or from elevation</strong> = GM may add +1d10 damage due to gravitational force.</li>
-        </ul>
-        <h3>Collision with Terrain</h3>
-        <p>If the thrown target hits:</p>
-        <ul>
-          <li>A wall/Reinforced structure</li>
-          <li>Solid cover</li>
-          <li>Vehicles</li>
-        </ul>
-        <p>The GM may:</p>
-        <ul>
-          <li>Increase damage up to <strong>+2d10</strong></li>
-          <li>Destroy or damage the terrain</li>
-          <li>Create difficult terrain or debris</li>
-        </ul>
-      </div>
-      <div class="info-box">
-        <h3 class="section-title">Level 4</h3>
-        <h3 class="section-title">Ability Score Improvement or Feat</h3>
-        <p>
-          Every 4 levels (not shared by multiclassing) your character gets the opportunity
-          to either <strong>assign a Feat to themselves</strong>, or <strong>improve their Ability Scores</strong>.
-        </p>
-        <p class="text-center">Choose below which you would like to do:</p>
-        <div class="asib-container break-section-top">
-          <div class="asi-buttons">
-            <button><a href="">I wish to gain a Feat.</a></button>
-            <button><a href="">I wish to improve my Ability Scores</a></button>
-          </div>
+
+        <div class="break-section-bottom">
+            <h2 class="section-title">Class Progression</h2>
+            <table class="progression">
+                <thead>
+                    <tr>
+                        <th>Level</th>
+                        <th>Feature Gained</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Adrenal State, Combat Surge</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Reckless Advance</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Enraged Throw</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Ability Score Improvement or Feat</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Extra Attack</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Hardened Physiology</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Doctrine Feature</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Ability Score Improvement or Feat</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>Unstoppable Momentum</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>Berserker Protocol</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-      </div>
-      <div class="info-box">
-        <h3 class="section-title">Level 5</h3>
-        <h3 class="section-title">Extra Attack</h3>
-        <p class="text-center">You may make two attacks when you take the Attack action. This stacks naturally with Adrenal State.</p>
-      </div>
-      <div class="info-box">
-        <h3 class="section-title">Level 6</h3>
-        <h3 class="section-title">Hardened Physiology</h3>
-        <p>Your body adapts to repeated trauma.</p>
-        <ul>
-          <li>Reduce exhaustion penalties to -1 to combat and defensive rolls (Still stacks)</li>
-          <li>Gain advantage on saves against stun, knockdown, or forced movement</li>
-        </ul>
-      </div>
-      <div class="info-box">
-        <h3 class="section-title">Level 8</h3>
-        <h3 class="section-title">Ability Score Improvement or Feat</h3>
-        <p>
-          Every 4 levels (not shared by multiclassing) your character gets the opportunity
-          to either <strong>assign a Feat to themselves</strong>, or <strong>improve their Ability Scores</strong>.
-        </p>
-        <p class="text-center">Choose below which you would like to do:</p>
-        <div class="asib-container break-section-top">
-          <div class="asi-buttons">
-            <button><a href="">I wish to gain a Feat.</a></button>
-            <button><a href="">I wish to improve my Ability Scores</a></button>
-          </div>
+
+        <div class="quote-line break-section-bottom">
+            <div class="divider-line"></div>
         </div>
-      </div>
-      <div class="info-box">
-        <h3 class="section-title">Level 9</h3>
-        <h3 class="section-title">Unstoppable Momentum</h3>
-        <p>Once per operation, when reduced to 0 HP, you may:</p>
-        <ul>
-          <li>Remain standing until the end of your next turn</li>
-          <li>Act normally for that turn</li>
-        </ul>
-        <p class="text-center">You immediately collapse afterward.</p>
-      </div>
-      <div class="info-box">
-        <h3 class="section-title">Level 10</h3>
-        <h3 class="section-title">Berserker Protocol</h3>
-        <p>Once per operation, you may enter an Overdrive Adrenal State.</p>
-        <p>While active:</p>
-        <ul>
-          <li>You automatically succeed on STR and CON saves</li>
-          <li>Your attacks deal maximum damage dice</li>
-          <li>You cannot be stunned or knocked prone</li>
-          <li>You take half damage</li>
-          <li>3 turn duration </li>
-        </ul>
-        <p>When the protocol ends:</p>
-        <ul>
-          <li>You immediately fall to 0 HP</li>
-          <li>You are incapacitated and must be stabilized</li>
-        </ul>
-        <p class="text-center">This is not survivable. It is controlled self-destruction.</p>
-      </div>
-    </div>
 
-    <div class="quote-line break-section-bottom">
-      <div class="divider-line"></div>
-    </div>
+        <div class="break-section-bottom">
+            <div class="break-section-bottom info-box">
+                <h2 class="section-title">Level 1</h2>
+                <h3 class="section-title">Adrenal State</h3>
+                <p>
+                    Shock Troopers can enter an Adrenal State, representing combat stimulants,
+                    pain suppressors, and psychological conditioning activating simultaneously.
+                </p>
+                <p>Activating Adrenal State:</p>
+                <ul>
+                    <li>Bonus Action</li>
+                    <li>Lasts for the duration of the encounter or until incapacitated</li>
+                </ul>
+                <p>While in Adrenal State:</p>
+                <ul>
+                    <li>Gain advantage on STR-based attack rolls</li>
+                    <li>Gain damage resistance against physical damage <strong>(-2 HP Damage)</strong></li>
+                    <li>Gain advantage on STR and CON saves</li>
+                    <li>Cannot be frightened or suppressed</li>
+                </ul>
+                <p>This functions regardless of armor worn.</p>
+                <h3>Adrenal Cost</h3>
+                <p>Adrenal State is not free</p>
+                <p>When Adrenal State ends:</p>
+                <ul>
+                    <li>Gain Exhaustion <strong>(-2 to combat and defensive rolls & This effect stacks by -2 by each step)</strong></li>
+                    <li>If reduced to 0 HP while in Adrenal State, automatically suffer an additional penalty at GM discretion</li>
+                </ul>
+                <div class="quote-line break-section-bottom">
+                    <p>Shock Troopers survive the fight.</p>
+                    <p>They pay for it afterward.</p>
+                </div>
+                <h3 class="section-title">Combat Surge</h3>
+                <p>Once per operation, you may take an additional action on your turn.</p>
+                <p>This represents dumping emergency reserves and burning future endurance.</p>
+            </div>
+            <div class="break-section-top info-box">
+                <h3 class="section-title">Level 2</h3>
+                <h3 class="section-title">Reckless Advance</h3>
+                <p>You may choose to attack recklessly.</p>
+                <ul>
+                    <li>You gain advantage on attacks</li>
+                    <li>Attacks against you also gain advantage</li>
+                </ul>
+            </div>
+            <div class="info-box">
+                <h3 class="section-title">Level 3</h3>
+                <h3 class="section-title">Enraged Throw</h3>
+                <p>
+                    While in Adrenal State, a Shock Trooper may use Enraged Throw,
+                    the limits of which are determined by Strength score, not modifier alone.
+                </p>
+                <p>This allows the Shock Trooper to:</p>
+                <ul>
+                    <li>Grab and throw an object</li>
+                    <li>Or grab and throw a creature</li>
+                </ul>
+                <table class="progression">
+                    <thead>
+                        <tr>
+                            <th>STR Score</th>
+                            <th>Can Throw</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10–11</td>
+                            <td>Small objects (chairs, crates, debris)</td>
+                        </tr>
+                        <tr>
+                            <td>12–13</td>
+                            <td>Small creatures &amp; Medium objects </td>
+                        </tr>
+                        <tr>
+                            <td>14–15</td>
+                            <td>Medium creatures &amp; Medium objects</td>
+                        </tr>
+                        <tr>
+                            <td>16–17</td>
+                            <td>Medium creatures &amp; Heavy objects</td>
+                        </tr>
+                        <tr>
+                            <td>18–19</td>
+                            <td>Heavy creatures &amp; Heavy objects</td>
+                        </tr>
+                        <tr>
+                            <td>20</td>
+                            <td>Large creatures &amp; Massive objects</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="break-section-top break-section-bottom">If something is anchored, braced, or resisting, the GM may require a contested roll.</p>
+                <h2>Distance Thrown</h2>
+                <p>
+                    Base distance is tied to STR modifier, so <strong>Throw Distance = 5 meters × STR modifier (minimum 5 meters)</strong>.
+                    Additionally Throwing upward halves distance.Throwing downward may increase impact damage.
+                </p>
+                <p>Examples:</p>
+                <ul>
+                    <li>STR 14 (+2): 10 meters</li>
+                    <li>STR 18 (+4): 20 meters</li>
+                </ul>
+                <h2>Impact Damage</h2>
+                <p class="break-section-bottom">
+                    When an <strong>Enraged Throw</strong> successfully hits a target, roll damage based on
+                    <strong>what was thrown and how violently it impacts</strong>, not purely on Strength.
+                    Strength determines capacity and distance. Impact determines damage.
+                </p>
+                <table class="progression">
+                    <thead>
+                        <tr>
+                            <th>Thrown Object / Target</th>
+                            <th>Damage Dice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Light object (chairs, loose debris)</td>
+                            <td>1d10 bludgeoning</td>
+                        </tr>
+                        <tr>
+                            <td>Heavy object (crates, machinery, barricade parts)</td>
+                            <td>2d10 bludgeoning</td>
+                        </tr>
+                        <tr>
+                            <td>Thrown creature (Small or Medium)</td>
+                            <td>2d10 bludgeoning</td>
+                        </tr>
+                        <tr>
+                            <td>Thrown creature colliding with another creature</td>
+                            <td>2d10 bludgeoning to both targets + STR Modifier</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="break-section-top">Directional Impact:</p>
+                <ul>
+                    <li><strong>Thrown Upward</strong> = No bonus/reduced damage; Distance already reduced.</li>
+                    <li><strong>Thrown downward or from elevation</strong> = GM may add +1d10 damage due to gravitational force.</li>
+                </ul>
+                <h3>Collision with Terrain</h3>
+                <p>If the thrown target hits:</p>
+                <ul>
+                    <li>A wall/Reinforced structure</li>
+                    <li>Solid cover</li>
+                    <li>Vehicles</li>
+                </ul>
+                <p>The GM may:</p>
+                <ul>
+                    <li>Increase damage up to <strong>+2d10</strong></li>
+                    <li>Destroy or damage the terrain</li>
+                    <li>Create difficult terrain or debris</li>
+                </ul>
+            </div>
+            <div class="info-box">
+                <h3 class="section-title">Level 4</h3>
+                <h3 class="section-title">Ability Score Improvement or Feat</h3>
+                <p>
+                    Every 4 levels (not shared by multiclassing) your character gets the opportunity
+                    to either <strong>assign a Feat to themselves</strong>, or <strong>improve their Ability Scores</strong>.
+                </p>
+                <p class="text-center">Choose below which you would like to do:</p>
+                <div class="asib-container break-section-top">
+                    <div class="asi-buttons">
+                        <button><a href="">I wish to gain a Feat.</a></button>
+                        <button><a href="">I wish to improve my Ability Scores</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="info-box">
+                <h3 class="section-title">Level 5</h3>
+                <h3 class="section-title">Extra Attack</h3>
+                <p class="text-center">You may make two attacks when you take the Attack action. This stacks naturally with Adrenal State.</p>
+            </div>
+            <div class="info-box">
+                <h3 class="section-title">Level 6</h3>
+                <h3 class="section-title">Hardened Physiology</h3>
+                <p>Your body adapts to repeated trauma.</p>
+                <ul>
+                    <li>Reduce exhaustion penalties to -1 to combat and defensive rolls (Still stacks)</li>
+                    <li>Gain advantage on saves against stun, knockdown, or forced movement</li>
+                </ul>
+            </div>
+            <div class="info-box">
+                <h3 class="section-title">Level 8</h3>
+                <h3 class="section-title">Ability Score Improvement or Feat</h3>
+                <p>
+                    Every 4 levels (not shared by multiclassing) your character gets the opportunity
+                    to either <strong>assign a Feat to themselves</strong>, or <strong>improve their Ability Scores</strong>.
+                </p>
+                <p class="text-center">Choose below which you would like to do:</p>
+                <div class="asib-container break-section-top">
+                    <div class="asi-buttons">
+                        <button><a href="">I wish to gain a Feat.</a></button>
+                        <button><a href="">I wish to improve my Ability Scores</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="info-box">
+                <h3 class="section-title">Level 9</h3>
+                <h3 class="section-title">Unstoppable Momentum</h3>
+                <p>Once per operation, when reduced to 0 HP, you may:</p>
+                <ul>
+                    <li>Remain standing until the end of your next turn</li>
+                    <li>Act normally for that turn</li>
+                </ul>
+                <p class="text-center">You immediately collapse afterward.</p>
+            </div>
+            <div class="info-box">
+                <h3 class="section-title">Level 10</h3>
+                <h3 class="section-title">Berserker Protocol</h3>
+                <p>Once per operation, you may enter an Overdrive Adrenal State.</p>
+                <p>While active:</p>
+                <ul>
+                    <li>You automatically succeed on STR and CON saves</li>
+                    <li>Your attacks deal maximum damage dice</li>
+                    <li>You cannot be stunned or knocked prone</li>
+                    <li>You take half damage</li>
+                    <li>3 turn duration </li>
+                </ul>
+                <p>When the protocol ends:</p>
+                <ul>
+                    <li>You immediately fall to 0 HP</li>
+                    <li>You are incapacitated and must be stabilized</li>
+                </ul>
+                <p class="text-center">This is not survivable. It is controlled self-destruction.</p>
+            </div>
+        </div>
 
-    <div class="break-section-bottom">
-        <h3 class="section-title">Design Notes</h3>
-        <p class="text-center">Shock Troopers are not tanks, they are shock assets meant to advance, push through pain and attack the weakpoints through sheer strength, not longevity.</p>
-        <p class="text-center">Play smart, punish the hesitation in the enemies resolve and make a breakthrough for your team to abuse.</p>
-    </div>
+        <div class="quote-line break-section-bottom">
+            <div class="divider-line"></div>
+        </div>
 
-    <div class="quote-line break-section-bottom">
-      <div class="divider-line"></div>
-    </div>
+        <div class="break-section-bottom">
+            <h3 class="section-title">Design Notes</h3>
+            <p class="text-center">Shock Troopers are not tanks, they are shock assets meant to advance, push through pain and attack the weakpoints through sheer strength, not longevity.</p>
+            <p class="text-center">Play smart, punish the hesitation in the enemies resolve and make a breakthrough for your team to abuse.</p>
+        </div>
 
-  </div>
+        <div class="quote-line break-section-bottom">
+            <div class="divider-line"></div>
+        </div>
+
+    </div>
 </section>
