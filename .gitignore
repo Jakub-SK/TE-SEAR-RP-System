@@ -3,6 +3,8 @@
 **/obj/
 **/.vs/
 *.dll
+*.DS_Store
+.idea/
 
 [Dd]ebug/
 [Dd]ebugPublic/
