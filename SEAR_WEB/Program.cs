@@ -32,9 +32,9 @@ builder.Services.AddSingleton<IFido2>(sp =>
     }
     else
     {
-        fido2Config.ServerDomain = "noobxryan.org";
+        fido2Config.ServerDomain = "sessvirtus.org";
         fido2Config.ServerName = "SEAR Web";
-        fido2Config.Origins = new HashSet<string> { "https://tesear.noobxryan.org" };
+        fido2Config.Origins = new HashSet<string> { "https://sessvirtus.org" };
     }
 
     return new Fido2(fido2Config);
