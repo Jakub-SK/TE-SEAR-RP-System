@@ -2,6 +2,17 @@ html {
     font-size: 14px;
 }
 
+/* This was causing issues with the Art looking too small, below is a fix */
+.container {
+    --bs-gutter-x: 0 !important;
+}
+
+.pb-3 {
+    padding-bottom: 0 !important;
+}
+
+/*######################################################################## */
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;
