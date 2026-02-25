@@ -73,6 +73,7 @@
     padding: 20px;
     border-radius: 15px;
     transition: .32s cubic-bezier(.16,1,.3,1);
+    cursor: pointer;
 }
 
 .class-item h3 {

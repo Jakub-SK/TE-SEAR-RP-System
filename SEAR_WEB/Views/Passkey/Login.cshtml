@@ -7,7 +7,7 @@
 
 <div style="padding-top: 200px;">
     <h2>@Localizer["Passkey Demo"]</h2>
-    <a href="@Url.Action("RegisterPasskey", "Passkey")"><button>@Localizer["Create Account"]</button></a>
+    <button href="@Url.Action("RegisterPasskey", "Passkey")">@Localizer["Create Account"]</button>
     <form asp-controller="Home" asp-action="SetLanguage" method="get" id="languageForm">
         <select name="culture" onchange="this.form.submit();" class="form-select">
             <option selected="@(currentCulture == "en")" value="en">English</option>
@@ -25,4 +25,4 @@
     <button onclick="loginPasskey()">@Localizer["Passkey Login"]</button>
 </div>
 <p id="loadingMessage" style="color:yellow;"></p>
-<a href="@Url.Action("ViewPasskey", "Passkey")"><button>@Localizer["Passkey View"]</button></a>
+<button href="@Url.Action("ViewPasskey", "Passkey")">@Localizer["Passkey View"]</button>

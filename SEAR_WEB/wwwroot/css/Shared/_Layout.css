@@ -1,27 +1,277 @@
-/* .bebas-neue-regular {
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-.figtree-<uniquifier> {
-    font-family: "Figtree", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: <weight>;
-    font-style: normal;
-}
-
-.special-gothic-expanded-one-regular {
-    font-family: "Special Gothic Expanded One", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-*/
-
 /* ############################################################################################################### /*
-/* CSS for general tags/ general fixes */
+/* CSS for section Main */
+#section-hero {
+    position: relative;
+    width: 100%;
+    height: 92.5vh;
+    max-height: 1080px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
 
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Let clicks pass through to nav */
+}
+
+.main-nav {
+    position: absolute;
+    top: 75vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 825px;
+    height: 115px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid #000000;
+    backdrop-filter: blur(1px);
+    border-radius: 88px; /* Half of height for pill shape */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    pointer-events: auto;
+    z-index: 10;
+    padding: 0 20px;
+}
+
+.nav-item {
+    position: relative;
+    width: 133px;
+    height: 133px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+    .nav-item:hover {
+        transform: scale(1.05);
+    }
+
+.nav-icon-group {
+    position: relative;
+    width: 102px;
+    height: 102px;
+}
+
+.nav-bg-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 133px;
+    height: 100px;
+    z-index: 1;
+}
+
+.nav-icon {
+    position: absolute;
+    top: 34%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+    width: 88px;
+    height: 55px;
+    z-index: 2;
+    object-fit: contain;
+}
+
+.nav-label {
+    position: absolute;
+    z-index: 3;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-align: center;
+    width: 100%;
+    margin-top: 3em;
+}
+
+@media (max-width: 1510px) {
+    .site-title {
+        font-size: 30px;
+    }
+    .subtitle {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 1425px) {
+    .site-title {
+        font-size: 25px;
+    }
+    .subtitle {
+        font-size: 23px;
+    }
+}
+
+@media (max-width: 1384px) {
+    .site-title {
+        font-size: 20px;
+    }
+    .subtitle {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 1024px) {
+    #section-hero {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .main-nav {
+        position: relative;
+        top: 37vh;
+        bottom: auto;
+        margin-top: 200px; /* Push down below header */
+        margin-bottom: 50px;
+        width: 90%;
+        height: auto;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 922px) {
+    #section-hero {
+        height: auto;
+        min-height: 140vh;
+    }
+    
+    .main-nav {
+        top: 10vh;
+        width: 70%;
+        padding: 20px 20px;
+    }
+    
+    .nav-icon-group {
+        width: 115px;
+    }
+    
+    .nav-bg-svg {
+        width: 144px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 765px) {
+    #section-hero {
+        height: auto;
+        min-height: 160vh;
+    }
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/*  color: #0077cc; */
+a {
+    text-decoration: none;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+html {
+    font-size: 14px;
+}
+
+/* This was causing issues with the Art looking too small, below is a fix */
+.container {
+    --bs-gutter-x: 0 !important;
+}
+
+.pb-3 {
+    padding-bottom: 0 !important;
+}
+
+/*######################################################################## */
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
 body {
     font-family: "Figtree", sans-serif;
     font-size: 20px;
@@ -221,7 +471,7 @@ strong {
 }
 
 .bg-image {
-    position: absolute;   /* Important */
+    position: absolute; /* Important */
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -238,19 +488,16 @@ strong {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
     transform: scale(1);
     opacity: 0;
-
     will-change: transform, opacity;
     backface-visibility: hidden;
-    
     transition: opacity 2s ease;
 }
 
-.slide.active {
-    opacity: 1;
-}
+    .slide.active {
+        opacity: 1;
+    }
 
 .hero-content {
     position: absolute;
@@ -273,9 +520,9 @@ strong {
     transition: transform 0.2s;
 }
 
-.nav-item:hover {
-    transform: scale(1.05);
-}
+    .nav-item:hover {
+        transform: scale(1.05);
+    }
 
 .nav-icon-group {
     position: relative;
@@ -295,7 +542,7 @@ strong {
     filter: brightness(0) saturate(100%);
 }
 
-.nav-item:hover .nav-bg-svg{
+.nav-item:hover .nav-bg-svg {
     filter: brightness(0) saturate(100%) invert(15%) sepia(58%) saturate(7315%) hue-rotate(351deg) brightness(92%) contrast(90%);
 }
 
