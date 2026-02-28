@@ -8,15 +8,18 @@ using System.Security.Claims;
 using SEAR_DataContract.Models;
 using SEAR_WEB.Models;
 using SEAR_WEB.RedirectViewModels;
+using SEAR_WEB.Session;
 
 namespace SEAR_WEB.Controllers
 {
     public class PasskeyController : Controller
     {
         private readonly IFido2 _fido2;
-        public PasskeyController(IFido2 fido2)
+        private readonly SessionCache _sessionCache;
+        public PasskeyController(IFido2 fido2, SessionCache sessionCache)
         {
             _fido2 = fido2;
+            _sessionCache = sessionCache;
         }
         public async Task<IActionResult> Index()
         {
@@ -66,7 +69,7 @@ namespace SEAR_WEB.Controllers
                 AttestationPreference = AttestationConveyancePreference.None
             });
 
-            HttpContext.Session.SetString("fido2.attestationOptions", options.ToJson());
+            _sessionCache.SetSession("fido2.attestationOptions", options.ToJson());
 
             return Json(options);
         }
@@ -94,15 +97,15 @@ namespace SEAR_WEB.Controllers
                 AttestationPreference = AttestationConveyancePreference.None
             });
 
-            HttpContext.Session.SetString("fido2.attestationOptions", options.ToJson());
+            _sessionCache.SetSession("fido2.attestationOptions", options.ToJson());
 
             return Json(options);
         }
         [HttpPost]
         public async Task<IActionResult> RegisterResponse([FromBody] AuthenticatorAttestationRawResponse attestationResponse)
         {
-            string json = HttpContext.Session.GetString("fido2.attestationOptions")!;
-            HttpContext.Session.Remove("fido2.attestationOptions");
+            string json = _sessionCache.GetSession("fido2.attestationOptions")!;
+            _sessionCache.RemoveSession("fido2.attestationOptions");
             CredentialCreateOptions options = CredentialCreateOptions.FromJson(json);
             
             RegisteredPublicKeyCredential result = await _fido2.MakeNewCredentialAsync(new MakeNewCredentialParams
@@ -129,8 +132,8 @@ namespace SEAR_WEB.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterResponseByUserId([FromBody] AuthenticatorAttestationRawResponse attestationResponse)
         {
-            string json = HttpContext.Session.GetString("fido2.attestationOptions")!;
-            HttpContext.Session.Remove("fido2.attestationOptions");
+            string json = _sessionCache.GetSession("fido2.attestationOptions")!;
+            _sessionCache.RemoveSession("fido2.attestationOptions");
             CredentialCreateOptions options = CredentialCreateOptions.FromJson(json);
 
             RegisteredPublicKeyCredential result = await _fido2.MakeNewCredentialAsync(new MakeNewCredentialParams
@@ -152,9 +155,9 @@ namespace SEAR_WEB.Controllers
             // Save to PostgreSQL
             PasskeyModel.InsertPasskey(new Guid(result.User.Id), result.Id, result.PublicKey, result.SignCount);
 
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IsRegisteringByUrl")))
-                PasskeyModel.RemoveRegisterAdditionalPasskeyKeyId(Guid.Parse(HttpContext.Session.GetString("IsRegisteringByUrl")!));
-            HttpContext.Session.Remove("IsRegisteringByUrl");
+            if (!string.IsNullOrEmpty(_sessionCache.GetSession("IsRegisteringByUrl")))
+                PasskeyModel.RemoveRegisterAdditionalPasskeyKeyId(Guid.Parse(_sessionCache.GetSession("IsRegisteringByUrl")!));
+            _sessionCache.RemoveSession("IsRegisteringByUrl");
 
             return Json(new { success = true, redirectUrl = "/Passkey/ViewPasskey" });
         }
@@ -172,15 +175,15 @@ namespace SEAR_WEB.Controllers
                 UserVerification = UserVerificationRequirement.Preferred
             });
 
-            HttpContext.Session.SetString("fido2.assertionOptions", options.ToJson());
+            _sessionCache.SetSession("fido2.assertionOptions", options.ToJson());
 
             return Json(options);
         }
         [HttpPost]
         public async Task<IActionResult> LoginResponse([FromBody] AuthenticatorAssertionRawResponse assertionResponse)
         {
-            string json = HttpContext.Session.GetString("fido2.assertionOptions")!;
-            HttpContext.Session.Remove("fido2.assertionOptions");
+            string json = _sessionCache.GetSession("fido2.assertionOptions")!;
+            _sessionCache.RemoveSession("fido2.assertionOptions");
             AssertionOptions options = AssertionOptions.FromJson(json);
 
             Passkey? storedCredential = await PasskeyModel.GetPasskeyByCredentialId(assertionResponse.RawId);
@@ -293,8 +296,8 @@ namespace SEAR_WEB.Controllers
                     AttestationPreference = AttestationConveyancePreference.None
                 });
 
-                HttpContext.Session.SetString("fido2.attestationOptions", options.ToJson());
-                HttpContext.Session.SetString("IsRegisteringByUrl", model.KeyId);
+                _sessionCache.SetSession("fido2.attestationOptions", options.ToJson());
+                _sessionCache.SetSession("IsRegisteringByUrl", model.KeyId);
 
                 return Json(options);
             }

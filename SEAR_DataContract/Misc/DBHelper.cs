@@ -3,15 +3,6 @@ using System.Data;
 
 namespace SEAR_DataContract.Misc
 {
-    internal class DatabaseResult
-    {
-        public DatabaseResult()
-        {
-            DataSet = new DataSet();
-        }
-        public DataSet DataSet { get; set; }
-        public int AffectedRows { get; set; }
-    }
     internal static class ConnectionString
     {
         public static string GetDevelopmentString => "Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
@@ -48,61 +39,6 @@ namespace SEAR_DataContract.Misc
                 return conn;
             }
         }
-        //public static DataSet ExecuteDatabaseQuery(string sql, List<NpgsqlParameter>? parameterList = null)
-        //{
-        //    return Execute(sql, parameterList).DataSet;
-        //}
-        //public static int ExecuteDatabaseNonQuery(string sql, List<NpgsqlParameter>? parameterList = null)
-        //{
-        //    return Execute(sql, parameterList).AffectedRows;
-        //}
-        //private static DatabaseResult Execute(string sql, List<NpgsqlParameter>? parameterList = null)
-        //{
-        //    DatabaseResult databaseResult = new DatabaseResult();
-        //    using var conn = GetConnection();
-        //    try
-        //    {
-        //        conn.Open();
-        //        using (var cmd = new NpgsqlCommand(sql, conn))
-        //        {
-        //            if (parameterList != null)
-        //            {
-        //                foreach (NpgsqlParameter parameter in parameterList)
-        //                {
-        //                    cmd.Parameters.Add(parameter);
-        //                }
-        //            }
-        //            using var adapter = new NpgsqlDataAdapter(cmd);
-        //            databaseResult.AffectedRows = cmd.ExecuteNonQuery();
-        //            if (sql.Contains("SELECT"))
-        //            {
-        //                adapter.Fill(databaseResult.DataSet);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (Misc.CheckIsDevelopmentEnviroment())
-        //        {
-        //            if (ex.Message.Contains("Failed to connect to"))
-        //            {
-        //                throw UnableToConnectDatabaseException(conn, sql, ex);
-        //            }
-        //            else
-        //            {
-        //                throw InternalDatabaseException(sql, ex);
-        //            }
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        if (conn.State != ConnectionState.Closed)
-        //        {
-        //            conn.Close();
-        //        }
-        //    }
-        //    return databaseResult;
-        //}
         public static async Task<DataTable> ExecuteDatabaseQueryAsync(string sql, List<NpgsqlParameter>? parameterList = null)
         {
             return await ExecuteQueryAsync(sql, parameterList);
@@ -343,7 +279,6 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    //throw UnableToConnectDatabaseException(conn, sql, ex);
                     AppLogger.LogError("Unable to update steps to database,\nFUCK U >:( Please check is the cloudflared is running when in development enviroment u \"fuckin stoopid\"");
                 }
             }

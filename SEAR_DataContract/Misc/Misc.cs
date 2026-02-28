@@ -8,7 +8,7 @@
                 return true;
             return false;
         }
-        public static async Task<ShowExceptionMessage> LogException(Exception ex, string appType, string ? uuid = null)
+        public static async Task<ShowExceptionMessage> LogException(Exception ex, string appType, string? uuid = null)
         {
             return await DBHelper.LogException(ex, GetExceptionType(ex), appType, uuid);
         }
@@ -16,11 +16,17 @@
         {
             DBHelper.UpdateLogExceptionWithSteps(uuid, steps);
         }
+        public static string GetDomainUrl()
+        {
+            if (CheckIsDevelopmentEnviroment())
+                return "localhost";
+            return "sessvirtus.org";
+        }
         public static string GetWebsiteUrl()
         {
             if (CheckIsDevelopmentEnviroment())
                 return "https://localhost:5002";
-            return "https://tesear.noobxryan.org";
+            return "https://sessvirtus.org";
         }
         private static string GetExceptionType(Exception ex)
         {

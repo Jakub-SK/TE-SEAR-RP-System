@@ -15,5 +15,9 @@
         {
             return _httpContextAccessor.HttpContext!.Session.GetString(cacheName)!;
         }
+        public void RemoveSession(string cacheName)
+        {
+            _httpContextAccessor.HttpContext!.Session.Remove(cacheName);
+        }
     }
 }
