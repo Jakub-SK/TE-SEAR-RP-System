@@ -7,7 +7,7 @@
 
 <div style="padding-top: 200px;">
     <h2>@Localizer["Passkey Demo"]</h2>
-    <button href="@Url.Action("RegisterPasskey", "Passkey")">@Localizer["Create Account"]</button>
+    <a href="@Url.Action("RegisterPasskey", "Passkey")"><button>@Localizer["Create Account"]</button></a>
     <form asp-controller="Home" asp-action="SetLanguage" method="get" id="languageForm">
         <select name="culture" onchange="this.form.submit();" class="form-select">
             <option selected="@(currentCulture == "en")" value="en">English</option>
@@ -15,8 +15,19 @@
         </select>
         <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
     </form>
+    @if (!string.IsNullOrEmpty(User.FindFirst("DisplayName")?.Value))
+    {
+        <div>
+            @Localizer["Display Name"] : @User.FindFirst("DisplayName")?.Value
+        </div>
+    }
+    else
+    {
+        <div>
+            You havn't login yet :(
+        </div>
+    }
     <form asp-controller="Passkey" asp-action="Logout" method="post">
-        @Localizer["Display Name"]: @User.FindFirst("DisplayName")?.Value
         <input type="submit" value="@Localizer["Logout"]" />
     </form>
 </div>
@@ -25,4 +36,4 @@
     <button onclick="loginPasskey()">@Localizer["Passkey Login"]</button>
 </div>
 <p id="loadingMessage" style="color:yellow;"></p>
-<button href="@Url.Action("ViewPasskey", "Passkey")">@Localizer["Passkey View"]</button>
+<a href="@Url.Action("ViewPasskey", "Passkey")"><button>@Localizer["Passkey View"]</button></a>

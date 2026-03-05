@@ -36,6 +36,9 @@ namespace SEAR_WEB.Controllers
         [Authorize]
         public async Task<IActionResult> ViewPasskey()
         {
+            if (await PasskeyModel.CheckUserExistByUserId(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)) == false)
+                return RedirectToAction("Logout", "Passkey");
+
             ViewData["Passkeys"] = await PasskeyModel.ViewAllPasskeysByUserId(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!));
             return View();
         }
@@ -244,7 +247,7 @@ namespace SEAR_WEB.Controllers
             string keyId = await PasskeyModel.CreateRegisterAdditionalPasskeyUrl(Guid.Parse(userId));
 
             if (string.IsNullOrEmpty(keyId))
-                return BadRequest();
+                return Unauthorized();
 
             keyId = SEAR_DataContract.Misc.Misc.GetWebsiteUrl() + Url.Action("RegisterAdditionalPasskey", "Passkey") + "/" + keyId;
 

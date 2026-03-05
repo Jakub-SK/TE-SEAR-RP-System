@@ -21,7 +21,7 @@
             @Localizer["Name"]: @(string.IsNullOrEmpty(item.DisplayName) ? "Passkey" : item.DisplayName)
         </td>
         <td>
-            @Localizer["Create At"]: @item.CreateDate
+            @Localizer["Create At"]: @item.CreateDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")
         </td>
     </tr>
 }

@@ -239,7 +239,7 @@ namespace SEAR_DataContract.Misc
 
             };
            
-            if (!String.IsNullOrEmpty(appType))
+            if (!string.IsNullOrEmpty(appType))
             {
                 parameters.Add(new NpgsqlParameter("appType", appType));
             }

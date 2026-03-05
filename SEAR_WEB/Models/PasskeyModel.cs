@@ -14,6 +14,14 @@ namespace SEAR_WEB.Models
     }
     public class PasskeyModel
     {
+        public static async Task<bool> CheckUserExistByUserId(Guid userId)
+        {
+            ReturnCheckUserExistByUserId response = await ApiCaller.CallApiAsync<ReturnCheckUserExistByUserId>("Api/ApiPasskey/CheckUserExistByUserId", new CheckUserExistByUserIdParameters
+            {
+                UserId = userId
+            });
+            return response.IsExist;
+        }
         public static async Task<Guid> CreateUserAccount(string username, string displayName)
         {
             return await ApiCaller.CallApiAsync<Guid>("Api/ApiPasskey/CreateUserAccount", new CreateUserAccountParameters
@@ -79,11 +87,8 @@ namespace SEAR_WEB.Models
         }
         public static async Task<string> CreateRegisterAdditionalPasskeyUrl(Guid userId)
         {
-            ReturnCheckUserExistByUserId response = await ApiCaller.CallApiAsync<ReturnCheckUserExistByUserId>("Api/ApiPasskey/CheckUserExistByUserId", new CheckUserExistByUserIdParameters
-            {
-                UserId = userId
-            });
-            if (response.IsExist == true)
+            bool response = await CheckUserExistByUserId(userId);
+            if (response == true)
             {
                 Guid keyId = Guid.NewGuid();
                 ApiCaller.CallApiAsync("Api/ApiPasskey/InsertRegisterAdditionalPasskeyKeyId", new InsertRegisterAdditionalPasskeyKeyIdParameters
