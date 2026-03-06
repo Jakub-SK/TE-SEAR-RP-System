@@ -29,7 +29,7 @@ namespace SEAR_WEB.Controllers
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(1) }
             );
             return LocalRedirect(returnUrl);
         }
@@ -47,7 +47,7 @@ namespace SEAR_WEB.Controllers
                 {
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
                     UUID = display.UUID,
-                    ErrorType = display.ErrorType
+                    ExceptionType = display.ExceptionType
                 });
             }
             return View(new ErrorViewModel

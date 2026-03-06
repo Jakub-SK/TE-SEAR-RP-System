@@ -24,17 +24,15 @@ builder.Services.AddSingleton<IFido2>(sp =>
     var configuration = sp.GetRequiredService<IConfiguration>();
 
     var fido2Config = new Fido2Configuration();
+    fido2Config.ServerDomain = Misc.GetDomainUrl();
+    fido2Config.ServerName = "SEAR Web";
     if (builder.Environment.IsDevelopment())
     {
-        fido2Config.ServerDomain = "localhost";
-        fido2Config.ServerName = "SEAR Web";
-        fido2Config.Origins = new HashSet<string> { "https://localhost:5002" };
+        fido2Config.Origins = new HashSet<string> { "https://" + Misc.GetDomainUrl() + ":5002" };
     }
     else
     {
-        fido2Config.ServerDomain = "sessvirtus.org";
-        fido2Config.ServerName = "SEAR Web";
-        fido2Config.Origins = new HashSet<string> { "https://sessvirtus.org" };
+        fido2Config.Origins = new HashSet<string> { "https://" + Misc.GetDomainUrl() };
     }
 
     return new Fido2(fido2Config);
