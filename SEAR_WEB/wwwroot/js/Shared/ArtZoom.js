@@ -44,8 +44,8 @@ function animate(timestamp) {
 
     const zoom = 1 + (maxZoom - 1) * eased;
     current.style.transform = `scale(${zoom})`;
-    
-    // fading
+
+    // fading to the next image
     if (!isFading && progress >= duration - fadeDuration) {
         isFading = true;
 
@@ -56,12 +56,12 @@ function animate(timestamp) {
         current.classList.remove("active");
     }
 
-    // swapping
+    // swapping images
     if (progress < duration) {
         requestAnimationFrame(animate);
-    } 
+    }
     else {
-       
+
         index = (index + 1) % images.length;
 
         current.style.transform = "scale(1)";
