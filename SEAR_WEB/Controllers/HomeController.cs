@@ -47,7 +47,7 @@ namespace SEAR_WEB.Controllers
                 {
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
                     UUID = display.UUID,
-                    ErrorType = display.ErrorType
+                    ExceptionType = display.ExceptionType
                 });
             }
             return View(new ErrorViewModel

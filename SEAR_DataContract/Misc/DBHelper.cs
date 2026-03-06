@@ -13,10 +13,10 @@ namespace SEAR_DataContract.Misc
         public ShowExceptionMessage()
         {
             UUID = "Unable to get UUID";
-            ErrorType = "Unknown";
+            ExceptionType = "Unknown";
         }
         public string UUID { get; set; }
-        public string ErrorType { get; set; }
+        public string ExceptionType { get; set; }
     }
     public static class DBHelper
     {
@@ -226,7 +226,7 @@ namespace SEAR_DataContract.Misc
             ShowExceptionMessage display = new ShowExceptionMessage
             {
                 UUID = uuid,
-                ErrorType = errorType
+                ExceptionType = errorType
             };
             
             string sql = "INSERT INTO log_exception (track_uuid, exception_message, error_type, app_type) VALUES (@uuid, @exceptionMessage, @errorType, @appType);";
