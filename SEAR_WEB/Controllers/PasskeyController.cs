@@ -231,10 +231,11 @@ namespace SEAR_WEB.Controllers
 
             return Json(new { success = true, redirectUrl = "/Home/Index" });
         }
-        [HttpPost]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout(string returnUrl)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!string.IsNullOrEmpty(returnUrl))
+                return Redirect(returnUrl);
             return RedirectToAction("Login", "Passkey");
         }
         [HttpPost]

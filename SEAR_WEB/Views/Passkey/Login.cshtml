@@ -13,7 +13,7 @@
             <option selected="@(currentCulture == "en")" value="en">English</option>
             <option selected="@(currentCulture == "zh-HK")" value="zh-HK">繁體中文(HK)</option>
         </select>
-        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+        
     </form>
     @if (!string.IsNullOrEmpty(User.FindFirst("DisplayName")?.Value))
     {
@@ -27,8 +27,9 @@
             You havn't login yet :(
         </div>
     }
-    <form asp-controller="Passkey" asp-action="Logout" method="post">
+    <form asp-controller="Passkey" asp-action="Logout" method="get">
         <input type="submit" value="@Localizer["Logout"]" />
+        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
     </form>
 </div>
 
