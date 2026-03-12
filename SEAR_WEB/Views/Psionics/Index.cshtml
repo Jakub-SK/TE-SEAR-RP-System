@@ -1,3 +1,584 @@
 ﻿@{
     ViewData["Title"] = "Psionics";
 }
+
+<link rel="stylesheet" href="~/css/Psionics/psionics.css" />
+
+<section id="section-psionics">
+    <div class="container content-wrapper">
+        <div class="intro-header">
+            <h1 class="intro-title">Psionics</h1>
+            <br>
+            <h1>"To fight the <strong class="abyss">Abyss</strong>, One must know it."</h1>
+        </div>
+        <div class="divider-line"></div>
+        <div class="break-section-top">
+            <p>Psionic Techniques are categorized by <strong>Tier</strong>, representing output intensity and mental strain.</p>
+            <p>All Psionic Techniques require an <strong>Intelligence roll</strong> to resolve the effect.</p>
+            <br>
+            <p>Tier 1 and above additionally require a <strong>Wisdom Stability roll. Failure advances Psionic Degradation.</strong></p>
+            <br>
+            <p>While Tier 0 is safe, Tier 1 and above are built in a way so that they <strong>always carry a cost</strong>. Psionics is never about power,
+                it is a showcase of <strong>how long your mind can last</strong> with constant use.</p>
+            <p>Strategize when and how to use this power, before it snuffs you out like a candle.</p>
+        </div>
+        <div class="break-section-top break-section-bottom">
+            <ul class="menu-buttons">
+                <a href="#tier0"><li>Tier 0</li></a>
+                <a href="#tier1"><li>Tier 1</li></a>
+                <a href="#tier2"><li>Tier 2</li></a>
+                <a href="#tier3"><li>Tier 3</li></a>
+                <a href="#tier4"><li>Tier 4</li></a>
+                <a href="#tier5"><li>Tier 5</li></a>
+            </ul>
+        </div>
+        <div class="divider-line"></div>
+        <div class="info-box break-section-top">
+            <h2>Tier 0</h2>
+            <h2>Minor Techniques</h2>
+            <p>No Degradation</p>
+            <br>
+            <p>Tier 0 techniques represent minimal-output mental exertion.
+                They are controlled, shallow interactions that do not meaningfully strain the psyche.</p>
+            <p>A simple party trick, or a technique you've done a hundred times in training.</p>
+            <br>
+            <p class="break-section-bottom"><strong>Tier 0 techniques do not trigger Psionic Degradation,</strong> and no WIS Stability roll is required.</p>
+            <div class="psionics-table">
+                <div class="technique">
+                    <h2>Neural Flicker</h2>
+                    <p>Disrupt a target’s focus by attack neural links in their brain matter.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Target has disadvantage on their next roll</li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Psychic Spark</h2>
+                    <p>Minor directed psionic irritation that causes slight damage to the nerves.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Brief mental shock or distraction</li>
+                    </ul>
+                    <p>Damage:</p>
+                    <ul>
+                        <li>1d6 psionic</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Sensory Heightening</h2>
+                    <p>Enhance perception for yourself or an ally. See what others won't see and perceive what others ignore.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>1d4 on Perception or Insight for one scene</li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Mind Tap</h2>
+                    <p>Read surface thoughts or emotional state. An open mind is like a fortress with its gates unbarred and unguarded.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Gain intent, fear, hostility, or emotional context</li>
+                        <li>Target has to succeed a WIS save against your INT caster DC</li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="divider-line"></div>
+        <div class="info-box break-section-top">
+            <h2>Tier 1</h2>
+            <h2>Reliable combat and control tools</h2>
+            <p>Each use requires a WIS Stability roll.</p>
+            <br>
+            <p>Tier 1 techniques are a step up in psionic difficulty,
+                relatively safe, but you still put yourself at miniscule but clear risk.</p>
+            <br>
+            <div class="psionics-table">
+                <div class="technique">
+                    <h2>Focused Psionic Assault</h2>
+                    <p>Single-target psionic strike. Prodigious size alone does not dissuade the sharpened mind.</p>
+                    <p>Damage:</p>
+                    <ul>
+                        <li>2d6 psionic</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Cognitive Suppression</h2>
+                    <p>Slow a target’s reactions. Vulnerable is the beast with it's speed cut.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>−2 to all rolls for one turn</li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Psionic Barrier</h2>
+                    <p>Project a mental shield around yourself. Your mind will protect from the horrors outside.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Raise AC by +5 modifier against attacks until your turn resumes</li>
+                        <li>Reaction</li>
+                        <li>At level 8 this grants a +10 modifier instead </li>
+                        <br>
+                        <li>
+                            For Psionic Assassins: <strong>AC +5 - Sustained Mode</strong> & <strong>AC +10 - Burst Mode</strong>
+                        </li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Mind Link</h2>
+                    <p>Establish a mental link between two allies. In the howling void of combat, a shared madness is a lifeline.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Advantage rolls on coordinated actions</li>
+                        <li>Concentration: If user takes damage, do a WIS saving throw of 10 to maintain concentration.<strong>Upon failure, the Mind Link will be broken.</strong></li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Perceptual Scan</h2>
+                    <p>Sweep an area with heightened awareness. The common eye perceives only the surface, you will see all that is beyond.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Detect hidden enemies, traps, or anomalies</li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="divider-line"></div>
+        <div class="info-box break-section-top">
+            <h2>Tier 2</h2>
+            <h2>Escalation begins here.</h2>
+            <p>Be wary, repeated use becomes dangerous.</p>
+            <br>
+            <p>Tier 2 techniques are no laughing matter,
+                strong enough to cause considerable harm, these techniques is where actual skill starts being required.</p>
+            <br>
+            <div class="psionics-table">
+                <div class="technique">
+                    <h2>Shatter Thought</h2>
+                    <p>Disruptive Psionic attack, a dizzying blow to body and brain.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Target becomes disoriented for one turn, attacking nearby friend <strong>and</strong> foe.</li>
+                    </ul>
+                    <p>Damage:</p>
+                    <ul>
+                        <li>3d6 psionic</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Psychic Barrier Field</h2>
+                    <p>Expanded defensive field. A strong mind is one that resists even the tempest's winds.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Reduce all incoming damage by 6 for one round</li>
+                        <li>Reaction</li>
+                        <li>Can cover up to 3 people near you within 2 m </li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>False Reality Projection</h2>
+                    <p>Alter perceptions in a localized area. Shatter the enemies grasp on what is real, and what is not.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Enemies misinterpret terrain, allies, or movement</li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Neural Anchor</h2>
+                    <p>Stabilize a mind against interference. A moment of clarity in the eye of the storm.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Advantage on WIS saves vs fear, panic, or psionics</li>
+                        <li>Lasts until end of Operation</li>
+                        <li>Up to 3 creatures including self </li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="divider-line"></div>
+        <div class="info-box break-section-top">
+            <h2>Tier 3</h2>
+            <h2>Battle-shaping effects.</h2>
+            <p>Mental strain becomes severe.</p>
+            <br>
+            <p>Tier 3 techniques is where most psionic users peak before their degradation hits dangerous levels, strong but demanding, 
+                what is listed here is a gateway to a swift end. For the enemy, and for you.</p>
+            <br>
+            <div class="psionics-table">
+                <div class="technique">
+                    <h2>Mindstorm</h2>
+                    <p>Psionic waves across an area, mind turned tempest. A churning cataract of thought and fury.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Targets staggered next turn. They can attack but cannot move.</li>
+                    </ul>
+                    <p>Damage:</p>
+                    <ul>
+                        <li>4d6 psionic</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Psionic Dome</h2>
+                    <p>Project a visible psionic dome. Raise a wall. A shimmering anathema woven from pure conviction</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Allies inside gain protection alongside the Psionic Operative </li>
+                        <li>The Dome has the same health as character’s maximum HP before shattering</li>
+                        <li>10 m radius</li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                    <p>Duration:</p>
+                    <ul>
+                        <li>One scene or until broken.</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Cognitive Overload</h2>
+                    <p>Overwhelm a target’s nervous system. It is a vessel of finite capacity. We fill it.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Target stunned for one turn on failed save</li>
+                    </ul>
+                    <br>
+                    <p>Damage:</p>
+                    <ul>
+                        <li>3d6 psionic</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Neural Cloak</h2>
+                    <p>Can mask the presence and perception of an ally or self. Hidden from all sharp glances.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Advantage on Stealth and evasion</li>
+                        <li>Can mask 3 creatures </li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Reality Shear</h2>
+                    <p>Tear at perception and sensation. A taste of the unknown intrigues even the tamest individuals.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>The target will wander around confused for 2 turns without being able to act.</li>
+                    </ul>
+                    <p>Damage:</p>
+                    <ul>
+                        <li>4d6 psionic</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Psionic Scream</h2>
+                    <p>Unleash a violent psychic shockwave that tears through minds and nerves.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>All creatures in a <strong>10 m cone</strong> take <strong>2d6 psionic damage</strong></li>
+                        <li>Targets must succeed a <strong>WIS save</strong></li>
+                    </ul>
+                    <p>On a failed save:</p>
+                    <ul>
+                        <li>Target is <strong>Panicked</strong> for 2 turns</li>
+                        <li>Target immediately <strong>drops their primary weapon</strong></li>
+                    </ul>
+                    <br>
+                    <p>On a successful save:</p>
+                    <ul>
+                        <li>Target takes damage but resists panic and disarm</li>
+                    </ul>
+                </div>
+                <div class="technique">
+                    <h2>Warp Jump</h2>
+                    <p>Collapse space and reappear instantly, tearing reality at the point of arrival.</p>
+                    <p><strong>Becomes a Bonus Action at character level 15 and Psionic Operative level 8</strong></p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Instantly relocate up to <strong>15 m</strong></li>
+                        <li>Movement does not provoke reactions</li>
+                    </ul>
+                    <p>Aggressive Use:</p>
+                    <p>If you warp directly into a creature:</p>
+                    <ul>
+                        <li>Roll <strong>1d20 + CON modifier</strong></li>
+                        <li>Target rolls <strong>1d20 + CON modifier</strong></li>
+                    </ul>
+                    <p>On Success:</p>
+                    <ul>
+                        <li>Deal <strong>3d8 force damage</strong></li>
+                        <li>If the target is reduced to 0 HP, their body violently ruptures from spatial collapse</li>
+                    </ul>
+                    <p>On Failure:</p>
+                    <ul>
+                        <li>You take <strong>50% of your maximum HP</strong> as damage (rounded down)</li>
+                    </ul>
+                    <p>Restrictions:</p>
+                    <ul>
+                        <li>Cannot be used on <strong>Large or larger creatures</strong></li>
+                        <li>Cannot be used on <strong>vehicles or structures</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="divider-line"></div>
+        <div class="info-box break-section-top">
+            <h2>Tier 4</h2>
+            <h2>High-risk, high-impact applications.</h2>
+            <p>You cast a chunk of yourself away forever with each use.</p>
+            <br>
+            <p>Tier 4 techniques is the maximum the average user can go to when deciding to ignore the critical degradation happening to them.
+                Highly dangerous and carrying serious consequences.</p>
+            <br>
+            <div class="psionics-table">
+                <div class="technique">
+                    <h2>Group Mind Collapse</h2>
+                    <p>Mass morale and cognition assault. A singular strike, tens affected.</p>
+                    <br>
+                    <ul>
+                        <li>Panic, suppression, or forced retreat</li>
+                        <li>DM discretion</li>
+                    </ul>
+                    <p>Damage:</p>
+                    <ul>
+                        <li>5d8 psionic</li>
+                        <li>30 m radius</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Psionic Bastion</h2>
+                    <p>Fortified mental structure. A stronghold of protection, a show of resistance. A hope amidst the chaos.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Allies inside gain immunity to damage</li>
+                        <li>Immunity to fear effects</li>
+                        <li>3 m radius</li>
+                    </ul>
+                    <p>Duration:</p>
+                    <ul>
+                        <li>Until caster’s next turn</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Sense Sever</h2>
+                    <p>Remove a sensory input. Senses are a fragile thing, a lightswitch away from being gone.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Blindness, deafness, or severe disorientation</li>
+                        <li>Permanent </li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Temporal Perception Shift</h2>
+                    <p>Distort perceived time. Time holds no dominion over you, you alter it for others.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>3 creatures gain an additional action per turn</li>
+                        <li>2 turn duration & Allies become stunned for one turn after.</li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Neural Fortress</h2>
+                    <p>Reinforce multiple minds. Singular strength is admirable, shared strength is an unbeatable combination.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Advantage on all WIS saves for allies in area</li>
+                    </ul>
+                    <p>No damage is dealt.</p>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="divider-line"></div>
+        <div class="info-box break-section-top">
+            <h2>Tier 5 - <strong class="abyss">Cataclysmic Techniques</strong></h2>
+            <h2>End-state techniques.</h2>
+            <p>Guaranteed to be consequential, you push yourself to the absolute limit, never recovering that part of yourself back.</p>
+            <br>
+            <p>Unsettling tales speak of unimaginable and frightening power. 
+                These techniques are usually forbidden due to their dangers to both the user and their surroundings.</p>
+            <p>Remember, the <strong class="abyss">abyss</strong> will return even the boldest gaze.</p>
+            <br>
+            <div class="psionics-table">
+                <div class="technique">
+                    <h2>Psionic Overwhelm</h2>
+                    <p>You abandon containment and unleash raw psionic force across the battlefield.</p>
+                    <p>This is not control.</p>
+                    <p>This is collapse.</p>
+                    <p>Damage:</p>
+                    <ul>
+                        <li>8d8 psionic</li>
+                        <li>Creatures only</li>
+                        <li>Cannot affect vehicles, structures, or machines unless piloted by creatures</li>
+                    </ul>
+                    <br>
+                    <p>All creatures in the area are affected.</p>
+                    <p>Each creature must make a <strong>WIS save.</strong></p>
+                    <br>
+                    <p>On a failed save:</p>
+                    <ul>
+                        <li>Incapacitated for <strong>1 round</strong></li>
+                        <li>Then <strong>Panicked or Forced to Retreat</strong> for <strong>2 rounds</strong> (DM discretion)</li>
+                        <li>Coordinated actions and command bonuses are lost for the scene</li>
+                    </ul>
+                    <br>
+                    <p>On a successful save:</p>
+                    <ul>
+                        <li>Takes <strong>half damage</strong></li>
+                        <li>Is <strong>Suppressed</strong> for <strong>1 round</strong></li>
+                        <li>Cannot benefit from morale or command effects next turn</li>
+                    </ul>
+                    <p>There is no outcome where a creature is unaffected.</p>
+                    <p>Usage Limit:</p>
+                    <ul>
+                        <li><strong>Once per operation</strong></li>
+                        <li>Cannot be refreshed, stabilized, or repeated</li>
+                    </ul>
+                    <p>You cannot safely recover from this during the mission.</p>
+                    <br>
+                    <p><strong>Narrative Consequences</strong></p>
+                    <p>Using Psionic Overwhelm:</p>
+                    <ul>
+                        <li>Is immediately noticeable across the battlefield</li>
+                        <li>May trigger escalation and countermeasures</li>
+                        <li>Marks you as a strategic-level threat</li>
+                        <li>May permanently affect your condition or reputation</li>
+                    </ul>
+                    <p><strong>This action is remembered.</strong></p>
+                </div>
+                <div class="technique">
+                    <h2>Mindscape Collapse</h2>
+                    <p>Force targets into warped internal reality.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Targets may become unresponsive or suffer ongoing damage/li>
+                        <li>DM narrative control on how it affects creatures </li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Cognitive Singularity</h2>
+                    <p>You collapse space and matter inward, compressing everything into a single impossible point.</p>
+                    <p>There is no blast. There is no escape. Only pressure.</p>
+                    <p>Targeting:</p>
+                    <ul>
+                        <li>Choose a <strong>point within 30 m</strong></li>
+                        <li>Affects <strong>all creatures and objects</strong> in the area</li>
+                        <li>Cannot affect vehicles larger than the effect zone (DM discretion)</li>
+                    </ul>
+                    <p>Area of Effect:</p>
+                    <ul>
+                        <li><strong>5 m radius</strong>, centered on the chosen point</li>
+                    </ul>
+                    <br>
+                    <p>Damage:</p>
+                    <ul>
+                        <li><strong>10d6 psionic damage</strong></li>
+                        <li>Ignores armor and damage reduction</li>
+                        <li>Only effects that explicitly resist psionics apply</li>
+                    </ul>
+                    <p>This damage represents spatial compression, not physical trauma.</p>
+                    <br>
+                    <p>Effects:</p>
+                    <p>All creatures in the area must make a <strong>WIS save</strong>.</p>
+                    <br>
+                    <p>On a failed save:</p>
+                    <ul>
+                        <li><strong>Restrained and Incapacitated for 2 rounds</strong></li>
+                        <li>Movement is <strong>0</strong></li>
+                    </ul>
+                    <p>At the end of the effect, the creature is violently expelled:</p>
+                    <ul>
+                        <li>Takes <strong>4d6 bludgeoning damage</strong></li>
+                        <li>Is <strong>Prone</strong> and <strong>Disoriented</strong></li>
+                    </ul>
+                    <p>On a successful save:</p>
+                    <ul>
+                        <li>Takes <strong>half damage</strong></li>
+                        <li><strong>Restrained for 1 round</strong></li>
+                        <li>Movement becomes <strong>0</strong> for that round</li>
+                    </ul>
+                    <p>There is no outcome where a creature is unaffected.</p>
+                </div>
+                <div class="technique">
+                    <h2>Matter Compression</h2>
+                    <p>Matter can be bent to whatever shape you see fit. Like an artist with a brush.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>All non-vehicle matter in the area is compressed into a single mass</li>
+                        <li>The result is a dense cube, no larger than 1 m³</li>
+                        <li>Objects may be fused, crushed, or destroyed (DM discretion)</li>
+                        <li>The cube remains as a physical object in the environment</li>
+                    </ul>
+                        <br>
+                    <p>This compression is permanent.</p>
+                </div>
+                <div class="technique">
+                    <h2>Total Suppression Field</h2>
+                    <p>Absolute mental denial zone.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>No psionic use inside the field</li>
+                        <li>Severe penalties to enemies</li>
+                        <li>All creatures in the area has to succeed a WIS saving thrown or suffer -2 to all rolls</li>
+                    </ul>
+                    <br>
+                    <p>Duration:</p>
+                    <ul>
+                        <li>5 turns</li>
+                    </ul>
+                    <br>
+                </div>
+                <div class="technique">
+                    <h2>Final Projection</h2>
+                    <p>One final psionic act beyond safe limits.</p>
+                    <p>Effect:</p>
+                    <ul>
+                        <li>Resolve one overwhelming situation</li>
+                    </ul>
+                    <p>HP reduced to 0, incapacitated and cannot be revived until end of operation</p>
+                    <p>GM is required to be a genie when the request is made</p>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="break-section-top">
+            <h2>Summary</h2>
+            <p>Tier 0 is safe.</p>
+            <p>Tier 1 and above always carry cost.</p>
+            <p>Psionics is not about power.</p>
+            <p>It is about how long you can keep using it.</p>
+        </div>
+    </div>
+</section>

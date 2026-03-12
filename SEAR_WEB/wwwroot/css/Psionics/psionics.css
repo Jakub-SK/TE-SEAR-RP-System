@@ -1,0 +1,147 @@
+#section-psionics {
+    padding: 60px 20px;
+    color: #fff;
+}
+
+.content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.break-section-bottom {
+    margin-bottom: 80px;
+}
+
+.break-section-top {
+    margin-top: 80px;
+}
+
+.intro-title {
+    font-size: 64px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.abyss {
+    font-size: inherit;
+}
+
+.intro-title, .abyss {
+    background: linear-gradient(
+            to right,
+            rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-size: 500% auto;
+    animation: textShine 5s ease-in-out infinite alternate;
+}
+
+@keyframes textShine {
+    0% {
+        background-position: 0 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.intro-header {
+    border: 0 solid transparent;
+    display: inline-block;
+    margin-bottom: 40px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    padding: 25px;
+    max-width: 1715px;
+    color: #000;
+}
+
+.divider-line {
+    height: 1px;
+    background-color: #fff;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.menu-buttons {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 3em;
+}
+
+.menu-buttons a {
+    transition: transform .2s;
+}
+
+.menu-buttons a:hover {
+    transform: scale(1.07);
+}
+
+.menu-buttons li {
+    background-color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    padding: 50px;
+    transition: background .2s;
+    clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 100% 100%, 16% 100%, 0% 80%, 0 0);
+}
+
+.menu-buttons li:hover {
+    background: linear-gradient(
+            to right,
+            rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%
+    );
+    color: #ffffff;
+    background-size: 500% auto;
+    animation: textShine 5s ease-in-out infinite alternate;
+}
+
+.info-box {
+    padding: 40px;
+    max-width: 1566px;
+    margin: 0 auto;
+}
+
+.info-box p {
+    text-align: left;
+}
+
+.info-box p:first-of-type {
+    text-align: center;
+}
+
+.psionics-table {
+    max-width: 1050px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    padding: 25px;
+    margin: 0 auto;
+    color: #000;
+}
+
+/*
+.psionics-table p:first-of-type, .psionics-table p {
+    text-align: left; 
+}
+*/
+
+.technique ul li {
+    text-align: left;
+}
+
+.technique {
+    border-bottom: #000 solid 2px;
+    margin-bottom: 40px;
+}
+
+.psionics-table div:last-child {
+    border-bottom: none;
+    border-bottom: 0;
+}

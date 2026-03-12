@@ -375,7 +375,7 @@ strong {
 }
 
 .search-bar {
-    width: 35em;
+    width: 30em;
     height: 53px;
     background-color: #d9d9d9;
     display: flex;
@@ -573,7 +573,7 @@ strong {
 @media (max-width: 1024px) {
     #section-hero {
         height: auto;
-        min-height: 100vh;
+        min-height: 150vh;
     }
 }
 
