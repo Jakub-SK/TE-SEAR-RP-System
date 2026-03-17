@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using System.Diagnostics;
-using SEAR_DataContract.Misc;
+using SEAR_DataContract.Models;
 using SEAR_WEB.RedirectViewModels;
 using SEAR_WEB.Session;
 
@@ -36,18 +36,18 @@ namespace SEAR_WEB.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Error()
         {
-            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            var exception = exceptionHandlerPathFeature?.Error;
+            var exception = HttpContext.Features.Get<IExceptionHandlerPathFeature>()?.Error;
             var uuid = Activity.Current?.Id;
             ShowExceptionMessage display = new ShowExceptionMessage();
             if (exception != null)
             {
-                display = await SEAR_DataContract.Misc.Misc.LogException(exception, "SEAR WEB", uuid);
+                display = await SEAR_DataContract.Misc.Misc.LogException(exception, "SEAR WEB", uuid, exception.StackTrace);
                 return View(new ErrorViewModel
                 {
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
                     UUID = display.UUID,
-                    ExceptionType = display.ExceptionType
+                    ExceptionType = display.ExceptionType,
+                    StackTrace = exception.StackTrace
                 });
             }
             return View(new ErrorViewModel
