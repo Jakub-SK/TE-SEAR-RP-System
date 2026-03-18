@@ -55,6 +55,7 @@ namespace SEAR_WEB.Controllers
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
             });
         }
+        [HttpPost]
         public async Task<IActionResult> SubmitExceptionSteps(ErrorViewModel model)
         {
             SEAR_DataContract.Misc.Misc.UpdateLogExceptionWithSteps(model.UUID!, model.ErrorSteps!);

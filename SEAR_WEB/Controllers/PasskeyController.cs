@@ -239,7 +239,7 @@ namespace SEAR_WEB.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             if (!string.IsNullOrEmpty(returnUrl))
-                return Redirect(returnUrl);
+                return LocalRedirect(returnUrl);
             return RedirectToAction("Login", "Passkey");
         }
         [HttpPost]

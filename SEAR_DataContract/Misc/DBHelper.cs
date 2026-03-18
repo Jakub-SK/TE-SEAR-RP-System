@@ -213,7 +213,9 @@ namespace SEAR_DataContract.Misc
         }
         internal static async Task<ShowExceptionMessage> LogException(Exception ex, string errorType, string appType, string? uuid = null, string? stackTrace = null)
         {
-            uuid = uuid == null ? Guid.CreateVersion7().ToString() : uuid;
+            //uuid = uuid != null ? uuid : Guid.CreateVersion7().ToString();
+            //below expression is doing the same thing as above, but more concise
+            uuid = uuid ?? Guid.CreateVersion7().ToString();
             ShowExceptionMessage display = new ShowExceptionMessage
             {
                 UUID = uuid,

@@ -144,7 +144,9 @@ namespace SEAR_WEB.Misc
         }
         private static Exception CreateAppServerException(string url, HttpResponseMessage? response, object parameter, Exception ex)
         {
-            parameter = parameter == null ? "No Any Parameter" : parameter;
+            //parameter = parameter != null ? parameter : "No Any Parameter";
+            //below expression is doing the same thing as above, but more concise
+            parameter = parameter ?? "No Any Parameter";
             return new HttpRequestException(
                 $"API call failed.\n" +
                 $"URL: {url}\n" +
