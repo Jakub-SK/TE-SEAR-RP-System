@@ -21,6 +21,10 @@ namespace SEAR_WEB.Controllers
             _fido2 = fido2;
             _sessionCache = sessionCache;
         }
+        public async Task<IActionResult> MakeException()
+        {
+            throw new Exception("damn this is just a test");
+        }
         public async Task<IActionResult> Index()
         {
             return RedirectToAction("Login", "Passkey");
@@ -231,10 +235,11 @@ namespace SEAR_WEB.Controllers
 
             return Json(new { success = true, redirectUrl = "/Home/Index" });
         }
-        [HttpPost]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout(string returnUrl)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!string.IsNullOrEmpty(returnUrl))
+                return LocalRedirect(returnUrl);
             return RedirectToAction("Login", "Passkey");
         }
         [HttpPost]

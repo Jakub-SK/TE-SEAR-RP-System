@@ -1,22 +1,13 @@
 ﻿using Npgsql;
 using System.Data;
+using SEAR_DataContract.Models;
 
 namespace SEAR_DataContract.Misc
 {
     internal static class ConnectionString
     {
-        public static string GetDevelopmentString => "Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
-        public static string GetProductionString => "Host=localhost:5432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
-    }
-    public class ShowExceptionMessage
-    {
-        public ShowExceptionMessage()
-        {
-            UUID = "Unable to get UUID";
-            ExceptionType = "Unknown";
-        }
-        public string UUID { get; set; }
-        public string ExceptionType { get; set; }
+        internal static string GetDevelopmentString => "Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
+        internal static string GetProductionString => "Host=localhost:5432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
     }
     public static class DBHelper
     {
@@ -24,7 +15,7 @@ namespace SEAR_DataContract.Misc
         //
         //List<NpgsqlParameter> parameters = new List<NpgsqlParameter>();
         //parameters.Add(new NpgsqlParameter("p", "some"));
-        public static NpgsqlConnection GetConnection()
+        private static NpgsqlConnection GetConnection()
         {
             if (Misc.CheckIsDevelopmentEnviroment())
             {
@@ -220,23 +211,25 @@ namespace SEAR_DataContract.Misc
                 }
             }
         }
-        internal static async Task<ShowExceptionMessage> LogException(Exception ex, string errorType, string appType, string? uuid = null)
+        internal static async Task<ShowExceptionMessage> LogException(Exception ex, string errorType, string appType, string? uuid = null, string? stackTrace = null)
         {
-            uuid = uuid == null ? Guid.CreateVersion7().ToString() : uuid;
+            //uuid = uuid != null ? uuid : Guid.CreateVersion7().ToString();
+            //below expression is doing the same thing as above, but more concise
+            uuid = uuid ?? Guid.CreateVersion7().ToString();
             ShowExceptionMessage display = new ShowExceptionMessage
             {
                 UUID = uuid,
                 ExceptionType = errorType
             };
             
-            string sql = "INSERT INTO log_exception (track_uuid, exception_message, error_type, app_type) VALUES (@uuid, @exceptionMessage, @errorType, @appType);";
+            string sql = "INSERT INTO log_exception (track_uuid, exception_message, app_type, error_type, stack_trace) VALUES (@uuid, @exceptionMessage, @appType, @errorType, @stackTrace);";
 
             List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
             {
                 new NpgsqlParameter("uuid", uuid),
                 new NpgsqlParameter("exceptionMessage", ex.Message),
                 new NpgsqlParameter("errorType", errorType),
-
+                new NpgsqlParameter("stackTrace", stackTrace ?? string.Empty)
             };
            
             if (!string.IsNullOrEmpty(appType))

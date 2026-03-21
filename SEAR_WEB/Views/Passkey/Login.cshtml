@@ -8,18 +8,25 @@
 <div style="padding-top: 200px;">
     <h2>@Localizer["Passkey Demo"]</h2>
     <a href="@Url.Action("RegisterPasskey", "Passkey")"><button>@Localizer["Create Account"]</button></a>
-    <form asp-controller="Home" asp-action="SetLanguage" method="get" id="languageForm">
+    @using (Html.BeginForm("SetLanguage", "Home", FormMethod.Get, new { id = "languageForm" }))
+    {
         <select name="culture" onchange="this.form.submit();" class="form-select">
             <option selected="@(currentCulture == "en")" value="en">English</option>
             <option selected="@(currentCulture == "zh-HK")" value="zh-HK">繁體中文(HK)</option>
         </select>
         <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-    </form>
+    }
     @if (!string.IsNullOrEmpty(User.FindFirst("DisplayName")?.Value))
     {
         <div>
             @Localizer["Display Name"] : @User.FindFirst("DisplayName")?.Value
         </div>
+    
+        using (Html.BeginForm("Logout", "Passkey", FormMethod.Get))
+        {
+            <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+            <input type="submit" value="@Localizer["Logout"]" />
+        }
     }
     else
     {
@@ -27,9 +34,6 @@
             You havn't login yet :(
         </div>
     }
-    <form asp-controller="Passkey" asp-action="Logout" method="post">
-        <input type="submit" value="@Localizer["Logout"]" />
-    </form>
 </div>
 
 <div style="padding-top: 50px;">
@@ -37,3 +41,4 @@
 </div>
 <p id="loadingMessage" style="color:yellow;"></p>
 <a href="@Url.Action("ViewPasskey", "Passkey")"><button>@Localizer["Passkey View"]</button></a>
+<a href="@Url.Action("MakeException", "Passkey")"><button>Make Exception >:)</button></a>

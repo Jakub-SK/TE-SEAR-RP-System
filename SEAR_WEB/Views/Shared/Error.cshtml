@@ -3,15 +3,15 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
+<h1 class="text-danger">Error</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
 
-@if (Model.UUID != null)
+@if (Model.ShowUUID)
 {
     <div>
         <strong>Track UUID:</strong> <code>@Model.UUID</code>
         <br />
-        The ID above is use to track the error message, you should forward this UUID to Cat NooB or Jacob for further assistance
+        The ID above is use to track the error message, you can forward this UUID to Cat NooB or Jacob for further assistance
         <br />
         <strong>Error Type:</strong> <code>@Model.ExceptionType</code>
         @if (Model.ExceptionType == "Unknown")
@@ -23,15 +23,22 @@
     </div>
     <br />
     <p>If you are able to input the steps to reproduce error, please enter below, this can help us for easier debugging</p>
-    @using (Html.BeginForm("SubmitExceptionSteps", "Home", new { ReturnUrl = ViewBag.ReturnURL }, FormMethod.Post, true, new { @class = "form-horizontal" }))
+    @using (Html.BeginForm("SubmitExceptionSteps", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         @Html.TextAreaFor(Model => Model.ErrorSteps, 10, 20, new { @class = "form-control", placeholder = "Enter steps here...", maxlength = "2000" })
         <input type="hidden" asp-for="UUID" />
         <button type="submit">Submit Error Steps</button>
+    }
+    if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment() && !string.IsNullOrEmpty(Model.StackTrace))
+    {
+        <br />
+        <h1 class="text-danger">Exception Stack Trace:</h1>
+        <div>@Model.StackTrace</div>
     }
 }
 else
 {
     <p><strong>Unable to get tracking UUID</strong></p>
     <p>This is usually due to unknown error, you should contact Cat NooB or Jacob immediately</p>
+    <div>did you just accessed this page directly?! >:(</div>
 }

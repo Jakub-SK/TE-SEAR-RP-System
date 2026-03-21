@@ -1,4 +1,6 @@
-﻿namespace SEAR_DataContract.Misc
+﻿using SEAR_DataContract.Models;
+
+namespace SEAR_DataContract.Misc
 {
     public static class Misc
     {
@@ -8,9 +10,9 @@
                 return true;
             return false;
         }
-        public static async Task<ShowExceptionMessage> LogException(Exception ex, string appType, string? uuid = null)
+        public static async Task<ShowExceptionMessage> LogException(Exception ex, string appType, string? uuid = null, string? stackTrace = null)
         {
-            return await DBHelper.LogException(ex, GetExceptionType(ex), appType, uuid);
+            return await DBHelper.LogException(ex, GetExceptionType(ex), appType, uuid, stackTrace);
         }
         public static async void UpdateLogExceptionWithSteps(string uuid, string steps)
         {
