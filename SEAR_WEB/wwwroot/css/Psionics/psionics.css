@@ -1,3 +1,9 @@
+html {
+    scroll-behavior: smooth;
+}
+
+/* ^ allows the fancy smooth scrolling the site has  */
+/* ### GENERAL SITE FIXES ############################################################ */
 #section-psionics {
     padding: 60px 20px;
     color: #fff;
@@ -17,6 +23,8 @@
     margin-top: 80px;
 }
 
+/* ### SITE SPECIFIC CSS ############################################################ */
+
 .intro-title {
     font-size: 64px;
     font-weight: 700;
@@ -28,6 +36,8 @@
     font-size: inherit;
 }
 
+
+/* gradient animation */
 .intro-title, .abyss {
     background: linear-gradient(
             to right,
@@ -83,6 +93,7 @@
     transform: scale(1.07);
 }
 
+/* used a website generator for polygon %, I am lazy :) */
 .menu-buttons li {
     background-color: #ffffff;
     font-size: 24px;
@@ -125,12 +136,6 @@
     margin: 0 auto;
     color: #000;
 }
-
-/*
-.psionics-table p:first-of-type, .psionics-table p {
-    text-align: left; 
-}
-*/
 
 .technique ul li {
     text-align: left;

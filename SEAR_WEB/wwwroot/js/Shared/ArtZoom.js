@@ -3,10 +3,7 @@ const images = [
     "/images/Shared/RayaArt/raya2.jpg",
     "/images/Shared/RayaArt/raya3.jpg",
     "/images/Shared/RayaArt/raya4.jpg",
-    "/images/Shared/RayaArt/raya5.jpg",
-    "/images/Shared/RayaArt/raya6.jpg",
-    "/images/Shared/RayaArt/raya7.jpg",
-    "/images/Shared/RayaArt/raya8.jpg"
+    "/images/Shared/RayaArt/raya5.jpg"
 ];
 
 // ^ up above is ugly and will need to be changed for the formatted link we use instead
