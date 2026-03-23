@@ -117,10 +117,79 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Adjudicator" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Archon" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="Bloodhound" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Captain" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="CMCPO" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="CPO" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CWO" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="Enforcer" xml:space="preserve">
+    <value>執行者</value>
+  </data>
+  <data name="Ferryman" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="Fleet Admiral" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GI" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="High Inspector" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="Inspector" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="MCPO" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="Overseer" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="PO" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>搜尋</value>
   </data>
   <data name="TE Name" xml:space="preserve">
     <value>真理執行者</value>
+  </data>
+  <data name="Wing Commander" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="WO" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="FMCPO" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="Executioner" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="Lord General" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="Grand Admiral" xml:space="preserve">
+    <value>&#x8;</value>
+  </data>
+  <data name="MCPOE" xml:space="preserve">
+    <value>&#x8;</value>
   </data>
 </root>
