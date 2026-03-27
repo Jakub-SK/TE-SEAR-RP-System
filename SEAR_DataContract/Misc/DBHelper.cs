@@ -272,7 +272,7 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnviroment())
                 {
-                    AppLogger.LogError("Unable to update steps to database,\nFUCK U >:( Please check is the cloudflared is running when in development enviroment u \"fuckin stoopid\"");
+                    AppLogger.LogError("Unable to update steps to database,\nFUCK U >:( Please check is the cloudflared is running when in development environment u \"fuckin stoopid\"");
                 }
             }
         }
@@ -282,7 +282,7 @@ namespace SEAR_DataContract.Misc
                 $"Unable to establish connection to database\n" +
                 $"Connection: {conn.ConnectionString}\n" +
                 $"SQL: {sql}\n" +
-                $"FUCK U >:( Please check is the cloudflared is running when in development enviroment u \"fuckin stoopid\"\n" +
+                $"FUCK U >:( Please check is the cloudflared is running when in development environment u \"fuckin stoopid\"\n" +
                 $"Exception Message: {ex.Message}"
             );
         }
