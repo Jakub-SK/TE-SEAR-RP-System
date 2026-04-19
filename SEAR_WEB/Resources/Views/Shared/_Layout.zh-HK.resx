@@ -118,52 +118,52 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Adjudicator" xml:space="preserve">
-    <value />
+    <value>審判者</value>
   </data>
   <data name="Archon" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>執政官&#x8;</value>
   </data>
   <data name="Bloodhound" xml:space="preserve">
-    <value />
+    <value>血獵</value>
   </data>
   <data name="Captain" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>隊長</value>
   </data>
   <data name="CMCPO" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>指揮士官長</value>
   </data>
   <data name="CPO" xml:space="preserve">
-    <value />
+    <value>士官長</value>
   </data>
   <data name="CWO" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>戰略士官長</value>
   </data>
   <data name="Enforcer" xml:space="preserve">
     <value>執行者</value>
   </data>
   <data name="Ferryman" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>擺渡人</value>
   </data>
   <data name="Fleet Admiral" xml:space="preserve">
-    <value />
+    <value>艦隊司令</value>
   </data>
   <data name="GI" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>總監察者</value>
   </data>
   <data name="High Inspector" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>高級監察者</value>
   </data>
   <data name="Inspector" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>監察者</value>
   </data>
   <data name="MCPO" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>一級士官長</value>
   </data>
   <data name="Overseer" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>監工</value>
   </data>
   <data name="PO" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>士官</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜尋</value>
@@ -172,24 +172,27 @@
     <value>真理執行者</value>
   </data>
   <data name="Wing Commander" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>飛翼執行官</value>
   </data>
   <data name="WO" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>戰略官</value>
   </data>
   <data name="FMCPO" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>部隊士官長</value>
   </data>
   <data name="Executioner" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>行刑者</value>
   </data>
   <data name="Lord General" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>將軍</value>
   </data>
   <data name="Grand Admiral" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>海軍元帥</value>
   </data>
   <data name="MCPOE" xml:space="preserve">
-    <value>&#x8;</value>
+    <value>執行者部隊們的一級士官長</value>
+  </data>
+  <data name="Dumb" xml:space="preserve">
+    <value>愚蠢</value>
   </data>
 </root>

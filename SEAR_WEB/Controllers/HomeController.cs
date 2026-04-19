@@ -41,7 +41,7 @@ namespace SEAR_WEB.Controllers
             ShowExceptionMessage display = new ShowExceptionMessage();
             if (exception != null)
             {
-                display = await SEAR_DataContract.Misc.Misc.LogException(exception, "SEAR WEB", uuid, exception.StackTrace);
+                display = await SEAR_DataContract.Misc.Misc.LogException(exception, "SEAR WEB", uuid);
                 return View(new ErrorViewModel
                 {
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
