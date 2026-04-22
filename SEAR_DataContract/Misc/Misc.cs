@@ -10,9 +10,9 @@ namespace SEAR_DataContract.Misc
                 return true;
             return false;
         }
-        public static async Task<ShowExceptionMessage> LogException(Exception ex, string appType, string? uuid = null, string? stackTrace = null)
+        public static async Task<ShowExceptionMessage> LogException(Exception ex, string appType, string? uuid = null)
         {
-            return await DBHelper.LogException(ex, GetExceptionType(ex), appType, uuid, stackTrace);
+            return await DBHelper.LogException(ex, GetExceptionType(ex), appType, uuid, ex.StackTrace);
         }
         public static async void UpdateLogExceptionWithSteps(string uuid, string steps)
         {
