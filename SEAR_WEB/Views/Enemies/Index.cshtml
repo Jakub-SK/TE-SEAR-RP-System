@@ -1,3 +1,263 @@
 ﻿@{
     ViewData["Title"] = "Enemies";
 }
+
+<link rel="stylesheet" href="~/css/Enemies/enemies.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<section id="intro-header" class="container">
+    <div class="title-pill">
+        <h1>Enemies of <strong class="abyss">Super Earth</strong></h1>
+    </div>
+</section>
+<section id="section-intro" class="container">
+    <div class="intro-content">
+        <p>Super Earth is surrounded by enemies on all sides. In the West, the mechanical horrors of the Automatons. In the East, the hungry neverending hordes of the Terminids. And in the South, the mysterious and hideous enemies from beyond the void, Illuminate.</p>
+        <p>Super Earth Adaptive Roleplay does it’s best to adapt these creatures, beasts and monsters into a tabletop like form. Our manual gives detailed information on thing such as HP, AC (Armor Class), Speed, Size, Abilities, Ability Scores; And much more.</p>
+        <p>While providing stats, the monster manual is also meant for roleplaying and world building and so on. We intend to provide a narrative experience and not a power fantasy whilst also being able to feel within the ingame balance of the game roughly and reward creativity and different classes working together.</p>
+    </div>
+</section>
+<section id="section-factions" class="container">
+    <div class="factions-grid">
+        <div class="faction-card">
+            <img src="images/Enemies/0ed95d39d66c2b6fc2b41320fd2039e8e7f9d986.png" class="faction-bg" alt="Terminids Background">
+            <div class="faction-overlay">
+                <img src="images/Enemies/a32748ee16d7ca731d202939a2237846e0ea588b.png" class="faction-icon" alt="Terminids Icon">
+                <h2>Terminids</h2>
+            </div>
+        </div>
+        <div class="faction-card">
+            <img src="images/Enemies/0e9d30c9c764eb7faa5990d112ac757f37b5d6b0.png" class="faction-bg" alt="Automatons Background">
+            <div class="faction-overlay">
+                <img src="images/Enemies/b92739a0ef1289738eaba132beb820351aae313b.png" class="faction-icon" alt="Automatons Icon">
+                <h2>Automatons</h2>
+            </div>
+        </div>
+        <div class="faction-card">
+            <img src="images/Enemies/e089e828e3c3f0f8a159d9df4adbe775d640626b.png" class="faction-bg" alt="Illuminate Background">
+            <div class="faction-overlay">
+                <img src="images/Enemies/b0d4351d84697626402358bb46c8b7803085954b.png" class="faction-icon" alt="Illuminate Icon">
+                <h2>Illuminate</h2>
+            </div>
+        </div>
+        <div class="faction-card">
+            <img src="images/Enemies/b42264e02ab8697779a87edc25ce68b9e853c5fe.png" class="faction-bg" alt="Dissidents Background">
+            <div class="faction-overlay">
+                <img src="images/Enemies/d645a68dfffdf7bf18b5905dc9c85c5d98708bda.png" class="faction-icon" alt="Dissidents Icon">
+                <h2>Dissidents</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="section-faction-detail" class="container">
+    <div class="divider-header">
+        <hr>
+        <h2>Automatons</h2>
+        <hr>
+    </div>
+    <div class="faction-banner">
+        <img src="images/Enemies/be68a8922cf429480b84ce34301923ce0f4343be.png" alt="Automatons Banner">
+    </div>
+    <p class="faction-description">Automations are slow and heavy, their constructs that are less organism than machinery. They are triggered more by visual cues than audio and smell due to a lack of sensors to pick up smell or poor audio processors.</p>
+</section>
+<section id="section-enemy-cards" class="container">
+    <div class="enemy-cards-container">
+        
+        <!-- Card 1: Devastator -->
+        <div class="enemy-card align-left">
+            <div class="ec-image pull-left">
+                <img src="images/Enemies/43f178fc49c2ce0a961eba98af0ffda69996e80e.png" alt="Devastator">
+            </div>
+            <div class="ec-text">
+                <h3>Devastator</h3>
+                <p>The ironclad Devastator seeks to crush opponents of the Automatons' totalitarian worldview with a diverse array of heinous weaponry: arm-cannons, arm-shields, arm-machineguns and arm-rocket-launchers.</p>
+                <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Stats</th>
+                                <th>Values</th>
+                                <th>Action</th>
+                                <th>Damage</th>
+                                <th>Hit-mod</th>
+                            </tr>
+    
+                            <tr>
+                                <td>AC</td>
+                                <td>14</td>
+                                <td>F-Assault Cannon</td>
+                                <td><span class="dice">2d8</span><br>Plasma</td>
+                                <td>+2</td>
+                            </tr>
+    
+                            <tr>
+                                <td>HP</td>
+                                <td>33</td>
+                                <td>Reinforced Steel Fist</td>
+                                <td><span class="dice">1d12</span><br>Impact</td>
+                                <td>+2</td>
+                            </tr>
+    
+                            <tr>
+                                <td>Speed</td>
+                                <td>6m</td>
+                                <td>Stomp</td>
+                                <td><span class="dice">2d6</span><br>Impact</td>
+                                <td>+3</td>
+                            </tr>
+    
+                            <tr>
+                                <td>Weight</td>
+                                <td colspan="4">Medium</td>
+                            </tr>
+    
+                            <tr>
+                                <td>Size</td>
+                                <td colspan="4">Medium</td>
+                            </tr>
+    
+                        </table>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Card 2: Hulk Bruiser -->
+        <div class="enemy-card align-right">
+            <div class="ec-image">
+                <img src="images/Enemies/6d9c840ebf25d1cfe91deed292fe0c941a51d05e.png" alt="Hulk Bruiser">
+            </div>
+            <div class="ec-text">
+                <h3>Hulk Bruiser</h3>
+                <p>As with all Automaton units, the plodding Hulk is brainlessly optimised to do nothing except deliver heavy firepower. If encountered, the recommended protocol for Helldivers is to immediately call in the largest orbital bombardment available.</p>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Stats</th>
+                            <th>Values</th>
+                            <th>Action</th>
+                            <th>Damage</th>
+                            <th>Hit-mod</th>
+                        </tr>
+                        
+                        <tr>
+                            <td>AC</td>
+                            <td>16</td>
+                            <td rowspan="3">
+                                Revolving Munition Launcher<br>
+                                <span class="overheat">Overheating</span>
+                            </td>
+                            <td rowspan="3">
+                                HEAT Rockets Pod Array<br>
+                                <span class="effect">AoE</span>
+                            </td>
+                            <td rowspan="3">
+                                <span class="effect">Over Penetrator</span>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>HP</td>
+                            <td>55</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Speed</td>
+                            <td>10m</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Weight</td>
+                            <td>Heavy</td>
+                            <td>
+                                Fusion Autocannon
+                            </td>
+                            <td>
+                                <span class="dice">2d10</span><br>
+                                Plasma
+                            </td>
+                            <td>+2</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Size</td>
+                            <td>Large</td>
+                            <td>
+                                Slam / Stomp
+                            </td>
+                            <td>
+                                <span class="dice">1d12</span><br>
+                                Impact
+                            </td>
+                            <td>+2</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3: Factory Strider -->
+        <div class="enemy-card align-left">
+            <div class="ec-image">
+                <img src="images/Enemies/6b877b14cebdf78f574801d8c939318a71eb1a6b.png" alt="Factory Strider">
+            </div>
+            <div class="ec-text">
+                <h3>Factory Strider</h3>
+                <p>The Automatons have deployed a new heavy unit: the Factory Strider. Previously deployed in very limited quantities, likely prototypes, this massive abomination is a walking Automaton fabricator. It is heavily armed and armored, and should be engaged with coordinated firepower and unhesitating aggression.”</p>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Stats</th>
+                            <th>Values</th>
+                            <th>Action</th>
+                            <th>DMG</th>
+                            <th>Hit-mod</th>
+                        </tr>
+                        
+                        <tr>
+                            <td>AC</td>
+                            <td>16</td>
+                            <td rowspan="3">
+                                Fusion Repeater Cannon<br>
+                                <span class="overheat">Overheating</span>
+                            </td>
+                            <td rowspan="3">
+                                <span class="dice">4d10</span><br>
+                                Plasma<br>
+                                <span class="effect">Devastating Impact</span>
+                            </td>
+                            <td rowspan="3">
+                                +1<br>
+                                <span class="effect">Over Penetrator</span>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>HP</td>
+                            <td>120</td>
+                        </tr>
+                        <tr>
+                            <td>Speed</td>
+                            <td>6m</td>
+                        </tr>
+                        <tr>
+                            <td>Weight</td>
+                            <td>Super Heavy</td>
+                            <td>
+                                Gatling Gun
+                            </td>
+                            <td>
+                                <span class="dice">4d6</span><br>
+                                Plasma
+                            </td>
+                            <td>+3</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Size</td>
+                            <td colspan="4">Massive</td>
+                        </tr>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>

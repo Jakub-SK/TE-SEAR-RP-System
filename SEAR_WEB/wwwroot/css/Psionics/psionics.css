@@ -111,7 +111,7 @@ html {
     );
     color: #ffffff;
     background-size: 500% auto;
-    animation: textShine 5s ease-in-out infinite alternate;
+    animation: textShine 5s ease-in-out infinite alternate, pulse 5s ease-in-out infinite alternate;
 }
 
 .info-box {
