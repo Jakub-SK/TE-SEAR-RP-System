@@ -17,16 +17,16 @@ namespace SEAR_DataContract.Misc
         //parameters.Add(new NpgsqlParameter("p", "some"));
         private static NpgsqlConnection GetConnection()
         {
-            if (Misc.CheckIsDevelopmentEnviroment())
+            if (Misc.CheckIsDevelopmentEnvironment())
             {
                 var conn = new NpgsqlConnection(ConnectionString.GetDevelopmentString);
-                AppLogger.LogInformation("Database connected with Development Enviroment");
+                AppLogger.LogInformation("Database connected with Development Environment");
                 return conn;
             }
             else
             {
                 var conn = new NpgsqlConnection(ConnectionString.GetProductionString);
-                AppLogger.LogInformation("Database connected with Production Enviroment");
+                AppLogger.LogInformation("Database connected with Production Environment");
                 return conn;
             }
         }
@@ -68,7 +68,7 @@ namespace SEAR_DataContract.Misc
             }
             catch (Exception ex)
             {
-                if (Misc.CheckIsDevelopmentEnviroment())
+                if (Misc.CheckIsDevelopmentEnvironment())
                 {
                     if (ex.Message.Contains("Failed to connect to"))
                     {
@@ -109,7 +109,7 @@ namespace SEAR_DataContract.Misc
             }
             catch (Exception ex)
             {
-                if (Misc.CheckIsDevelopmentEnviroment())
+                if (Misc.CheckIsDevelopmentEnvironment())
                 {
                     if (ex.Message.Contains("Failed to connect to"))
                     {
@@ -150,7 +150,7 @@ namespace SEAR_DataContract.Misc
             }
             catch (Exception ex)
             {
-                if (Misc.CheckIsDevelopmentEnviroment())
+                if (Misc.CheckIsDevelopmentEnvironment())
                 {
                     if (ex.Message.Contains("Failed to connect to"))
                     {
@@ -191,7 +191,7 @@ namespace SEAR_DataContract.Misc
             }
             catch (Exception ex)
             {
-                if (Misc.CheckIsDevelopmentEnviroment())
+                if (Misc.CheckIsDevelopmentEnvironment())
                 {
                     if (ex.Message.Contains("Failed to connect to"))
                     {
@@ -243,10 +243,10 @@ namespace SEAR_DataContract.Misc
             }
             catch
             {
-                if (Misc.CheckIsDevelopmentEnviroment())
+                if (Misc.CheckIsDevelopmentEnvironment())
                 {
                     //throw UnableToConnectDatabaseException(conn, sql, ex);
-                    AppLogger.LogError("Unable to log exception to database,\nFUCK U >:( Please check is the cloudflared is running when in development enviroment u \"fuckin stoopid\"");
+                    AppLogger.LogError("Unable to log exception to database,\nFUCK U >:( Please check is the cloudflared is running when in development environment u \"fuckin stoopid\"");
                 }
             }
             return display;
@@ -270,7 +270,7 @@ namespace SEAR_DataContract.Misc
             }
             catch
             {
-                if (Misc.CheckIsDevelopmentEnviroment())
+                if (Misc.CheckIsDevelopmentEnvironment())
                 {
                     AppLogger.LogError("Unable to update steps to database,\nFUCK U >:( Please check is the cloudflared is running when in development environment u \"fuckin stoopid\"");
                 }

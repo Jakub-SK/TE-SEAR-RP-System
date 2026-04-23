@@ -4,7 +4,7 @@ namespace SEAR_DataContract.Misc
 {
     public static class Misc
     {
-        public static bool CheckIsDevelopmentEnviroment()
+        public static bool CheckIsDevelopmentEnvironment()
         {
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
                 return true;
@@ -20,35 +20,38 @@ namespace SEAR_DataContract.Misc
         }
         public static string GetDomainUrl()
         {
-            if (CheckIsDevelopmentEnviroment())
+            if (CheckIsDevelopmentEnvironment())
                 return "localhost";
             return "sessvirtus.org";
         }
         public static string GetWebsiteUrl()
         {
-            if (CheckIsDevelopmentEnviroment())
+            if (CheckIsDevelopmentEnvironment())
                 return "https://localhost:5002";
             return "https://sessvirtus.org";
         }
         private static string GetExceptionType(Exception ex)
         {
-            //API 404 Not Found
-            if (ex.Message.Contains("Response: 404"))
-                return "API-404";
-            //Internal API Server Error
-            if (ex.Message.Contains("Response: 500"))
-                return "API-500";
-            //Unable to connect to Database
-            if (ex.Message.Contains("Failed to connect to"))
-                return "DB-001";
-            //SQL column reference is ambiguous
-            if (ex.Message.Contains("42702"))
-                return "DB-42702";
-            //SQL column does not exist
-            if (ex.Message.Contains("42703"))
-                return "DB-42703";
-            
-            return "Unknown";
+            switch (ex.Message)
+            {
+                //API 404 Not Found
+                case "API-404":
+                    return "API-404";
+                //Internal API Server Error
+                case "API-500":
+                    return "API-500";
+                //Unable to connect to Database
+                case "DB-001":
+                    return "DB-001";
+                //SQL column reference is ambiguous
+                case "DB-42702":
+                    return "DB-42702";
+                //SQL column does not exist
+                case "DB-42703":
+                    return "DB-42703";
+                default:
+                    return "Unknown";
+            }
         }
     }
 }

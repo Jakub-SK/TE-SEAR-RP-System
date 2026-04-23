@@ -62,7 +62,7 @@ namespace SEAR_WEB.Misc
             }
             catch (Exception ex)
             {
-                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment())
+                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment())
                 {
                     throw CreateAppServerException(url, response, null!, ex);
                 }
@@ -87,7 +87,7 @@ namespace SEAR_WEB.Misc
             }
             catch (Exception ex)
             {
-                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment())
+                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment())
                 {
                     throw CreateAppServerException(url, response, parameter, ex);
                 }
@@ -112,7 +112,7 @@ namespace SEAR_WEB.Misc
             }
             catch (Exception ex)
             {
-                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment())
+                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment())
                 {
                     throw CreateAppServerException(url, response, null!, ex);
                 }
@@ -136,7 +136,7 @@ namespace SEAR_WEB.Misc
             }
             catch (Exception ex)
             {
-                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment())
+                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment())
                 {
                     throw CreateAppServerException(url, response, parameter, ex);
                 }

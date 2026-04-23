@@ -31,7 +31,7 @@
         @Html.HiddenFor(Model => Model.UUID)
         <button type="submit">@Localizer["Submit Error Steps"]</button>
     }
-    if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnviroment() && !string.IsNullOrEmpty(Model.StackTrace))
+    if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment() && !string.IsNullOrEmpty(Model.StackTrace))
     {
         <br />
         <h1 class="text-danger">@Localizer["Error Stack Trace"]:</h1>

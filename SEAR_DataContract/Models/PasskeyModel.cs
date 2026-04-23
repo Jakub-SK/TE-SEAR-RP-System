@@ -60,7 +60,8 @@
     public class ReturnViewAllPasskeysByUserId
     {
         public required string DisplayName { get; set; }
-        public required DateTime CreateDate { get; set; }
+        public required DateTime CreateDate { private get; set; }
+        public string GetCreateDate { get => CreateDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss"); }
     }
     public class CheckUserExistByUserIdParameters
     {
