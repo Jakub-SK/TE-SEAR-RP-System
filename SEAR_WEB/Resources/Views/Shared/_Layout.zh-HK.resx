@@ -186,9 +186,6 @@
   <data name="Lord General" xml:space="preserve">
     <value>將軍</value>
   </data>
-  <data name="Grand Admiral" xml:space="preserve">
-    <value>海軍元帥</value>
-  </data>
   <data name="MCPOE" xml:space="preserve">
     <value>執行者部隊們的一級士官長</value>
   </data>

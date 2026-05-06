@@ -2,8 +2,11 @@
 @{
     ViewData["Title"] = Localizer["Register Additional Passkey"];
 }
-<script src="~/js/Passkey/RegisterAdditionalPasskey.js"></script>
-<script src="~/js/Passkey/Shared.js"></script>
+
+@section Scripts{
+    <script src="~/js/Passkey/RegisterAdditionalPasskey.js"></script>
+    <script src="~/js/Passkey/Shared.js"></script>
+}
 
 <div style="padding-top:200px;">
     @Localizer["Logged"]: @User.FindFirst("DisplayName")?.Value

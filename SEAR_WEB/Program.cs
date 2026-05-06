@@ -65,7 +65,7 @@ var app = builder.Build();
 
 //if (!app.Environment.IsDevelopment())
 //{
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Error/ErrorException");
     app.UseHsts();
 //}
 
@@ -87,6 +87,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.MapStaticAssets();
 app.UseRouting();
+
+app.UseStatusCodePagesWithReExecute("/Error/Error{0}");
+
 app.UseSession();
 
 app.UseAuthentication();

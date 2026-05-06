@@ -2,8 +2,11 @@
     var currentCulture = Context.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture.Name;
     ViewData["Title"] = Localizer["Passkey Auth"];
 }
-<script src="~/js/Passkey/Login.js"></script>
-<script src="~/js/Passkey/Shared.js"></script>
+
+@section Scripts{
+    <script src="~/js/Passkey/Login.js"></script>
+    <script src="~/js/Passkey/Shared.js"></script>
+}
 
 <div style="padding-top: 200px;">
     <h2>@Localizer["Passkey Demo"]</h2>

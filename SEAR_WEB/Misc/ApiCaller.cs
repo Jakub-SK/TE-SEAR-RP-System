@@ -151,7 +151,7 @@ namespace SEAR_WEB.Misc
                 $"API call failed.\n" +
                 $"URL: {url}\n" +
                 $"Response: {(int)response!.StatusCode} {response.ReasonPhrase}\n" +
-                $"Parameter Object: {parameter}" +
+                $"Parameter Object: {parameter}\n" +
                 $"Exception Message: {ex.Message}"
             );
         }

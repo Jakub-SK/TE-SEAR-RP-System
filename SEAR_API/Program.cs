@@ -12,7 +12,7 @@ var app = builder.Build();
 
 //if (!app.Environment.IsDevelopment())
 //{
-    app.UseExceptionHandler("/ApiHome/Error");
+    app.UseExceptionHandler("/Api/ApiHome/Error");
     app.UseHsts();
 //}
 

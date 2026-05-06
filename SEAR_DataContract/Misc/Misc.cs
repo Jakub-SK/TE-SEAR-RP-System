@@ -32,26 +32,20 @@ namespace SEAR_DataContract.Misc
         }
         private static string GetExceptionType(Exception ex)
         {
-            switch (ex.Message)
+            return ex.Message switch
             {
                 //API 404 Not Found
-                case "API-404":
-                    return "API-404";
+                "API-404" => "API-404",
                 //Internal API Server Error
-                case "API-500":
-                    return "API-500";
+                "API-500" => "API-500",
                 //Unable to connect to Database
-                case "DB-001":
-                    return "DB-001";
+                "DB-001" => "DB-001",
                 //SQL column reference is ambiguous
-                case "DB-42702":
-                    return "DB-42702";
+                "DB-42702" => "DB-42702",
                 //SQL column does not exist
-                case "DB-42703":
-                    return "DB-42703";
-                default:
-                    return "Unknown";
-            }
+                "DB-42703" => "DB-42703",
+                _ => "Unknown"
+            };
         }
     }
 }
