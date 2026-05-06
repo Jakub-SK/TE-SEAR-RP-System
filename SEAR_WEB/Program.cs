@@ -63,12 +63,6 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-//if (!app.Environment.IsDevelopment())
-//{
-    app.UseExceptionHandler("/Error/ErrorException");
-    app.UseHsts();
-//}
-
 var supportedCultures = new[] { "en", "zh-HK" };
 var localizationOptions = new RequestLocalizationOptions()
     .SetDefaultCulture(supportedCultures[0])
@@ -88,6 +82,11 @@ app.UseStaticFiles();
 app.MapStaticAssets();
 app.UseRouting();
 
+//if (!app.Environment.IsDevelopment())
+//{
+    app.UseExceptionHandler("/Error/ErrorException");
+    app.UseHsts();
+//}
 app.UseStatusCodePagesWithReExecute("/Error/Error{0}");
 
 app.UseSession();

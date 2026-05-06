@@ -27,7 +27,7 @@
     <p>@Localizer["Input Steps"]</p>
     @using (Html.BeginForm("SubmitExceptionSteps", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
     {
-        @Html.TextAreaFor(Model => Model.ErrorSteps, 10, 20, new { @class = "form-control", placeholder = Localizer["Enter Steps here"], maxlength = "2000" })
+        <textarea asp-for="ErrorSteps" rows="10" columns="20" class="form-control" placeholder="@Localizer["Enter Steps here"]" maxlength="2000"></textarea>
         @Html.HiddenFor(Model => Model.UUID)
         <button type="submit">@Localizer["Submit Error Steps"]</button>
     }

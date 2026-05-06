@@ -118,39 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Enter Steps here" xml:space="preserve">
-    <value />
+    <value>Enter Steps here...</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="Error Occurred" xml:space="preserve">
-    <value />
+    <value>An error occurred while processing your request D:</value>
   </data>
   <data name="Error Stack Trace" xml:space="preserve">
-    <value />
+    <value>Error Stack Trace</value>
   </data>
   <data name="Error Type" xml:space="preserve">
-    <value />
+    <value>Error Type</value>
   </data>
   <data name="Error Type Unknown" xml:space="preserve">
-    <value />
+    <value>The error type is unknown, you should contact Cat NooB or Jacob immediately</value>
   </data>
   <data name="ID Track Message" xml:space="preserve">
-    <value />
+    <value>The ID above is use to track the error message, you can forward this UUID to Cat NooB or Jacob for further assistance</value>
   </data>
   <data name="Input Steps" xml:space="preserve">
-    <value />
+    <value>If you are able to input the steps to reproduce error, please enter below, this can help us for easier debugging</value>
   </data>
   <data name="Submit Error Steps" xml:space="preserve">
-    <value />
+    <value>Submit Error Steps</value>
   </data>
   <data name="Track UUID" xml:space="preserve">
-    <value />
+    <value>Track UUID</value>
   </data>
   <data name="Unable to get tracking UUID" xml:space="preserve">
-    <value />
+    <value>Unable to get tracking UUID</value>
   </data>
   <data name="Unknown Error" xml:space="preserve">
-    <value />
+    <value>This is usually due to unknown error, you should contact Cat NooB or Jacob immediately</value>
   </data>
 </root>
