@@ -27,6 +27,7 @@ namespace SEAR_WEB.Controllers
                     RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
                     UUID = display.UUID,
                     ExceptionType = display.ExceptionType,
+                    Message = exception.Message,
                     StackTrace = exception.StackTrace
                 });
             }
@@ -41,7 +42,7 @@ namespace SEAR_WEB.Controllers
             SEAR_DataContract.Misc.Misc.UpdateLogExceptionWithSteps(model.UUID!, model.ErrorSteps!);
             return RedirectToAction("Index", "Home");
         }
-        public IActionResult Error404()
+        public async Task<IActionResult> Error404()
         {
             return View();
         }

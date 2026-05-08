@@ -12,7 +12,7 @@ namespace SEAR_DataContract.Misc
         }
         public static async Task<ShowExceptionMessage> LogException(Exception ex, string appType, string? uuid = null)
         {
-            return await DBHelper.LogException(ex, GetExceptionType(ex), appType, uuid, ex.StackTrace);
+            return await DBHelper.LogException(ex, GetExceptionType(ex), appType, uuid);
         }
         public static async void UpdateLogExceptionWithSteps(string uuid, string steps)
         {
@@ -30,22 +30,29 @@ namespace SEAR_DataContract.Misc
                 return "https://localhost:5002";
             return "https://sessvirtus.org";
         }
-        private static string GetExceptionType(Exception ex)
+        private static ExceptionTypeModel GetExceptionType(Exception ex)
         {
-            return ex.Message switch
-            {
-                //API 404 Not Found
-                "API-404" => "API-404",
-                //Internal API Server Error
-                "API-500" => "API-500",
-                //Unable to connect to Database
-                "DB-001" => "DB-001",
-                //SQL column reference is ambiguous
-                "DB-42702" => "DB-42702",
-                //SQL column does not exist
-                "DB-42703" => "DB-42703",
-                _ => "Unknown"
-            };
+            ExceptionTypeModel model = new ExceptionTypeModel();
+            //API 404 Not Found
+            if (ex.Message.Contains("Response: 404"))
+                model.ExceptionType = "API-404";
+            //Internal API Server Error
+            if (ex.Message.Contains("Response: 500"))
+                model.IsApi500 = true;
+            //Unable to connect to Database
+            if (ex.Message.Contains("Unable to establish connection to database"))
+                model.ExceptionType = "DB-001";
+            //Permission Denied when executing SQL
+            if (ex.Message.Contains("42501"))
+                model.ExceptionType = "DB-42501";
+            //SQL column reference is ambiguous
+            if (ex.Message.Contains("42702"))
+                model.ExceptionType = "DB-42702";
+            //SQL column does not exist
+            if (ex.Message.Contains("42703"))
+                model.ExceptionType = "DB-42703";
+
+            return model;
         }
     }
 }

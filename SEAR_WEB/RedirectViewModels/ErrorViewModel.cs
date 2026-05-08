@@ -7,6 +7,7 @@ namespace SEAR_WEB.RedirectViewModels
         public string? UUID { get; set; }
         public bool ShowUUID => !string.IsNullOrEmpty(UUID);
         public string? ExceptionType { get; set; }
+        public string? Message { get; set; }
         public string? ErrorSteps { get; set; }
         public string? StackTrace { get; set; }
     }

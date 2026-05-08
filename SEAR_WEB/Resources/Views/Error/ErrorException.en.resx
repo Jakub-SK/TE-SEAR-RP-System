@@ -121,13 +121,10 @@
     <value>Enter Steps here...</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="Error Occurred" xml:space="preserve">
     <value>An error occurred while processing your request D:</value>
   </data>
-  <data name="Error Stack Trace" xml:space="preserve">
-    <value>Error Stack Trace</value>
+  <data name="Exception Stack Trace" xml:space="preserve">
+    <value>Exception Stack Trace</value>
   </data>
   <data name="Error Type" xml:space="preserve">
     <value>Error Type</value>

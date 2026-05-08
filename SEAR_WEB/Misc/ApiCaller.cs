@@ -1,4 +1,6 @@
 ﻿using SEAR_DataContract.Misc;
+using SEAR_DataContract.Models;
+using System.Text.Json;
 
 namespace SEAR_WEB.Misc
 {
@@ -49,11 +51,13 @@ namespace SEAR_WEB.Misc
             url = BaseUrl.Url + url;
             HttpClient httpClient = _httpClient;
             HttpResponseMessage? response = null;
+            string json = "";
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
             {
                 response = await httpClient.PostAsync(url, null);
                 watch.Stop();
+                json = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
                 if (watch.ElapsedMilliseconds > 500)
                 {
@@ -64,7 +68,7 @@ namespace SEAR_WEB.Misc
             {
                 if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment())
                 {
-                    throw CreateAppServerException(url, response, null!, ex);
+                    throw CreateAppServerException(url, response, null!, ex, json);
                 }
             }
             return (await response!.Content.ReadFromJsonAsync<T>())!;
@@ -74,11 +78,13 @@ namespace SEAR_WEB.Misc
             url = BaseUrl.Url + url;
             HttpClient httpClient = _httpClient;
             HttpResponseMessage? response = null;
+            string json = "";
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
             {
                 response = await httpClient.PostAsJsonAsync(url, parameter);
                 watch.Stop();
+                json = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
                 if (watch.ElapsedMilliseconds > 500)
                 {
@@ -89,7 +95,7 @@ namespace SEAR_WEB.Misc
             {
                 if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment())
                 {
-                    throw CreateAppServerException(url, response, parameter, ex);
+                    throw CreateAppServerException(url, response, parameter, ex, json);
                 }
             }
             return (await response!.Content.ReadFromJsonAsync<T>())!;
@@ -99,11 +105,13 @@ namespace SEAR_WEB.Misc
             url = BaseUrl.Url + url;
             HttpClient httpClient = _httpClient;
             HttpResponseMessage? response = null;
+            string json = "";
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
             {
                 response = await httpClient.PostAsync(url, null);
                 watch.Stop();
+                json = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
                 if (watch.ElapsedMilliseconds > 500)
                 {
@@ -114,7 +122,7 @@ namespace SEAR_WEB.Misc
             {
                 if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment())
                 {
-                    throw CreateAppServerException(url, response, null!, ex);
+                    throw CreateAppServerException(url, response, null!, ex, json);
                 }
             }
         }
@@ -123,11 +131,13 @@ namespace SEAR_WEB.Misc
             url = BaseUrl.Url + url;
             HttpClient httpClient = _httpClient;
             HttpResponseMessage? response = null;
+            string json = "";
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
             {
                 response = await httpClient.PostAsJsonAsync(url, parameter);
                 watch.Stop();
+                json = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
                 if (watch.ElapsedMilliseconds > 500)
                 {
@@ -138,19 +148,18 @@ namespace SEAR_WEB.Misc
             {
                 if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment())
                 {
-                    throw CreateAppServerException(url, response, parameter, ex);
+                    throw CreateAppServerException(url, response, parameter, ex, json);
                 }
             }
         }
-        private static Exception CreateAppServerException(string url, HttpResponseMessage? response, object parameter, Exception ex)
+        private static Exception CreateAppServerException(string url, HttpResponseMessage? response, object parameter, Exception ex, string json)
         {
-            //parameter = parameter != null ? parameter : "No Any Parameter";
-            //below expression is doing the same thing as above, but more concise
             parameter = parameter ?? "No Any Parameter";
             return new HttpRequestException(
                 $"API call failed.\n" +
                 $"URL: {url}\n" +
                 $"Response: {(int)response!.StatusCode} {response.ReasonPhrase}\n" +
+                $"API Response Content: {JsonSerializer.Deserialize<ApiErrorModel>(json)!.Message}\n" +
                 $"Parameter Object: {parameter}\n" +
                 $"Exception Message: {ex.Message}"
             );

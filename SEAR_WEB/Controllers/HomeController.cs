@@ -13,7 +13,7 @@ namespace SEAR_WEB.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            return RedirectToAction("Index", "Classes");
+            return View();
         }
         public async Task<IActionResult> Privacy()
         {

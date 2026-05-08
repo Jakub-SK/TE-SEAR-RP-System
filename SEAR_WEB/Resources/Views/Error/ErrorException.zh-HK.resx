@@ -121,12 +121,9 @@
     <value>Enter Steps here...</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>An error occurred while processing your request D:</value>
   </data>
-  <data name="Error Occurred" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Error Stack Trace" xml:space="preserve">
+  <data name="Exception Stack Trace" xml:space="preserve">
     <value />
   </data>
   <data name="Error Type" xml:space="preserve">
@@ -136,7 +133,7 @@
     <value />
   </data>
   <data name="ID Track Message" xml:space="preserve">
-    <value />
+    <value>The ID above is use to track the error message, you can forward this UUID to Cat NooB or Jacob for further assistance</value>
   </data>
   <data name="Input Steps" xml:space="preserve">
     <value />

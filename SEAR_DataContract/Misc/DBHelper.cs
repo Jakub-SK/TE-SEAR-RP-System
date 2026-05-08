@@ -211,15 +211,14 @@ namespace SEAR_DataContract.Misc
                 }
             }
         }
-        internal static async Task<ShowExceptionMessage> LogException(Exception ex, string errorType, string appType, string? uuid = null, string? stackTrace = null)
+        internal static async Task<ShowExceptionMessage> LogException(Exception ex, ExceptionTypeModel model, string appType, string? uuid = null)
         {
-            //uuid = uuid != null ? uuid : Guid.CreateVersion7().ToString();
-            //below expression is doing the same thing as above, but more concise
             uuid = uuid ?? Guid.CreateVersion7().ToString();
             ShowExceptionMessage display = new ShowExceptionMessage
             {
                 UUID = uuid,
-                ExceptionType = errorType
+                IsApi500 = model.IsApi500,
+                ExceptionType = model.ExceptionType
             };
             
             string sql = "INSERT INTO log_exception (track_uuid, exception_message, app_type, error_type, stack_trace) VALUES (@uuid, @exceptionMessage, @appType, @errorType, @stackTrace);";
@@ -228,8 +227,8 @@ namespace SEAR_DataContract.Misc
             {
                 new NpgsqlParameter("uuid", uuid),
                 new NpgsqlParameter("exceptionMessage", ex.Message),
-                new NpgsqlParameter("errorType", errorType),
-                new NpgsqlParameter("stackTrace", stackTrace ?? string.Empty)
+                new NpgsqlParameter("errorType", model.ExceptionType),
+                new NpgsqlParameter("stackTrace", ex.StackTrace ?? string.Empty)
             };
            
             if (!string.IsNullOrEmpty(appType))
@@ -245,7 +244,6 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnvironment())
                 {
-                    //throw UnableToConnectDatabaseException(conn, sql, ex);
                     AppLogger.LogError("Unable to log exception to database,\nFUCK U >:( Please check is the cloudflared is running when in development environment u \"fuckin stoopid\"");
                 }
             }
