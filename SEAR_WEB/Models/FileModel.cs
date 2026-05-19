@@ -7,7 +7,7 @@ namespace SEAR_WEB.Models
     {
         public static async Task<bool> SaveFileToDatabase(string fileName, string contentType, byte[] fileBytes)
         {
-            ReturnSaveFileToDatabase response = await ApiCaller.CallApiAsync<ReturnSaveFileToDatabase>("Api/ApiFile/SaveFileToDatabase", new SaveFileToDatabaseParameters
+            ReturnSaveFileToDatabase response = await ApiCaller.CallBackObjectApiAsync<ReturnSaveFileToDatabase>("Api/ApiFile/SaveFileToDatabase", new SaveFileToDatabaseParameters
             {
                 FileName = fileName,
                 ContentType = contentType,
@@ -17,7 +17,7 @@ namespace SEAR_WEB.Models
         }
         public static async Task<ReturnDownloadFile> GetFileFromDb(int id)
         {
-            return await ApiCaller.CallApiAsync<ReturnDownloadFile>("Api/ApiFile/DownloadFile", new DownloadFileParameters
+            return await ApiCaller.CallBackObjectApiAsync<ReturnDownloadFile>("Api/ApiFile/DownloadFile", new DownloadFileParameters
             {
                 FileId = id
             });

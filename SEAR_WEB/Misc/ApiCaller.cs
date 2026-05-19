@@ -11,42 +11,7 @@ namespace SEAR_WEB.Misc
         {
             public static string Url => "http://localhost:7001/";
         }
-        //Call API
-        //public static T CallApi<T>(string url)
-        //{
-        //    return CallBackObjectApiAsync<T>(url).GetAwaiter().GetResult();
-        //}
-        //public static T CallApi<T>(string url, object parameter)
-        //{
-        //    return CallBackObjectApiAsync<T>(url, parameter).GetAwaiter().GetResult();
-        //}
-        //public static void CallApi(string url)
-        //{
-        //    CallBackApiAsync(url);
-        //}
-        //public static void CallApi(string url, object parameter)
-        //{
-        //    CallBackApiAsync(url, parameter);
-        //}
-        //Call API Async
-        public static async Task<T> CallApiAsync<T>(string url)
-        {
-            return await CallBackObjectApiAsync<T>(url);
-        }
-        public static async Task<T> CallApiAsync<T>(string url, object parameter)
-        {
-            return await CallBackObjectApiAsync<T>(url, parameter);
-        }
-        public static async void CallApiAsync(string url)
-        {
-            CallBackApiAsync(url);
-        }
-        public static async void CallApiAsync(string url, object parameter)
-        {
-            CallBackApiAsync(url, parameter);
-        }
-        //Don't Call this method directly, use the method above CallApi()<T>
-        private static async Task<T> CallBackObjectApiAsync<T>(string url)
+        public static async Task<T> CallBackObjectApiAsync<T>(string url, object parameter = null!)
         {
             url = BaseUrl.Url + url;
             HttpClient httpClient = _httpClient;
@@ -55,40 +20,17 @@ namespace SEAR_WEB.Misc
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
             {
-                response = await httpClient.PostAsync(url, null);
+                if (parameter == null)
+                    response = await httpClient.PostAsync(url, null);
+                else
+                    response = await httpClient.PostAsJsonAsync(url, parameter);
+                
                 watch.Stop();
                 json = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
                 if (watch.ElapsedMilliseconds > 500)
                 {
-                    AppLogger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, "(Empty Object)", watch.ElapsedMilliseconds.ToString()));
-                }
-            }
-            catch (Exception ex)
-            {
-                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment())
-                {
-                    throw CreateAppServerException(url, response, null!, ex, json);
-                }
-            }
-            return (await response!.Content.ReadFromJsonAsync<T>())!;
-        }
-        private static async Task<T> CallBackObjectApiAsync<T>(string url, object parameter)
-        {
-            url = BaseUrl.Url + url;
-            HttpClient httpClient = _httpClient;
-            HttpResponseMessage? response = null;
-            string json = "";
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            try
-            {
-                response = await httpClient.PostAsJsonAsync(url, parameter);
-                watch.Stop();
-                json = await response.Content.ReadAsStringAsync();
-                response.EnsureSuccessStatusCode();
-                if (watch.ElapsedMilliseconds > 500)
-                {
-                    AppLogger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, parameter, watch.ElapsedMilliseconds.ToString()));
+                    AppLogger.LogInformation($"API Requested URL: {url}, Requested Parameter Object: {parameter ?? "(Empty Object)"} has elapsed milliseconds: {watch.ElapsedMilliseconds}");
                 }
             }
             catch (Exception ex)
@@ -100,7 +42,7 @@ namespace SEAR_WEB.Misc
             }
             return (await response!.Content.ReadFromJsonAsync<T>())!;
         }
-        private static async void CallBackApiAsync(string url)
+        public static async void CallBackApiAsync(string url, object parameter = null!)
         {
             url = BaseUrl.Url + url;
             HttpClient httpClient = _httpClient;
@@ -109,39 +51,17 @@ namespace SEAR_WEB.Misc
             var watch = System.Diagnostics.Stopwatch.StartNew();
             try
             {
-                response = await httpClient.PostAsync(url, null);
+                if (parameter == null)
+                    response = await httpClient.PostAsync(url, null);
+                else
+                    response = await httpClient.PostAsJsonAsync(url, parameter);
+
                 watch.Stop();
                 json = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
                 if (watch.ElapsedMilliseconds > 500)
                 {
-                    AppLogger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, "(Empty Object)", watch.ElapsedMilliseconds.ToString()));
-                }
-            }
-            catch (Exception ex)
-            {
-                if (SEAR_DataContract.Misc.Misc.CheckIsDevelopmentEnvironment())
-                {
-                    throw CreateAppServerException(url, response, null!, ex, json);
-                }
-            }
-        }
-        private static async void CallBackApiAsync(string url, object parameter)
-        {
-            url = BaseUrl.Url + url;
-            HttpClient httpClient = _httpClient;
-            HttpResponseMessage? response = null;
-            string json = "";
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            try
-            {
-                response = await httpClient.PostAsJsonAsync(url, parameter);
-                watch.Stop();
-                json = await response.Content.ReadAsStringAsync();
-                response.EnsureSuccessStatusCode();
-                if (watch.ElapsedMilliseconds > 500)
-                {
-                    AppLogger.LogInformation(String.Format("API Requested URL: {0}, Requested Parameter Object: {1} has elapsed milliseconds: {2}", url, parameter, watch.ElapsedMilliseconds.ToString()));
+                    AppLogger.LogInformation($"API Requested URL: {url}, Requested Parameter Object: {parameter ?? "(Empty Object)"} has elapsed milliseconds: {watch.ElapsedMilliseconds}");
                 }
             }
             catch (Exception ex)
