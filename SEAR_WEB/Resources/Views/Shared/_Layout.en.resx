@@ -192,4 +192,11 @@
   <data name="Dumb" xml:space="preserve">
     <value>Dumbass</value>
   </data>
+  <data name="Arbiter" xml:space="preserve">
+    <value>Arbiter</value>
+    <comment>仲裁者</comment>
+  </data>
+  <data name="Orator" xml:space="preserve">
+    <value>Orator</value>
+  </data>
 </root>
