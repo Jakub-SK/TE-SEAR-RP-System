@@ -29,7 +29,7 @@ namespace SEAR_API.Controllers
                 }
             };
 
-            int affectedRows = await DBHelper.ExecuteDatabaseNonQueryAsync(sql, parametersList);
+            int affectedRows = await DbHelper.ExecuteNonQueryAsync(sql, parametersList);
 
             return new ReturnSaveFileToDatabase
             {
@@ -39,17 +39,19 @@ namespace SEAR_API.Controllers
         [HttpPost("DownloadFile")]
         public async Task<ReturnDownloadFile> DownloadFile([FromBody] DownloadFileParameters model)
         {
-            string sql = @"
-                SELECT *
-                FROM files
-                WHERE id = @id";
-
-            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
+            DataTable dt = await DbHelper.ExecuteQueryAsync(dBExecuteItems =>
             {
-                new NpgsqlParameter("@id", model.FileId)
-            };
-
-            DataTable dt = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
+                dBExecuteItems.Sql = @"
+                    SELECT *
+                    FROM files
+                    WHERE id = @id";
+                
+                dBExecuteItems.Parameters = new List<NpgsqlParameter>
+                {
+                    new NpgsqlParameter("@id", model.FileId)
+                };
+                return dBExecuteItems;
+            });
 
             if (dt.Rows.Count == 0)
                 return null!;

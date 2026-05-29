@@ -9,12 +9,13 @@ namespace SEAR_DataContract.Misc
         internal static string GetDevelopmentString => "Host=localhost:15432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
         internal static string GetProductionString => "Host=localhost:5432;Username=sear_user;Password=sear_rp_truth_enforcers_v18;Database=SEAR_Database";
     }
-    public static class DBHelper
+    public class DbExecuteItems
     {
-        //Example to insert parameter
-        //
-        //List<NpgsqlParameter> parameters = new List<NpgsqlParameter>();
-        //parameters.Add(new NpgsqlParameter("p", "some"));
+        public string Sql { get; set; } = string.Empty;
+        public IEnumerable<NpgsqlParameter>? Parameters { get; set; }
+    }
+    public static class DbHelper
+    {
         private static NpgsqlConnection GetConnection()
         {
             if (Misc.CheckIsDevelopmentEnvironment())
@@ -30,38 +31,24 @@ namespace SEAR_DataContract.Misc
                 return conn;
             }
         }
-        public static async Task<DataTable> ExecuteDatabaseQueryAsync(string sql, List<NpgsqlParameter>? parameterList = null)
+        public static async Task<DataTable> ExecuteQueryAsync(Func<DbExecuteItems, DbExecuteItems> func, bool throwExceptionWhenFallBack = false)
         {
-            return await ExecuteQueryAsync(sql, parameterList);
-        }
-        public static async void ExecuteDatabaseQueryAsyncNoReturn(string sql, List<NpgsqlParameter>? parameterList = null)
-        {
-            ExecuteQueryAsyncNoReturn(sql, parameterList);
-        }
-        public static async Task<int> ExecuteDatabaseNonQueryAsync(string sql, List<NpgsqlParameter>? parameterList = null)
-        {
-            return await ExecuteNonQueryAsync(sql, parameterList);
-        }
-        public static async void ExecuteDatabaseNonQueryAsyncNoReturn(string sql, List<NpgsqlParameter>? parameterList = null)
-        {
-            ExecuteNonQueryAsyncNoReturn(sql, parameterList);
-        }
-        private static async Task<DataTable> ExecuteQueryAsync(string sql, List<NpgsqlParameter>? parameterList = null)
-        {
+            DbExecuteItems executeItems = func.Invoke(new DbExecuteItems());
             using DataTable dataTable = new DataTable();
             await using var conn = GetConnection();
             try
             {
                 await conn.OpenAsync();
-                await using (var cmd = new NpgsqlCommand(sql, conn))
+                await using (var cmd = new NpgsqlCommand(executeItems.Sql, conn))
                 {
-                    if (parameterList != null)
+                    if (executeItems.Parameters != null)
                     {
-                        foreach (NpgsqlParameter parameter in parameterList)
+                        foreach (NpgsqlParameter parameter in executeItems.Parameters)
                         {
                             cmd.Parameters.Add(parameter);
                         }
                     }
+                    
                     await using var reader = await cmd.ExecuteReaderAsync();
                     dataTable.Load(reader);
                 }
@@ -70,14 +57,11 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnvironment())
                 {
-                    if (ex.Message.Contains("Failed to connect to"))
-                    {
-                        throw UnableToConnectDatabaseException(conn, sql, ex);
-                    }
-                    else
-                    {
-                        throw InternalDatabaseException(sql, ex);
-                    }
+                    throw ThrowDatabaseException(conn, executeItems.Sql, ex);
+                }
+                else if (throwExceptionWhenFallBack)
+                {
+                    throw ThrowDatabaseException(conn, executeItems.Sql, ex);
                 }
             }
             finally
@@ -89,17 +73,18 @@ namespace SEAR_DataContract.Misc
             }
             return dataTable;
         }
-        private static async void ExecuteQueryAsyncNoReturn(string sql, List<NpgsqlParameter>? parameterList = null)
+        public static async void ExecuteQueryAsyncNoReturn(Func<DbExecuteItems, DbExecuteItems> func, bool throwExceptionWhenFallBack = false)
         {
+            DbExecuteItems executeItems = func.Invoke(new DbExecuteItems());
             await using var conn = GetConnection();
             try
             {
                 await conn.OpenAsync();
-                await using (var cmd = new NpgsqlCommand(sql, conn))
+                await using (var cmd = new NpgsqlCommand(executeItems.Sql, conn))
                 {
-                    if (parameterList != null)
+                    if (executeItems.Parameters != null)
                     {
-                        foreach (NpgsqlParameter parameter in parameterList)
+                        foreach (NpgsqlParameter parameter in executeItems.Parameters)
                         {
                             cmd.Parameters.Add(parameter);
                         }
@@ -111,14 +96,11 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnvironment())
                 {
-                    if (ex.Message.Contains("Failed to connect to"))
-                    {
-                        throw UnableToConnectDatabaseException(conn, sql, ex);
-                    }
-                    else
-                    {
-                        throw InternalDatabaseException(sql, ex);
-                    }
+                    throw ThrowDatabaseException(conn, executeItems.Sql, ex);
+                }
+                else if (throwExceptionWhenFallBack)
+                {
+                    throw ThrowDatabaseException(conn, executeItems.Sql, ex);
                 }
             }
             finally
@@ -129,18 +111,19 @@ namespace SEAR_DataContract.Misc
                 }
             }
         }
-        private static async Task<int> ExecuteNonQueryAsync(string sql, List<NpgsqlParameter>? parameterList = null)
+        public static async Task<int> ExecuteNonQueryAsync(Func<DbExecuteItems, DbExecuteItems> func, bool throwExceptionWhenFallBack = false)
         {
+            DbExecuteItems executeItems = func.Invoke(new DbExecuteItems());
             int affectedRows = -1;
             await using var conn = GetConnection();
             try
             {
                 await conn.OpenAsync();
-                await using (var cmd = new NpgsqlCommand(sql, conn))
+                await using (var cmd = new NpgsqlCommand(executeItems.Sql, conn))
                 {
-                    if (parameterList != null)
+                    if (executeItems.Parameters != null)
                     {
-                        foreach (NpgsqlParameter parameter in parameterList)
+                        foreach (NpgsqlParameter parameter in executeItems.Parameters)
                         {
                             cmd.Parameters.Add(parameter);
                         }
@@ -152,14 +135,11 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnvironment())
                 {
-                    if (ex.Message.Contains("Failed to connect to"))
-                    {
-                        throw UnableToConnectDatabaseException(conn, sql, ex);
-                    }
-                    else
-                    {
-                        throw InternalDatabaseException(sql, ex);
-                    }
+                    throw ThrowDatabaseException(conn, executeItems.Sql, ex);
+                }
+                else if (throwExceptionWhenFallBack)
+                {
+                    throw ThrowDatabaseException(conn, executeItems.Sql, ex);
                 }
             }
             finally
@@ -171,17 +151,18 @@ namespace SEAR_DataContract.Misc
             }
             return affectedRows;
         }
-        private static async void ExecuteNonQueryAsyncNoReturn(string sql, List<NpgsqlParameter>? parameterList = null)
+        public static async void ExecuteNonQueryAsyncNoReturn(Func<DbExecuteItems, DbExecuteItems> func, bool throwExceptionWhenFallBack = false)
         {
+            DbExecuteItems executeItems = func.Invoke(new DbExecuteItems());
             await using var conn = GetConnection();
             try
             {
                 await conn.OpenAsync();
-                await using (var cmd = new NpgsqlCommand(sql, conn))
+                await using (var cmd = new NpgsqlCommand(executeItems.Sql, conn))
                 {
-                    if (parameterList != null)
+                    if (executeItems.Parameters != null)
                     {
-                        foreach (NpgsqlParameter parameter in parameterList)
+                        foreach (NpgsqlParameter parameter in executeItems.Parameters)
                         {
                             cmd.Parameters.Add(parameter);
                         }
@@ -193,14 +174,11 @@ namespace SEAR_DataContract.Misc
             {
                 if (Misc.CheckIsDevelopmentEnvironment())
                 {
-                    if (ex.Message.Contains("Failed to connect to"))
-                    {
-                        throw UnableToConnectDatabaseException(conn, sql, ex);
-                    }
-                    else
-                    {
-                        throw InternalDatabaseException(sql, ex);
-                    }
+                    throw ThrowDatabaseException(conn, executeItems.Sql, ex);
+                }
+                else if (throwExceptionWhenFallBack)
+                {
+                    throw ThrowDatabaseException(conn, executeItems.Sql, ex);
                 }
             }
             finally
@@ -220,25 +198,30 @@ namespace SEAR_DataContract.Misc
                 IsApi500 = model.IsApi500,
                 ExceptionType = model.ExceptionType
             };
-            
-            string sql = "INSERT INTO log_exception (track_uuid, exception_message, app_type, error_type, stack_trace) VALUES (@uuid, @exceptionMessage, @appType, @errorType, @stackTrace);";
-
-            List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
-            {
-                new NpgsqlParameter("uuid", uuid),
-                new NpgsqlParameter("exceptionMessage", ex.Message),
-                new NpgsqlParameter("errorType", model.ExceptionType),
-                new NpgsqlParameter("stackTrace", ex.StackTrace ?? string.Empty)
-            };
-           
-            if (!string.IsNullOrEmpty(appType))
-            {
-                parameters.Add(new NpgsqlParameter("appType", appType));
-            }
 
             try
             {
-                ExecuteDatabaseNonQueryAsyncNoReturn(sql, parameters);
+                ExecuteNonQueryAsyncNoReturn(executeItems =>
+                {
+                    executeItems.Sql = @"
+                        INSERT INTO log_exception
+                        (track_uuid, exception_message, app_type, error_type, stack_trace)
+                        VALUES
+                        (@uuid, @exceptionMessage, @appType, @errorType, @stackTrace);";
+                    List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
+                    {
+                        new NpgsqlParameter("uuid", uuid),
+                        new NpgsqlParameter("exceptionMessage", ex.Message),
+                        new NpgsqlParameter("errorType", model.ExceptionType),
+                        new NpgsqlParameter("stackTrace", ex.StackTrace ?? string.Empty)
+                    };
+                    if (!string.IsNullOrEmpty(appType))
+                    {
+                        parameters.Add(new NpgsqlParameter("appType", appType));
+                    }
+                    executeItems.Parameters = parameters;
+                    return executeItems;
+                }, true);
             }
             catch
             {
@@ -264,7 +247,7 @@ namespace SEAR_DataContract.Misc
             
             try
             {
-                ExecuteDatabaseNonQueryAsyncNoReturn(sql, parameters);
+                ExecuteNonQueryAsyncNoReturn(sql, parameters);
             }
             catch
             {
@@ -272,6 +255,17 @@ namespace SEAR_DataContract.Misc
                 {
                     AppLogger.LogError("Unable to update steps to database,\nFUCK U >:( Please check is the cloudflared is running when in development environment u \"fuckin stoopid\"");
                 }
+            }
+        }
+        private static NpgsqlException ThrowDatabaseException(NpgsqlConnection conn, string sql, Exception ex)
+        {
+            if (ex.Message.Contains("Failed to connect to"))
+            {
+                throw UnableToConnectDatabaseException(conn, sql, ex);
+            }
+            else
+            {
+                throw InternalDatabaseException(sql, ex);
             }
         }
         private static NpgsqlException UnableToConnectDatabaseException(NpgsqlConnection conn, string sql, Exception ex)

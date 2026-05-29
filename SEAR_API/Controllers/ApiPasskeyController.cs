@@ -27,7 +27,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@displayName", model.DisplayName)
             };
 
-            DBHelper.ExecuteDatabaseNonQueryAsyncNoReturn(sql, parameters);
+            DbHelper.ExecuteNonQueryAsyncNoReturn(sql, parameters);
 
             return userID;
         }
@@ -41,7 +41,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@username", model.Username)
             };
 
-            int affectedRows = await DBHelper.ExecuteDatabaseNonQueryAsync(sql, parameters);
+            int affectedRows = await DbHelper.ExecuteNonQueryAsync(sql, parameters);
             if (affectedRows >= 1)
                 return Ok();
 
@@ -60,7 +60,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@username", model.Username)
             };
 
-            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
+            DataTable dataTable = await DbHelper.ExecuteQueryAsync();
 
             if (dataTable.Rows.Count == 0)
             {
@@ -93,7 +93,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@user_handle", NpgsqlTypes.NpgsqlDbType.Bytea) { Value = model.UserId.ToByteArray() }
             };
 
-            DBHelper.ExecuteDatabaseNonQueryAsyncNoReturn(sql, parameters);
+            DbHelper.ExecuteNonQueryAsyncNoReturn(sql, parameters);
             return Ok();
         }
         [HttpPost("GetPasskeyByCredentialId")]
@@ -109,7 +109,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@credential_id", model.CredentialId)
             };
 
-            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
+            DataTable dataTable = await DbHelper.ExecuteQueryAsync();
             if (dataTable.Rows.Count == 0)
                 return new ReturnGetPasskeyByCredentialId
                 {
@@ -146,7 +146,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@credential_id", model.CredentialId)
             };
 
-            DBHelper.ExecuteDatabaseNonQueryAsyncNoReturn(sql, parameters);
+            DbHelper.ExecuteNonQueryAsyncNoReturn(sql, parameters);
             return Ok();
         }
         [HttpPost("GetUsernameByUserId")]
@@ -162,7 +162,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@userId", model.UserId)
             };
 
-            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
+            DataTable dataTable = await DbHelper.ExecuteQueryAsync();
 
             return new ReturnGetUsernameByUserId
             {
@@ -184,7 +184,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@userId", model.UserId)
             };
 
-            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
+            DataTable dataTable = await DbHelper.ExecuteQueryAsync();
 
             List<ReturnViewAllPasskeysByUserId> passkeys = new List<ReturnViewAllPasskeysByUserId>();
             foreach (DataRow row in dataTable.Rows)
@@ -210,7 +210,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@userId", model.UserId)
             };
 
-            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
+            DataTable dataTable = await DbHelper.ExecuteQueryAsync();
 
             return new ReturnCheckUserExistByUserId
             {
@@ -230,7 +230,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@userId", model.UserId)
             };
 
-            int affectedRows = await DBHelper.ExecuteDatabaseNonQueryAsync(sql, parameters);
+            int affectedRows = await DbHelper.ExecuteNonQueryAsync(sql, parameters);
             if (affectedRows >= 1)
                 return Ok();
             return BadRequest();
@@ -250,7 +250,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("@keyId", model.KeyId)
             };
 
-            DataTable dataTable = await DBHelper.ExecuteDatabaseQueryAsync(sql, parameters);
+            DataTable dataTable = await DbHelper.ExecuteQueryAsync();
 
             return new ReturnValidateCreateRegisterAdditionalPasskeyKeyId
             {
@@ -267,7 +267,7 @@ namespace SEAR_API.Controllers
                 new NpgsqlParameter("keyId", model.KeyId)
             };
 
-            int affectedRows = await DBHelper.ExecuteDatabaseNonQueryAsync(sql, parameters);
+            int affectedRows = await DbHelper.ExecuteNonQueryAsync(sql, parameters);
             if (affectedRows >= 1)
                 return Ok();
             return BadRequest();
