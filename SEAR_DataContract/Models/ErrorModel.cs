@@ -22,4 +22,15 @@ namespace SEAR_DataContract.Models
         public bool IsApi500 { get; set; } = false;
         public string ExceptionType { get; set; } = "Unknown";
     }
+    public class LogExceptionParameters
+    {
+        public required Exception Exception { get; set; }
+        public string AppType { get; set; } = "Unknown";
+        public string? UUID { get; set; }
+    }
+    public class SubmitExceptionStepsParameters
+    {
+        public required string UUID { get; set; }
+        public required string StepsToReproduce { get; set; }
+    }
 }

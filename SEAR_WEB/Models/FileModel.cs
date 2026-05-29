@@ -3,7 +3,7 @@ using SEAR_WEB.Misc;
 
 namespace SEAR_WEB.Models
 {
-    public class FileModel
+    public static class FileModel
     {
         public static async Task<bool> SaveFileToDatabase(string fileName, string contentType, byte[] fileBytes)
         {

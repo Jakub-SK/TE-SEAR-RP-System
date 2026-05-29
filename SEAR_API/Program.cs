@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Diagnostics;
+using SEAR_API.Controllers;
 using SEAR_DataContract.Misc;
 using SEAR_DataContract.Models;
 
@@ -23,7 +24,12 @@ app.UseExceptionHandler(errorApp =>
 
         if (exception != null)
         {
-            ShowExceptionMessage display = await Misc.LogException(exception.Error, "SEAR API");
+            ApiErrorController api = new ApiErrorController();
+            ShowExceptionMessage display = await api.LogException(new LogExceptionParameters
+            {
+                Exception = exception.Error,
+                AppType = "SEAR API"
+            });
             await context.Response.WriteAsJsonAsync(new ApiErrorModel
             {
                 UUID = display.UUID,

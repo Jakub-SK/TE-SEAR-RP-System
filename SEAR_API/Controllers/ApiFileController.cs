@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Npgsql;
 using SEAR_DataContract.Misc;
 using SEAR_DataContract.Models;
 using System.Data;
+using Npgsql;
 
 namespace SEAR_API.Controllers
 {
@@ -13,23 +13,26 @@ namespace SEAR_API.Controllers
         [HttpPost("SaveFileToDatabase")]
         public async Task<ReturnSaveFileToDatabase> SaveFileToDatabase([FromBody] SaveFileToDatabaseParameters model)
         {
-            string sql = @"
-                INSERT INTO files
-                (file_name, content_type, data)
-                VALUES
-                (@name, @type, @data);";
-
-            List<NpgsqlParameter> parametersList = new List<NpgsqlParameter>
+            int affectedRows = await DbHelper.ExecuteNonQueryAsync(executeItems =>
             {
-                new NpgsqlParameter("@name", model.FileName),
-                new NpgsqlParameter("@type", model.ContentType),
-                new NpgsqlParameter("@data", NpgsqlTypes.NpgsqlDbType.Bytea)
-                {
-                    Value = model.FileBytes
-                }
-            };
+                executeItems.Sql = @"
+                    INSERT INTO files
+                    (file_name, content_type, data)
+                    VALUES
+                    (@name, @type, @data);";
 
-            int affectedRows = await DbHelper.ExecuteNonQueryAsync(sql, parametersList);
+                executeItems.Parameters = new List<NpgsqlParameter>
+                {
+                    new NpgsqlParameter("@name", model.FileName),
+                    new NpgsqlParameter("@type", model.ContentType),
+                    new NpgsqlParameter("@data", NpgsqlTypes.NpgsqlDbType.Bytea)
+                    {
+                        Value = model.FileBytes
+                    }
+                };
+
+                return executeItems;
+            });
 
             return new ReturnSaveFileToDatabase
             {

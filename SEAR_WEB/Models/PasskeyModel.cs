@@ -12,7 +12,7 @@ namespace SEAR_WEB.Models
     {
         public required string Username { get; set; }
     }
-    public class PasskeyModel
+    public static class PasskeyModel
     {
         public static async Task<bool> CheckUserExistByUserId(Guid userId)
         {

@@ -10,14 +10,6 @@ namespace SEAR_DataContract.Misc
                 return true;
             return false;
         }
-        public static async Task<ShowExceptionMessage> LogException(Exception ex, string appType, string? uuid = null)
-        {
-            return await DbHelper.LogException(ex, GetExceptionType(ex), appType, uuid);
-        }
-        public static async void UpdateLogExceptionWithSteps(string uuid, string steps)
-        {
-            DbHelper.UpdateLogExceptionWithSteps(uuid, steps);
-        }
         public static string GetDomainUrl()
         {
             if (CheckIsDevelopmentEnvironment())
@@ -30,7 +22,7 @@ namespace SEAR_DataContract.Misc
                 return "https://localhost:5002";
             return "https://sessvirtus.org";
         }
-        private static ExceptionTypeModel GetExceptionType(Exception ex)
+        public static ExceptionTypeModel GetExceptionType(Exception ex)
         {
             ExceptionTypeModel model = new ExceptionTypeModel();
             //API 404 Not Found
