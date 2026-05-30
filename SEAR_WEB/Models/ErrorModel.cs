@@ -18,7 +18,7 @@ namespace SEAR_WEB.Models
         }
         public static async void UpdateLogExceptionWithSteps(string uuid, string stepsToReproduce)
         {
-            await ApiCaller.CallBackObjectApiAsync<SubmitExceptionStepsParameters>("ApiError/SubmitExceptionSteps", new SubmitExceptionStepsParameters
+            ApiCaller.CallBackApiAsync("ApiError/SubmitExceptionSteps", new SubmitExceptionStepsParameters
             {
                 UUID = uuid,
                 StepsToReproduce = stepsToReproduce

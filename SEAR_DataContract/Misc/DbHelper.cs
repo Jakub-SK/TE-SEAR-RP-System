@@ -1,6 +1,5 @@
 ﻿using Npgsql;
 using System.Data;
-using SEAR_DataContract.Models;
 
 namespace SEAR_DataContract.Misc
 {
