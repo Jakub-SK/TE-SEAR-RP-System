@@ -82,14 +82,11 @@ app.UseStaticFiles();
 app.MapStaticAssets();
 app.UseRouting();
 
-//if (!app.Environment.IsDevelopment())
-//{
-    app.UseExceptionHandler("/Error/ErrorException");
-    app.UseHsts();
-//}
-app.UseStatusCodePagesWithReExecute("/Error/Error{0}");
-
 app.UseSession();
+
+app.UseExceptionHandler("/Error/ErrorException");
+app.UseHsts();
+app.UseStatusCodePagesWithReExecute("/Error/Error{0}");
 
 app.UseAuthentication();
 app.UseAuthorization();

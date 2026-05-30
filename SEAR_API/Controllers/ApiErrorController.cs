@@ -6,13 +6,13 @@ using Npgsql;
 namespace SEAR_API.Controllers
 {
     [ApiController]
-    [Route("Api/[controller]")]
+    [Route("[controller]")]
     public class ApiErrorController : Controller
     {
         [HttpPost("LogException")]
         public async Task<ShowExceptionMessage> LogException([FromBody] LogExceptionParameters model)
         {
-            ExceptionTypeModel exceptionType = Misc.GetExceptionType(model.Exception);
+            ExceptionTypeModel exceptionType = Misc.GetExceptionType(model.ExceptionMessage);
             ShowExceptionMessage display = new ShowExceptionMessage
             {
                 UUID = model.UUID ?? Guid.CreateVersion7().ToString(),
@@ -33,9 +33,9 @@ namespace SEAR_API.Controllers
                     List<NpgsqlParameter> parameters = new List<NpgsqlParameter>
                     {
                         new NpgsqlParameter("uuid", model.UUID),
-                        new NpgsqlParameter("exceptionMessage", model.Exception.Message),
+                        new NpgsqlParameter("exceptionMessage", model.ExceptionMessage),
                         new NpgsqlParameter("errorType", exceptionType.ExceptionType),
-                        new NpgsqlParameter("stackTrace", model.Exception.StackTrace ?? string.Empty)
+                        new NpgsqlParameter("stackTrace", model.ExceptionStackTrace ?? string.Empty)
                     };
                     if (!string.IsNullOrEmpty(model.AppType))
                     {

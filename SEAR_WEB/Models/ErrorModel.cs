@@ -7,9 +7,10 @@ namespace SEAR_WEB.Models
     {
         public static async Task<ShowExceptionMessage> LogException(Exception ex, string appType, string? uuid = null)
         {
-            ShowExceptionMessage response = await ApiCaller.CallBackObjectApiAsync<ShowExceptionMessage>("Api/Error/LogException", new LogExceptionParameters
+            ShowExceptionMessage response = await ApiCaller.CallBackObjectApiAsync<ShowExceptionMessage>("ApiError/LogException", new LogExceptionParameters
             {
-                Exception = ex,
+                ExceptionMessage = ex.Message,
+                ExceptionStackTrace = ex.StackTrace!,
                 AppType = appType,
                 UUID = uuid ?? Guid.CreateVersion7().ToString()
             });
@@ -17,7 +18,7 @@ namespace SEAR_WEB.Models
         }
         public static async void UpdateLogExceptionWithSteps(string uuid, string stepsToReproduce)
         {
-            await ApiCaller.CallBackObjectApiAsync<SubmitExceptionStepsParameters>("Api/Error/SubmitExceptionSteps", new SubmitExceptionStepsParameters
+            await ApiCaller.CallBackObjectApiAsync<SubmitExceptionStepsParameters>("ApiError/SubmitExceptionSteps", new SubmitExceptionStepsParameters
             {
                 UUID = uuid,
                 StepsToReproduce = stepsToReproduce

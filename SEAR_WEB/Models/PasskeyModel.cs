@@ -16,7 +16,7 @@ namespace SEAR_WEB.Models
     {
         public static async Task<bool> CheckUserExistByUserId(Guid userId)
         {
-            ReturnCheckUserExistByUserId response = await ApiCaller.CallBackObjectApiAsync<ReturnCheckUserExistByUserId>("Api/ApiPasskey/CheckUserExistByUserId", new CheckUserExistByUserIdParameters
+            ReturnCheckUserExistByUserId response = await ApiCaller.CallBackObjectApiAsync<ReturnCheckUserExistByUserId>("ApiPasskey/CheckUserExistByUserId", new CheckUserExistByUserIdParameters
             {
                 UserId = userId
             });
@@ -24,7 +24,7 @@ namespace SEAR_WEB.Models
         }
         public static async Task<Guid> CreateUserAccount(string username, string displayName)
         {
-            return await ApiCaller.CallBackObjectApiAsync<Guid>("Api/ApiPasskey/CreateUserAccount", new CreateUserAccountParameters
+            return await ApiCaller.CallBackObjectApiAsync<Guid>("ApiPasskey/CreateUserAccount", new CreateUserAccountParameters
             {
                 Username = username,
                 DisplayName = displayName
@@ -32,14 +32,14 @@ namespace SEAR_WEB.Models
         }
         public static async void RemoveUserAccountByUsername(string username)
         {
-            ApiCaller.CallBackApiAsync("Api/ApiPasskey/RemoveUserAccountByUsername", new RemoveUserAccountByUsernameParameters
+            ApiCaller.CallBackApiAsync("ApiPasskey/RemoveUserAccountByUsername", new RemoveUserAccountByUsernameParameters
             {
                 Username = username
             });
         }
         public static async Task<Guid?> GetUserIdByUsername(string username)
         {
-            ReturnGetUserIdByUsername response = await ApiCaller.CallBackObjectApiAsync<ReturnGetUserIdByUsername>("Api/ApiPasskey/GetUserIdByUsername", new GetUserIdByUsernameParameters
+            ReturnGetUserIdByUsername response = await ApiCaller.CallBackObjectApiAsync<ReturnGetUserIdByUsername>("ApiPasskey/GetUserIdByUsername", new GetUserIdByUsernameParameters
             {
                 Username = username
             });
@@ -47,7 +47,7 @@ namespace SEAR_WEB.Models
         }
         public static async void InsertPasskey(Guid userId, byte[] credentialId, byte[] publicKey, uint counter)
         {
-            ApiCaller.CallBackApiAsync("Api/ApiPasskey/InsertPasskey", new InsertPasskeyParameters
+            ApiCaller.CallBackApiAsync("ApiPasskey/InsertPasskey", new InsertPasskeyParameters
             {
                 UserId = userId,
                 CredentialId = credentialId,
@@ -57,7 +57,7 @@ namespace SEAR_WEB.Models
         }
         public static async Task<Passkey?> GetPasskeyByCredentialId(byte[] credentialId)
         {
-            ReturnGetPasskeyByCredentialId response = await ApiCaller.CallBackObjectApiAsync<ReturnGetPasskeyByCredentialId>("Api/ApiPasskey/GetPasskeyByCredentialId", new GetPasskeyByCredentialIdParameters
+            ReturnGetPasskeyByCredentialId response = await ApiCaller.CallBackObjectApiAsync<ReturnGetPasskeyByCredentialId>("ApiPasskey/GetPasskeyByCredentialId", new GetPasskeyByCredentialIdParameters
             {
                 CredentialId = credentialId
             });
@@ -65,7 +65,7 @@ namespace SEAR_WEB.Models
         }
         public static async void UpdateCounter(byte[] credentialId, uint newCounter)
         {
-            ApiCaller.CallBackApiAsync("Api/ApiPasskey/UpdateCounter", new UpdateCounterParameters
+            ApiCaller.CallBackApiAsync("ApiPasskey/UpdateCounter", new UpdateCounterParameters
             {
                 CredentialId = credentialId,
                 NewCounter = newCounter
@@ -73,14 +73,14 @@ namespace SEAR_WEB.Models
         }
         public static async Task<ReturnGetUsernameByUserId> GetUsernameByUserId(Guid userId)
         {
-            return await ApiCaller.CallBackObjectApiAsync<ReturnGetUsernameByUserId>("Api/ApiPasskey/GetUsernameByUserId", new GetUsernameByUserIdParameters
+            return await ApiCaller.CallBackObjectApiAsync<ReturnGetUsernameByUserId>("ApiPasskey/GetUsernameByUserId", new GetUsernameByUserIdParameters
             {
                 UserId = userId
             });
         }
         public static async Task<List<ReturnViewAllPasskeysByUserId>> ViewAllPasskeysByUserId(Guid userId)
         {
-            return await ApiCaller.CallBackObjectApiAsync<List<ReturnViewAllPasskeysByUserId>>("Api/ApiPasskey/ViewAllPasskeysByUserId", new ViewAllPasskeysByUserIdParameters
+            return await ApiCaller.CallBackObjectApiAsync<List<ReturnViewAllPasskeysByUserId>>("ApiPasskey/ViewAllPasskeysByUserId", new ViewAllPasskeysByUserIdParameters
             {
                 UserId = userId
             });
@@ -91,7 +91,7 @@ namespace SEAR_WEB.Models
             if (response == true)
             {
                 Guid keyId = Guid.NewGuid();
-                ApiCaller.CallBackApiAsync("Api/ApiPasskey/InsertRegisterAdditionalPasskeyKeyId", new InsertRegisterAdditionalPasskeyKeyIdParameters
+                ApiCaller.CallBackApiAsync("ApiPasskey/InsertRegisterAdditionalPasskeyKeyId", new InsertRegisterAdditionalPasskeyKeyIdParameters
                 {
                     KeyId = keyId,
                     UserId = userId
@@ -102,7 +102,7 @@ namespace SEAR_WEB.Models
         }
         public static async Task<bool> ValidateCreateRegisterAdditionalPasskeyKeyId(Guid keyId)
         {
-            ReturnValidateCreateRegisterAdditionalPasskeyKeyId response = await ApiCaller.CallBackObjectApiAsync<ReturnValidateCreateRegisterAdditionalPasskeyKeyId>("Api/ApiPasskey/ValidateCreateRegisterAdditionalPasskeyKeyId", new ValidateCreateRegisterAdditionalPasskeyKeyIdParameters
+            ReturnValidateCreateRegisterAdditionalPasskeyKeyId response = await ApiCaller.CallBackObjectApiAsync<ReturnValidateCreateRegisterAdditionalPasskeyKeyId>("ApiPasskey/ValidateCreateRegisterAdditionalPasskeyKeyId", new ValidateCreateRegisterAdditionalPasskeyKeyIdParameters
             {
                 KeyId = keyId
             });
@@ -110,7 +110,7 @@ namespace SEAR_WEB.Models
         }
         public static async void RemoveRegisterAdditionalPasskeyKeyId(Guid keyId)
         {
-            ApiCaller.CallBackApiAsync("Api/ApiPasskey/RemoveRegisterAdditionalPasskeyKeyId", new RemoveRegisterAdditionalPasskeyKeyIdParameters
+            ApiCaller.CallBackApiAsync("ApiPasskey/RemoveRegisterAdditionalPasskeyKeyId", new RemoveRegisterAdditionalPasskeyKeyIdParameters
             {
                 KeyId = keyId
             });

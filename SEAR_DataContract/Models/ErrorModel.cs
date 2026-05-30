@@ -24,7 +24,8 @@ namespace SEAR_DataContract.Models
     }
     public class LogExceptionParameters
     {
-        public required Exception Exception { get; set; }
+        public required string ExceptionMessage { get; set; }
+        public required string ExceptionStackTrace { get; set; }
         public string AppType { get; set; } = "Unknown";
         public string? UUID { get; set; }
     }

@@ -23,7 +23,7 @@ namespace SEAR_WEB.Controllers
         }
         public async Task<IActionResult> MakeException()
         {
-            throw new Exception("damn this is just a test");
+            throw new Exception("this is just a test");
         }
         public async Task<IActionResult> Index()
         {

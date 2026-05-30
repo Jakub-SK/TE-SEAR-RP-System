@@ -22,26 +22,26 @@ namespace SEAR_DataContract.Misc
                 return "https://localhost:5002";
             return "https://sessvirtus.org";
         }
-        public static ExceptionTypeModel GetExceptionType(Exception ex)
+        public static ExceptionTypeModel GetExceptionType(string exceptionMessage)
         {
             ExceptionTypeModel model = new ExceptionTypeModel();
             //API 404 Not Found
-            if (ex.Message.Contains("Response: 404"))
+            if (exceptionMessage.Contains("Response: 404"))
                 model.ExceptionType = "API-404";
             //Internal API Server Error
-            if (ex.Message.Contains("Response: 500"))
+            if (exceptionMessage.Contains("Response: 500"))
                 model.IsApi500 = true;
             //Unable to connect to Database
-            if (ex.Message.Contains("Unable to establish connection to database"))
+            if (exceptionMessage.Contains("Unable to establish connection to database"))
                 model.ExceptionType = "DB-001";
             //Permission Denied when executing SQL
-            if (ex.Message.Contains("42501"))
+            if (exceptionMessage.Contains("42501"))
                 model.ExceptionType = "DB-42501";
             //SQL column reference is ambiguous
-            if (ex.Message.Contains("42702"))
+            if (exceptionMessage.Contains("42702"))
                 model.ExceptionType = "DB-42702";
             //SQL column does not exist
-            if (ex.Message.Contains("42703"))
+            if (exceptionMessage.Contains("42703"))
                 model.ExceptionType = "DB-42703";
 
             return model;

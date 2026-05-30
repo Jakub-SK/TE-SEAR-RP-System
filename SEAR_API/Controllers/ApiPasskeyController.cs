@@ -7,7 +7,7 @@ using Npgsql;
 namespace SEAR_API.Controllers
 {
     [ApiController]
-    [Route("Api/[controller]")]
+    [Route("[controller]")]
     public class ApiPasskeyController : Controller
     {
         [HttpPost("CreateUserAccount")]
